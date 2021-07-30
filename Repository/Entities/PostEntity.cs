@@ -14,12 +14,12 @@ namespace Snippet.Data.Entities
 
         [Required]
         [ForeignKey(nameof(User))]
-        public ulong UserId { get; set; }
+        public int UserId { get; set; }
         public UserEntity User { get; set; }
 
         [Required]
         [ForeignKey(nameof(Language))]
-        public ulong LanguageId { get; set; }
+        public int LanguageId { get; set; }
         public LanguageEntity Language { get; set; }
 
         List<TagEntity> Tags { get; set; } = new List<TagEntity>();
