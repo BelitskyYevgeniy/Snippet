@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnippetWebAPI", "Snippet\SnippetWebAPI.csproj", "{4A5A29C7-5473-442B-A3F3-B1F9164A2102}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{4D6A2FFD-EAE6-4B38-886C-4209EE55183A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A5A29C7-5473-442B-A3F3-B1F9164A2102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A5A29C7-5473-442B-A3F3-B1F9164A2102}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A5A29C7-5473-442B-A3F3-B1F9164A2102}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A5A29C7-5473-442B-A3F3-B1F9164A2102}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D6A2FFD-EAE6-4B38-886C-4209EE55183A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D6A2FFD-EAE6-4B38-886C-4209EE55183A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D6A2FFD-EAE6-4B38-886C-4209EE55183A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D6A2FFD-EAE6-4B38-886C-4209EE55183A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {16917EE2-A3DB-472E-879D-6F5FADE2BAE0}
+	EndGlobalSection
+EndGlobal
