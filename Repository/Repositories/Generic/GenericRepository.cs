@@ -14,21 +14,19 @@ namespace Snippet.Data
     public class GenericRepository<TEntity> : IGenericRepositoryAsync<TEntity>
         where TEntity : BaseEntity
     {
-        private readonly RepositoryContext _dbContext;
-        private readonly DbSet<TEntity> _dbSet;
+        protected readonly RepositoryContext _dbContext;
         public GenericRepository(RepositoryContext dbContext)
         {
             _dbContext = dbContext;
-            _dbSet = _dbContext.Set<TEntity>();
         }
 
         public Task<TEntity> GetByIdAsync(ulong id, CancellationToken ct = default)
         {
-            return _dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, ct);
+            return _dbContext.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, ct);
         }
         public async Task<IReadOnlyCollection<TEntity>> GetAllAsync(CancellationToken ct = default)
         {
-            return await _dbSet
+            return await _dbContext.Set<TEntity>()
                 .AsNoTracking()
                 .ToListAsync(ct)
                 .ConfigureAwait(false);
@@ -36,20 +34,20 @@ namespace Snippet.Data
 
         public async Task<TEntity> CreateAsync(TEntity entity, CancellationToken ct = default)
         {
-            var entityEntry = await _dbSet.AddAsync(entity, ct).ConfigureAwait(false);
+            var entityEntry = await _dbContext.Set<TEntity>().AddAsync(entity, ct).ConfigureAwait(false);
             await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
             return entityEntry.Entity;
         }
 
         public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken ct = default)
         {
-            var entityEntry = _dbSet.Update(entity);
+            var entityEntry = _dbContext.Set<TEntity>().Update(entity);
             await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
             return entityEntry.Entity;
         }
         public async Task<IReadOnlyCollection<TEntity>> FindAsync(Func<TEntity, bool> predicate, CancellationToken ct = default)
         {
-            var list = await _dbSet.AsNoTracking().ToListAsync(ct).ConfigureAwait(false);
+            var list = await _dbContext.Set<TEntity>().AsNoTracking().ToListAsync(ct).ConfigureAwait(false);
             var processedlist = list.Where(predicate).ToList();
             return new ReadOnlyCollection<TEntity>(processedlist);
         }
@@ -58,7 +56,7 @@ namespace Snippet.Data
             var entity = await GetByIdAsync(id, ct).ConfigureAwait(false);
             if (entity != null)
             {
-                var entityEntry = _dbSet.Remove(entity);
+                var entityEntry = _dbContext.Set<TEntity>().Remove(entity);
                 await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
                 return entityEntry != null;
             }
