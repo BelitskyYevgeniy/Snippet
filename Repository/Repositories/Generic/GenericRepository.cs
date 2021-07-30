@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace Snippet.Data
 { 
-    public class GenericRepositoryAsync<TEntity> : IGenericRepositoryAsync<TEntity>
+    public class GenericRepository<TEntity> : IGenericRepositoryAsync<TEntity>
         where TEntity : BaseEntity
     {
         private readonly RepositoryContext _dbContext;
         private readonly DbSet<TEntity> _dbSet;
-        public GenericRepositoryAsync(RepositoryContext dbContext)
+        public GenericRepository(RepositoryContext dbContext)
         {
             _dbContext = dbContext;
             _dbSet = _dbContext.Set<TEntity>();
