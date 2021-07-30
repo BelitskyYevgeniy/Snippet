@@ -4,9 +4,9 @@ using Snippet.Data.Interfaces;
 
 namespace Snippet.Data.Repositories
 {
-    class LanguageRepository: GenericRepository<LanguageEntity>, ILanguageRepositoryAsync
+    public class PostRepository: GenericRepository<PostEntity>, IPostRepositoryAsync
     {
-        public LanguageRepository(RepositoryContext db): base(db)
+        public PostRepository(RepositoryContext db): base(db)
         {
 
         }
