@@ -1,6 +1,6 @@
 using System;
 
-namespace Snippet
+namespace Snippet.WebAPI
 {
     public class WeatherForecast
     {

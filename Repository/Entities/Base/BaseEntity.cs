@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Repository.Entities.Base
+namespace Snippet.Data.Entities.Base
 {
     public class BaseEntity
     {
         [Key]
-        public ulong Id { get; set; } 
+        public ulong Id { get; set; }
     }
 }

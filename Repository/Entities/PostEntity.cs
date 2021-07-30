@@ -1,9 +1,9 @@
-﻿using Repository.Entities.Base;
+﻿using Snippet.Data.Entities.Base;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Repository.Entities
+namespace Snippet.Data.Entities
 {
     public class PostEntity : BaseEntity
     {

@@ -1,10 +1,10 @@
-﻿using Repository.Entities.Base;
+﻿using Snippet.Data.Entities.Base;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Repository.Entities
+namespace Snippet.Data.Entities
 {
-    public class UserEntity: BaseEntity
+    public class UserEntity : BaseEntity
     {
         [Required]
         public string Name { get; set; }
