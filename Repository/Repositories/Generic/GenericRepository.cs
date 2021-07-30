@@ -20,7 +20,7 @@ namespace Snippet.Data
             _dbContext = dbContext;
         }
 
-        public Task<TEntity> GetByIdAsync(ulong id, CancellationToken ct = default)
+        public Task<TEntity> GetByIdAsync(int id, CancellationToken ct = default)
         {
             return _dbContext.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, ct);
         }
@@ -51,7 +51,7 @@ namespace Snippet.Data
             var processedlist = list.Where(predicate).ToList();
             return new ReadOnlyCollection<TEntity>(processedlist);
         }
-        public async Task<bool> DeleteAsync(ulong id, CancellationToken ct = default)
+        public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
         {
             var entity = await GetByIdAsync(id, ct).ConfigureAwait(false);
             if (entity != null)

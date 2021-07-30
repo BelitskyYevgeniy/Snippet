@@ -5,6 +5,6 @@ namespace Snippet.Data.Entities.Base
     public class BaseEntity
     {
         [Key]
-        public ulong Id { get; set; }
+        public int Id { get; set; }
     }
 }
