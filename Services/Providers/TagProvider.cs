@@ -26,7 +26,7 @@ namespace Snippet.BLL.Providers
              return await _tagRepository.DeleteAsync(tag.Id, ct);
         }
 
-        public async Task<IReadOnlyCollection<Tag>> GetAllByPostIdAsync(int postId, CancellationToken ct)
+        public async Task<IReadOnlyCollection<Tag>> GetAllByPostIdAsync(int postId, CancellationToken ct) // maybe should refactoring
         {
             var post = await _postRepository.GetByIdAsync(postId, ct);
             IReadOnlyCollection<TagEntity> tags = post.Tags;
