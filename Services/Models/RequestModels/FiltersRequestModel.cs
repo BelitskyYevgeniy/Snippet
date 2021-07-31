@@ -1,7 +1,8 @@
-﻿using Snippet.BLL.Interfaces.Filters;
+﻿using Services.Models;
+using Snippet.BLL.Interfaces.Filters;
 using System;
 using System.Collections.Generic;
-using System.Text;
+
 
 namespace Snippet.BLL.Models.RequestModels
 {

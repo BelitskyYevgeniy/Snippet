@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Snippet.BLL.Models
+namespace Services.Models
 {
     public class Post
     {
