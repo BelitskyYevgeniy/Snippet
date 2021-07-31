@@ -10,7 +10,9 @@ namespace Services.Interfaces.Providers
 {
     public interface ILikeProvider
     {
-        public void Like(Like like,CancellationToken ct);
-        public void RemoveLike(Like like, CancellationToken ct);
+        public Task<Like> Like(Like like,CancellationToken ct);
+        public Task<bool> RemoveLike(int likeId, CancellationToken ct);
+        public Task<IReadOnlyCollection<Like>> GetAllByPostAsync(int postId, CancellationToken ct);
+
     }
 }
