@@ -9,17 +9,17 @@ namespace Snippet.Data.Entities
     {
         [Required]
         [MaxLength(1024)]
-        public string Tittle { get; set; }
+        public string Tittle { get; set; } = string.Empty;
 
         [MaxLength(2048)]
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         [Required]
         public int UserId { get; set; }
 
         [Required]
         [MaxLength(4096)]
-        public string SnippetCode { get; set; }
+        public string SnippetCode { get; set; } = string.Empty;
         [Required]
         public int LanguageId { get; set; }
         [Required]

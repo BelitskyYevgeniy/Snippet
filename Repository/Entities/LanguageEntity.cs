@@ -6,6 +6,6 @@ namespace Snippet.Data.Entities
     public class LanguageEntity : BaseEntity
     {
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
     }
 }

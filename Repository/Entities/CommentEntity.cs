@@ -11,7 +11,7 @@ namespace Snippet.Data.Entities
         [Required]
         public int UserId { get; set; }
         [Required]
-        public string Message { get; set; }
+        public string Message { get; set; } = string.Empty;
         [Required]
         public DateTime CreationDateTime { get; set; }
         [Required]
