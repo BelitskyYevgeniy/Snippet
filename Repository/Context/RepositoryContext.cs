@@ -39,77 +39,15 @@ namespace Snippet.Data.Context
             modelBuilder.Entity<PostEntity>().HasKey(e => e.Id).HasName("PrimaryKey_PostId");
             modelBuilder.Entity<LikeEntity>().HasKey(e => e.Id).HasName("PrimaryKey_LikeId");
 
-
-            modelBuilder.Entity<UserEntity>()
-                .HasMany(e => e.Posts)
-                .WithOne(e => e.User)
-                .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.SetNull);
-
-            modelBuilder.Entity<UserEntity>()
-                 .HasMany(e => e.Likes)
-                 .WithOne(e => e.User)
-                 .HasForeignKey(e => e.UserId)
-                 .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<UserEntity>()
-                .HasMany(e => e.Comments)
-                .WithOne(e => e.User)
-                .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.SetNull);
-
-            modelBuilder.Entity<PostEntity>()
-                .HasOne(e => e.User)
-                .WithMany(e => e.Posts)
-                .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<PostEntity>()
-               .HasOne(e => e.Language)
-               .WithMany(e => e.Posts)
-               .HasForeignKey(e => e.LanguageId)
-               .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<PostEntity>()
-                .HasMany(e => e.Tags)
-                .WithMany(e => e.Posts);
-
-            modelBuilder.Entity<PostEntity>()
-                .HasMany(e => e.Likes)
-                .WithOne(e => e.Post)
-                .HasForeignKey(e => e.PostId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<PostEntity>()
-                .HasMany(e => e.Comments)
-                .WithOne(e => e.Post)
-                .HasForeignKey(e => e.PostId)
-                .OnDelete(DeleteBehavior.Cascade);
+            /*modelBuilder.Entity<LikeEntity>()
+           .HasOne(e => e.User)
+           .WithMany(e => e.Likes)
+           .HasForeignKey(e => e.UserId);
 
             modelBuilder.Entity<LikeEntity>()
-                .HasOne(e => e.User)
-                .WithMany(e => e.Likes)
-                .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<LikeEntity>()
-               .HasOne(e => e.Post)
-               .WithMany(e => e.Likes)
-               .HasForeignKey(e => e.PostId)
-               .OnDelete(DeleteBehavior.NoAction);
-
-
-            modelBuilder.Entity<CommentEntity>()
-               .HasOne(e => e.User)
-               .WithMany(e => e.Comments)
-               .HasForeignKey(e => e.UserId)
-               .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<CommentEntity>()
-               .HasOne(e => e.Post)
-               .WithMany(e => e.Comments)
-               .HasForeignKey(e => e.PostId)
-               .OnDelete(DeleteBehavior.NoAction);
+           .HasOne(e => e.Post)
+           .WithMany(e => e.Likes)
+           .HasForeignKey(e => e.PostId);*/
 
             modelBuilder.Entity<UserEntity>().HasIndex(u => u.Name).IsUnique();
             modelBuilder.Entity<TagEntity>().HasIndex(u => u.Name).IsUnique();
