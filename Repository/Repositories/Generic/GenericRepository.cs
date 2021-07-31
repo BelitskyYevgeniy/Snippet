@@ -20,7 +20,7 @@ namespace Snippet.Data
             _dbContext = dbContext;
         }
 
-        public Task<TEntity?> GetByIdAsync(int id, CancellationToken ct = default)
+        public Task<TEntity> GetByIdAsync(int id, CancellationToken ct = default)
         {
             return _dbContext.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, ct);
         }
