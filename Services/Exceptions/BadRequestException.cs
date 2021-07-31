@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Snippet.BLL.Exceptions
+namespace  Services.Exceptions
 {
     public class BadRequestException : Exception 
     {
