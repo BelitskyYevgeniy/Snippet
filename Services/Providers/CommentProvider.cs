@@ -34,7 +34,6 @@ namespace Services.Providers
 
             entity = await _genericRepository.CreateAsync(entity,ct);
             
-
             return _mapper.Map<Comment>(entity);
         }
         public async Task<Comment> UpdateAsync(Comment model, CancellationToken ct)
