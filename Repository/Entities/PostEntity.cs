@@ -8,8 +8,10 @@ namespace Snippet.Data.Entities
     public class PostEntity : BaseEntity
     {
         [Required]
+        [MaxLength(1024)]
         public string Tittle { get; set; }
 
+        [MaxLength(2048)]
         public string Description { get; set; }
 
         [Required]
@@ -17,6 +19,9 @@ namespace Snippet.Data.Entities
         public int UserId { get; set; }
         public UserEntity User { get; set; }
 
+        [Required]
+        [MaxLength(4096)]
+        public string SnippetCode { get; set; }
         [Required]
         [ForeignKey(nameof(Language))]
         public int LanguageId { get; set; }

@@ -23,6 +23,12 @@ namespace Snippet.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<UserEntity>().Property(e => e.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<PostEntity>().Property(e => e.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<LanguageEntity>().Property(e => e.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<TagEntity>().Property(e => e.Id).ValueGeneratedOnAdd();
+            
+
             modelBuilder.Entity<UserEntity>().HasIndex(u => u.Name).IsUnique();
             modelBuilder.Entity<TagEntity>().HasIndex(u => u.Name).IsUnique();
             modelBuilder.Entity<LanguageEntity>().HasIndex(u => u.Name).IsUnique();

@@ -32,7 +32,6 @@ namespace Snippet.WebAPI.Controllers
         public Task<UserEntity> Get(CancellationToken ct)
         {
             return _userRepository.CreateAsync(new Data.Entities.UserEntity { Name = "admin" }, ct);
-            
         }
     }
 }
