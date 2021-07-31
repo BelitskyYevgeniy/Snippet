@@ -27,7 +27,7 @@ namespace Snippet.BLL.Services
         public async Task<Post> GetByIdAsync(int id, CancellationToken ct)
         {
             var entity = await _genericRepository.GetByIdAsync(id, ct); 
-
+            
             return _mapper.Map<Post>(entity); 
         }
 
