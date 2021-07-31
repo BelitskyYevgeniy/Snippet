@@ -1,10 +1,9 @@
-﻿
-using Snippet.BLL.Models;
+﻿using Services.Models;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Snippet.BLL.Interfaces.Providers
+namespace Services.Interfaces.Providers
 {
     public interface ICommentProvider
     {

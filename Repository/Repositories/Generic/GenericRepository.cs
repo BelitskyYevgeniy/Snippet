@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 
 namespace Snippet.Data
 { 
-    public class GenericRepository<TEntity> : IGenericRepositoryAsync<TEntity>
-        where TEntity : BaseEntity
+    public class GenericRepository<T> : IGenericRepositoryAsync<T>
+        where T : BaseEntity
     {
         protected readonly RepositoryContext _dbContext;
         public GenericRepository(RepositoryContext dbContext)
@@ -20,43 +20,43 @@ namespace Snippet.Data
             _dbContext = dbContext;
         }
 
-        public Task<TEntity> GetByIdAsync(int id, CancellationToken ct = default)
+        public Task<T> GetByIdAsync(int id, CancellationToken ct = default)
         {
-            return _dbContext.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, ct);
+            return _dbContext.Set<T>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, ct);
         }
-        public async Task<IReadOnlyCollection<TEntity>> GetAllAsync(CancellationToken ct = default)
+        public async Task<IReadOnlyCollection<T>> GetAllAsync(CancellationToken ct = default)
         {
-            return await _dbContext.Set<TEntity>()
+            return await _dbContext.Set<T>()
                 .AsNoTracking()
                 .ToListAsync(ct)
                 .ConfigureAwait(false);
         }
 
-        public async Task<TEntity> CreateAsync(TEntity entity, CancellationToken ct = default)
+        public async Task<T> CreateAsync(T entity, CancellationToken ct = default)
         {
-            var entityEntry = await _dbContext.Set<TEntity>().AddAsync(entity, ct).ConfigureAwait(false);
+            var entityEntry = await _dbContext.Set<T>().AddAsync(entity, ct).ConfigureAwait(false);
             await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
             return entityEntry.Entity;
         }
 
-        public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken ct = default)
+        public async Task<T> UpdateAsync(T entity, CancellationToken ct = default)
         {
-            var entityEntry = _dbContext.Set<TEntity>().Update(entity);
+            var entityEntry = _dbContext.Set<T>().Update(entity);
             await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
             return entityEntry.Entity;
         }
-        public async Task<IReadOnlyCollection<TEntity>> FindAsync(Func<TEntity, bool> predicate, CancellationToken ct = default)
+        public async Task<IReadOnlyCollection<T>> FindAsync(Func<T, bool> predicate, CancellationToken ct = default)
         {
-            var list = await _dbContext.Set<TEntity>().AsNoTracking().ToListAsync(ct).ConfigureAwait(false);
+            var list = await _dbContext.Set<T>().AsNoTracking().ToListAsync(ct).ConfigureAwait(false);
             var processedlist = list.Where(predicate).ToList();
-            return new ReadOnlyCollection<TEntity>(processedlist);
+            return new ReadOnlyCollection<T>(processedlist);
         }
         public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
         {
             var entity = await GetByIdAsync(id, ct).ConfigureAwait(false);
             if (entity != null)
             {
-                var entityEntry = _dbContext.Set<TEntity>().Remove(entity);
+                var entityEntry = _dbContext.Set<T>().Remove(entity);
                 await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
                 return entityEntry != null;
             }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Snippet.BLL.Models;
+using Services.Models;
+
 using Snippet.Data.Entities;
 
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Snippet.BLL.Interfaces.Providers
+namespace Services.Interfaces.Providers
 {
     public interface ILanguageProvider
     {
