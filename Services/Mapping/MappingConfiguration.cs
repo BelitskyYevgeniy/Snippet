@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
-using Repository.Entities;
 using Snippet.BLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Snippet.Data.Entities;
+
 
 namespace Snippet.BLL.Mapping
 {
