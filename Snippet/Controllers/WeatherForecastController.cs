@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Snippet.Data.Interfaces;
 using System.Threading.Tasks;
 using Snippet.Data.Entities;

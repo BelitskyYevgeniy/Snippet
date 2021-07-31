@@ -1,7 +1,7 @@
 ﻿using Snippet.Data.Entities.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Snippet.Data.Entities
 {
@@ -15,20 +15,18 @@ namespace Snippet.Data.Entities
         public string Description { get; set; }
 
         [Required]
-        [ForeignKey(nameof(User))]
         public int UserId { get; set; }
-        public UserEntity User { get; set; }
 
         [Required]
         [MaxLength(4096)]
         public string SnippetCode { get; set; }
         [Required]
-        [ForeignKey(nameof(Language))]
         public int LanguageId { get; set; }
-        public LanguageEntity Language { get; set; }
-
-        List<TagEntity> Tags { get; set; } = new List<TagEntity>();
-
+        [Required]
+        public DateTime CreationDateTime { get; set; }
+        [Required]
+        public DateTime LastUpdateDateTime { get; set; }
+        public List<TagEntity> Tags { get; set; } = new List<TagEntity>();
 
     }
 }

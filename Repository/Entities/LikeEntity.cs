@@ -3,11 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Snippet.Data.Entities
 {
-    public class UserEntity : BaseEntity
+    public class LikeEntity: BaseEntity
     {
         [Required]
-        public string Name { get; set; }
+        public int UserId { get; set; }
 
+        [Required]
+        public int PostId { get; set; }
 
     }
 }
