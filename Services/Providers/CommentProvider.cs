@@ -25,12 +25,12 @@ namespace Services.Providers
         }
         public async Task<IReadOnlyCollection<Comment>> GetAllByPostIdAsync(int postId, CancellationToken ct)
         {
-            var comments = await _genericRepository.FindAsync((x) => x.Id == postId,ct);// change this method
+            var comments = await _genericRepository.FindAsync((x) => x.PostId == postId,ct);
             return _mapper.Map<IEnumerable<CommentEntity>, IReadOnlyCollection<Comment>>(comments);
         }
-        public async Task<Comment> MakeAsync(Comment post, CancellationToken ct)
+        public async Task<Comment> MakeAsync(Comment comment, CancellationToken ct)
         {
-            var entity = _mapper.Map<CommentEntity>(post);
+            var entity = _mapper.Map<CommentEntity>(comment);
 
             entity = await _genericRepository.CreateAsync(entity,ct);
             

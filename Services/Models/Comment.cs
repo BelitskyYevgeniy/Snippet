@@ -6,6 +6,8 @@ namespace Services.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required]
+        public int postId { get; set; }
         [Required] 
         public Post Post { get; set; }
         [Required]   
