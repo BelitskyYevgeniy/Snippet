@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using Services.Models;
-
 using Snippet.Data.Entities;
 
 
-namespace Snippet.BLL.Mapping
+namespace Services.Mapping
 {
     public class MappingConfiguration:Profile
     {
