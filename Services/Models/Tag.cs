@@ -1,14 +1,16 @@
-﻿using Snippet.Data.Entities.Base;
+﻿using Services.Models.Base;
+using Snippet.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Snippet.Data.Entities
+namespace Services.Models
 {
-    public class TagEntity : BaseEntity
+    public class Tag : BaseModel
     {
         [Required]
         public string Name { get; set; } = string.Empty;
-       
+        [Required]
         public List<PostEntity> Posts { get; set; } = new List<PostEntity>();
     }
 }

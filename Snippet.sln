@@ -3,14 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snippet.WebAPI", "Snippet\Snippet.WebAPI.csproj", "{4A5A29C7-5473-442B-A3F3-B1F9164A2102}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snippet.WebAPI", "Snippet\Snippet.WebAPI.csproj", "{4A5A29C7-5473-442B-A3F3-B1F9164A2102}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snippet.Data", "Repository\Snippet.Data.csproj", "{4D6A2FFD-EAE6-4B38-886C-4209EE55183A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snippet.Data", "Repository\Snippet.Data.csproj", "{4D6A2FFD-EAE6-4B38-886C-4209EE55183A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{17A8CE1D-BE2B-4B56-9063-D87CB1366D0A}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{1222D88E-3B48-4504-A31F-47DB6A0FD75C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,10 @@ Global
 		{4D6A2FFD-EAE6-4B38-886C-4209EE55183A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D6A2FFD-EAE6-4B38-886C-4209EE55183A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D6A2FFD-EAE6-4B38-886C-4209EE55183A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1222D88E-3B48-4504-A31F-47DB6A0FD75C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1222D88E-3B48-4504-A31F-47DB6A0FD75C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1222D88E-3B48-4504-A31F-47DB6A0FD75C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1222D88E-3B48-4504-A31F-47DB6A0FD75C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
