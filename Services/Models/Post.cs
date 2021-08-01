@@ -20,5 +20,6 @@ namespace Services.Models
         [Required]
         public string SnippetCode { get; set; } 
         public List<Like> Likes { get; set; } = new List<Like>();
+        public List<Tag> Tags { get; set; } = new List<Tag>();
     }
 }

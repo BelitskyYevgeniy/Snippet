@@ -26,13 +26,6 @@ namespace Snippet.BLL.Providers
              return await _tagRepository.DeleteAsync(tag.Id, ct);
         }
 
-        public async Task<IReadOnlyCollection<Tag>> GetAllByPostIdAsync(int postId, CancellationToken ct) 
-        {
-            var entities = await _tagRepository.FindAsync((x) => x.PostId == postId,ct);
-         
-            return _mapper.Map<IReadOnlyCollection<TagEntity>,IReadOnlyCollection<Tag>>(entities);
-        }
-
         public async Task<IReadOnlyCollection<Tag>> MakeAsync(IReadOnlyCollection<Tag> tags, CancellationToken ct) 
         {
             var entities = _mapper.Map<IReadOnlyCollection<Tag>, IReadOnlyCollection<TagEntity>>(tags);
