@@ -5,10 +5,10 @@ using System;
 
 namespace Snippet.Data.Filters.PostEntityFilters
 {
-    public class DateTimePostEntityFilter : IFilter<PostEntity>
+    public class PostEntityFilterByDateTime : IFilter<PostEntity>
     {
 
-        public DateTimePostEntityFilter(DateTime? from, DateTime? to)
+        public PostEntityFilterByDateTime(DateTime? from, DateTime? to)
         {
             if (from == null || to == null)
             {
