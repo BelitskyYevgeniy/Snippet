@@ -6,6 +6,5 @@ namespace Snippet.Data.Interfaces.Filters
     {
         Predicate<T> Predicate { get; }
         int Degree { get; set; }
-        string FilterName { get; set; }
     }
 }
