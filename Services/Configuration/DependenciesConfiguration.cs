@@ -3,9 +3,7 @@ using Services.Interfaces.Providers;
 using Services.Mapping;
 using Services.Providers;
 using Snippet.BLL.Interfaces.Providers;
-using Snippet.BLL.Providers;
-using Snippet.BLL.Services;
-using SnippetWebAPI.Interfaces.Providers;
+
 
 namespace Services.Configuration
 {
