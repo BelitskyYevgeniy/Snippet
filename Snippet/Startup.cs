@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Services.Configuration;
 using Snippet.Data.Configuration;
+using Snippet.WebAPI.Middleware;
 namespace Snippet.WebAPI
 {
     public class Startup
@@ -38,7 +39,7 @@ namespace Snippet.WebAPI
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseExceptionHandler();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

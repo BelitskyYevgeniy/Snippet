@@ -10,9 +10,9 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SnippetWebAPI.Middleware
+namespace Snippet.WebAPI.Middleware
 {
-    public static class CustomExceptionMidldewareExtencions
+    public static class CustomExceptionMidldewareExtensions
     {
         public static void ConfigureExceptionHandler(this IApplicationBuilder app, ILogger logger)
         {

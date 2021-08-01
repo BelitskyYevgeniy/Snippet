@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace WebApplication1.Middleware
+namespace Snippet.WebAPI.Middleware
 {
     public class CancellationTokenTimeoutMiddleware
     {
