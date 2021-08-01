@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 
 
-namespace Snippet.BLL.Providers
+namespace Services.Providers
 {
     //public class SearchPostsProvider : ISearchProvider<Post>
     //{

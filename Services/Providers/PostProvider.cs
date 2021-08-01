@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Snippet.BLL.Services
+namespace Services.Providers
 {
     public class PostProvider : IPostProvider
     {

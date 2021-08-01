@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Snippet.BLL.Providers
+namespace Services.Providers
 {
     public class TagProvider : ITagProvider
     {
