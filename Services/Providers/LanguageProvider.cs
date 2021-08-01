@@ -2,6 +2,7 @@
 using Services.Interfaces.Providers;
 using Services.Models;
 using Snippet.Data.Entities;
+using Snippet.Data.Interfaces;
 using Snippet.Data.Interfaces.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,22 +13,22 @@ namespace Services.Providers
     {
 
         private readonly IMapper _mapper;
-        private readonly IGenericRepositoryAsync<LanguageEntity> _genericRepository;
-        public LanguageProvider(IMapper mapper, IGenericRepositoryAsync<LanguageEntity> genericRepository)
+        private readonly ILanguageRepositoryAsync _languageRepository;
+        public LanguageProvider(IMapper mapper, ILanguageRepositoryAsync languageRepository)
         {
             _mapper = mapper;
-            _genericRepository = genericRepository;
+            _languageRepository = languageRepository;
         }
 
         public async Task<bool> DeleteAsync(Language language, CancellationToken ct)
         {
-            return await _genericRepository.DeleteAsync(language.Id, ct);
+            return await _languageRepository.DeleteAsync(language.Id, ct);
         }
 
         public async Task<Language> MakeAsync(Language language, CancellationToken ct)
         {
             var entity = _mapper.Map<Language, LanguageEntity>(language);
-            entity = await _genericRepository.CreateAsync(entity, ct);
+            entity = await _languageRepository.CreateAsync(entity, ct);
 
             return _mapper.Map<Language>(entity);
         }
@@ -36,7 +37,7 @@ namespace Services.Providers
         {
             var entity = _mapper.Map<LanguageEntity>(language);
 
-            entity = await _genericRepository.UpdateAsync(entity, ct);
+            entity = await _languageRepository.UpdateAsync(entity, ct);
 
 
             return _mapper.Map<Language>(entity);

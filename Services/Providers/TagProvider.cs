@@ -2,6 +2,7 @@
 using Services.Models;
 using Snippet.BLL.Interfaces.Providers;
 using Snippet.Data.Entities;
+using Snippet.Data.Interfaces;
 using Snippet.Data.Interfaces.Generic;
 using System.Collections.Generic;
 using System.Threading;
@@ -12,12 +13,12 @@ namespace Services.Providers
     public class TagProvider : ITagProvider
     {
         private readonly IMapper _mapper;
-        private readonly IGenericRepositoryAsync<TagEntity> _tagRepository;
+        private readonly ITagRepositoryAsync _tagRepository;
       
-        public TagProvider(IMapper mapper, IGenericRepositoryAsync<TagEntity> TagRepository)
+        public TagProvider(IMapper mapper, ITagRepositoryAsync tagRepository)
         {
             _mapper = mapper;
-            _tagRepository = TagRepository;
+            _tagRepository = tagRepository;
             
         }
 
