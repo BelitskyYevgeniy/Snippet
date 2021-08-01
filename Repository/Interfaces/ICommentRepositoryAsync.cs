@@ -1,6 +1,6 @@
 ﻿using Snippet.Data.Entities;
 
-namespace Snippet.Data.Interfaces.Repositories
+namespace Snippet.Data.Interfaces
 {
     public interface ICommentRepositoryAsync: IGenericRepository<CommentEntity>
     {

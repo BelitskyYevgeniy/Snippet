@@ -1,4 +1,4 @@
-﻿namespace Snippet.Data.Interfaces.Repositories
+﻿namespace Snippet.Data.Interfaces
 {
     public interface IGenericRepository<T>
     {

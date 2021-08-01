@@ -1,6 +1,6 @@
 ﻿using Snippet.Data.Context;
 using Snippet.Data.Entities;
-using Snippet.Data.Interfaces.Repositories;
+using Snippet.Data.Interfaces;
 
 namespace Snippet.Data.Repositories
 {
