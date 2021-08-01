@@ -12,7 +12,7 @@ namespace Snippet.Data.Filters.PostEntityFilters
     {
         public IEnumerable<TagEntity> Tags { get; private set; }
 
-        public Predicate<PostEntity> Predicate => (PostEntity post) => post.Tags.Intersect(Tags).Count() == Tags.Count();
+        public Predicate<PostEntity> Predicate => (PostEntity post) => post.Tags.Intersect(Tags).Count() != 0;
 
         public int Degree { get; set; }
 
