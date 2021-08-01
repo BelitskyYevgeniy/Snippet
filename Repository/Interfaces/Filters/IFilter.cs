@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SnippetWebAPI.Interfaces.Filters
+namespace Snippet.Data.Interfaces.Filters
 {
     public interface IFilter<T>
     {
