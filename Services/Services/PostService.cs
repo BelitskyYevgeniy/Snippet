@@ -16,11 +16,13 @@ namespace Services.Services
     {
         private readonly IMapper _mapper;
         private readonly IPostProvider _postProvider;
+        private readonly ILikeProvider _likeProvider;
 
-        public PostService(IMapper mapper,IPostProvider postProvider)
+        public PostService(IMapper mapper,IPostProvider postProvider,ILikeProvider likeProvider)
         {
             _mapper = mapper;
             _postProvider = postProvider;
+            _likeProvider = likeProvider;
         }
 
         public async Task<IReadOnlyCollection<PostResponse>> GetAll(CancellationToken ct)
@@ -31,6 +33,7 @@ namespace Services.Services
             {
                 responses.ElementAt(i).LanguageName = posts.ElementAt(i).Language.Name;
                 responses.ElementAt(i).OwnerName = posts.ElementAt(i).Owner.Name;
+                responses.ElementAt(i).LikeCount = await _likeProvider.GetAllByPostAsync(posts.ElementAt(i).Id, ct);
             }
 
             return responses;
@@ -42,7 +45,7 @@ namespace Services.Services
             var response = _mapper.Map<Post, PostResponse>(post);
             response.OwnerName = post.Owner.Name;
             response.LanguageName = post.Language.Name;
-
+            response.LikeCount = await _likeProvider.GetAllByPostAsync(id, ct); 
             return response;
         }
     }
