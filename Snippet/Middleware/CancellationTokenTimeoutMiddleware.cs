@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
 namespace Snippet.WebAPI.Middleware
@@ -25,6 +26,15 @@ namespace Snippet.WebAPI.Middleware
             context.RequestAborted = cts.Token;
 
             await _next(context).ConfigureAwait(false);
+        }
+    }
+
+    public static class CancellationTokenTimeoutMiddlewareExtensions
+    {
+        public static IApplicationBuilder UseCancellationTokenTimeout(
+            this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<CancellationTokenTimeoutMiddleware>();
         }
     }
 }

@@ -39,7 +39,9 @@ namespace Snippet.WebAPI
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseCancellationTokenTimeout();
             app.UseExceptionHandler();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
