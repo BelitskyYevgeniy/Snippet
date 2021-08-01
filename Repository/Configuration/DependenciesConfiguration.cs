@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Snippet.Data.Context;
-using Snippet.Data.Interfaces;
-using Snippet.Data.Interfaces.Generic;
+using Snippet.Data.Interfaces.Repositories;
 using Snippet.Data.Repositories;
 
 namespace Snippet.Data.Configuration
