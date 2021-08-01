@@ -12,14 +12,11 @@ namespace Services.Responses
         
         public string OwnerName { get; set; }
 
-        
         public string Tittle { get; set; }
 
         public string Description { get; set; }
-
         
         public string LanguageName { get; set; }
-
        
         public string SnippetCode { get; set; }
 
