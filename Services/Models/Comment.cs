@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Services.Models.Base;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Services.Models
 {
-    public class Comment
+    public class Comment:BaseModel
     {
-        [Key]
-        public int Id { get; set; }
         [Required]
         public int PostId { get; set; }
         [Required]

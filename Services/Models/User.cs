@@ -1,18 +1,16 @@
-﻿using System;
+﻿using Services.Models.Base;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Services.Models
 {
-    public class User
+    public class User:BaseModel
     {
-        [Key]
-        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
         public string Email { get; set; }
-
+        
         public List<Post> Posts { get; set; } = new List<Post>();
 
 

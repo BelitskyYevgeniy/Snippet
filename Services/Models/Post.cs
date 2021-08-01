@@ -1,14 +1,11 @@
-﻿using System;
+﻿using Services.Models.Base;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Services.Models
 {
-    public class Post
+    public class Post:BaseModel
     {
-       [Key]
-        public int Id { get; set; }
-
         [Required]
         public User Owner { get; set; }
 
@@ -22,7 +19,6 @@ namespace Services.Models
 
         [Required]
         public string SnippetCode { get; set; } 
-        
         public List<Like> Likes { get; set; } = new List<Like>();
     }
 }

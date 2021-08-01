@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Services.Models.Base;
 using System.ComponentModel.DataAnnotations;
 
 namespace Services.Models
 {
-    public class Like
+    public class Like:BaseModel
     {
-       [Key]
-        public int Id { get; set; }
         [Required]
         public int postId  { get; set; }
         [Required]
