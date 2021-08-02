@@ -1,4 +1,5 @@
 ﻿using Snippet.Data.Entities;
+using Snippet.Data.Filters.Exceptions;
 using Snippet.Data.Interfaces.Filters;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,12 @@ namespace Snippet.Data.Filters.PostEntityFilters
         public IEnumerable<UserEntity> Exclude { get; private set; }
         public PostFilterByUsers(IEnumerable<UserEntity> include, IEnumerable<UserEntity> exclude)
         {
-
+            if(include == null || exclude == null)
+            {
+                throw new CreationFilterException("include(IEnumerable<UserEntity>) || include(IEnumerable<UserEntity>) = null!");
+            }
+            Include = include;
+            Exclude = exclude;
         }
         public Predicate<PostEntity> Predicate => throw new NotImplementedException();
 
