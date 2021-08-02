@@ -2,38 +2,38 @@
 using Services.Interfaces.Providers;
 using Services.Models;
 using Snippet.Data.Entities;
-using Snippet.Data.Interfaces.Generic;
+using Snippet.Data.Interfaces;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Snippet.BLL.Services
+namespace Services.Providers
 {
     public class PostProvider : IPostProvider
     {
         private readonly IMapper _mapper;
-        private readonly IGenericRepositoryAsync<PostEntity> _genericRepository;
-        public PostProvider(IMapper mapper ,IGenericRepositoryAsync<PostEntity> genericRepository)
+        private readonly IPostRepositoryAsync _tagRepository;
+        public PostProvider(IMapper mapper , IPostRepositoryAsync tagRepository)
         {
             _mapper = mapper;
-            _genericRepository = genericRepository;
+            _tagRepository = tagRepository;
         }
         public async Task<bool> DeleteAsync(int id, CancellationToken ct)
         {
-            return await _genericRepository.DeleteAsync(id, ct);
+            return await _tagRepository.DeleteAsync(id, ct);
         }
 
 
         public async Task<Post> GetByIdAsync(int id, CancellationToken ct)
         {
-            var entity = await _genericRepository.GetByIdAsync(id, ct); 
+            var entity = await _tagRepository.GetByIdAsync(id, ct); 
             
             return _mapper.Map<Post>(entity); 
         }
 
         public async Task<IReadOnlyCollection<Post>> GetAll(CancellationToken ct)
         {
-            var entities = await _genericRepository.GetAllAsync(ct);
+            var entities = await _tagRepository.GetAllAsync(ct);
 
             return _mapper.Map<IReadOnlyCollection<Post>>(entities);
         }
@@ -41,7 +41,7 @@ namespace Snippet.BLL.Services
         public async Task<Post> MakeAsync(Post post, CancellationToken ct)
         {
             var entity = _mapper.Map<Post, PostEntity>(post);
-            entity = await _genericRepository.CreateAsync(entity, ct);
+            entity = await _tagRepository.CreateAsync(entity, ct);
 
            return _mapper.Map<Post>(entity);
         }
@@ -50,7 +50,7 @@ namespace Snippet.BLL.Services
         {
             var entity = _mapper.Map<PostEntity>(model);
 
-            entity =await _genericRepository.UpdateAsync(entity,ct);
+            entity =await _tagRepository.UpdateAsync(entity,ct);
             
 
             return _mapper.Map<Post>(entity);

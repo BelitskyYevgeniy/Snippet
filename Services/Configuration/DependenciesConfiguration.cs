@@ -3,8 +3,7 @@ using Services.Interfaces.Providers;
 using Services.Mapping;
 using Services.Providers;
 using Snippet.BLL.Interfaces.Providers;
-using Snippet.BLL.Providers;
-using Snippet.BLL.Services;
+
 
 namespace Services.Configuration
 {
@@ -25,7 +24,10 @@ namespace Services.Configuration
 
             serviceCollection.AddScoped<IPostProvider, PostProvider>();
             serviceCollection.AddScoped<ICommentProvider, CommentProvider>();
-            serviceCollection.AddScoped<ITagProvider, TagProvider>(); 
+            serviceCollection.AddScoped<ITagProvider, TagProvider>();
+            serviceCollection.AddScoped<ILanguageProvider, LanguageProvider>();
+            serviceCollection.AddScoped<ILikeProvider, LikeProvider>();
+           
 
             return serviceCollection;
         }

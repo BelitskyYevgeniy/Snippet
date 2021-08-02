@@ -23,10 +23,10 @@ namespace Services.Providers
             _likeRepository = likeRepository;
         }
 
-        public async Task<IReadOnlyCollection<Like>> GetAllByPostAsync(int postId, CancellationToken ct)
+        public async Task<int> GetAllByPostAsync(int postId, CancellationToken ct)
         {
             var entities = await _likeRepository.FindAsync((x) => x.PostId == postId, ct);
-            return _mapper.Map<IReadOnlyCollection<Like>>(entities);
+            return _mapper.Map<IReadOnlyCollection<Like>>(entities).Count;
 
         }
 

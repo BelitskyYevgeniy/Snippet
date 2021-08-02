@@ -12,7 +12,7 @@ namespace Services.Interfaces.Providers
     {
         public Task<Like> Like(Like like,CancellationToken ct);
         public Task<bool> RemoveLike(int likeId, CancellationToken ct);
-        public Task<IReadOnlyCollection<Like>> GetAllByPostAsync(int postId, CancellationToken ct);
+        public Task<int> GetAllByPostAsync(int postId, CancellationToken ct);
 
     }
 }
