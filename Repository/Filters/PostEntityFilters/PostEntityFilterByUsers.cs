@@ -7,11 +7,11 @@ using System.Linq;
 
 namespace Snippet.Data.Filters.PostEntityFilters
 {
-    class PostFilterByUsers : IFilter<PostEntity>
+    class PostEntityFilterByUsers : IFilter<PostEntity>
     {
         public IEnumerable<UserEntity> Include { get; private set; }
         public IEnumerable<UserEntity> Exclude { get; private set; }
-        public PostFilterByUsers(IEnumerable<UserEntity> include, IEnumerable<UserEntity> exclude)
+        public PostEntityFilterByUsers(IEnumerable<UserEntity> include, IEnumerable<UserEntity> exclude)
         {
             if(include == null || exclude == null)
             {
