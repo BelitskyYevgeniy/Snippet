@@ -38,6 +38,8 @@ namespace Services.Providers
         }
         public async Task<Comment> UpdateAsync(Comment model, CancellationToken ct)
         {
+            model.LastUpdateDateTime = System.DateTime.Now;
+
             var entity = _mapper.Map<CommentEntity>(model);
 
             entity = await _genericRepository.UpdateAsync(entity, ct);
