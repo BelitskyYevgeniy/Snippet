@@ -8,7 +8,7 @@ namespace Snippet.BLL.Interfaces.Providers
     public interface ITagProvider
     {
         Task<IReadOnlyCollection<Tag>> MakeAsync(IReadOnlyCollection<Tag> tags, CancellationToken ct);
-        Task<bool> DeleteAsync(Tag tag, CancellationToken ct);
+        Task<bool> DeleteAsync(int id, CancellationToken ct);
         Task<Tag> UpdateAsync(Tag tag, CancellationToken ct);
     }
 }

@@ -3,7 +3,6 @@ using Services.Models;
 using Snippet.BLL.Interfaces.Providers;
 using Snippet.Data.Entities;
 using Snippet.Data.Interfaces;
-using Snippet.Data.Interfaces.Generic;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,9 +21,9 @@ namespace Services.Providers
             
         }
 
-        public async Task<bool> DeleteAsync(Tag tag, CancellationToken ct)
+        public async Task<bool> DeleteAsync(int id, CancellationToken ct)
         {
-             return await _tagRepository.DeleteAsync(tag.Id, ct);
+             return await _tagRepository.DeleteAsync(id, ct);
         }
 
         public async Task<IReadOnlyCollection<Tag>> MakeAsync(IReadOnlyCollection<Tag> tags, CancellationToken ct) 
