@@ -20,9 +20,9 @@ namespace Services.Providers
             _languageRepository = languageRepository;
         }
 
-        public async Task<bool> DeleteAsync(Language language, CancellationToken ct)
+        public async Task<bool> DeleteAsync(int id, CancellationToken ct)
         {
-            return await _languageRepository.DeleteAsync(language.Id, ct);
+            return await _languageRepository.DeleteAsync(id, ct);
         }
 
         public async Task<Language> MakeAsync(Language language, CancellationToken ct)
