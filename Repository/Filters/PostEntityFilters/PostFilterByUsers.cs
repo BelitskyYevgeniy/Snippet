@@ -3,7 +3,7 @@ using Snippet.Data.Filters.Exceptions;
 using Snippet.Data.Interfaces.Filters;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Snippet.Data.Filters.PostEntityFilters
 {
@@ -17,10 +17,10 @@ namespace Snippet.Data.Filters.PostEntityFilters
             {
                 throw new CreationFilterException("include(IEnumerable<UserEntity>) || include(IEnumerable<UserEntity>) = null!");
             }
-            Include = include;
-            Exclude = exclude;
+            Include = new HashSet<UserEntity>(include);
+            Exclude = new HashSet<UserEntity>(exclude);
         }
-        public Predicate<PostEntity> Predicate => throw new NotImplementedException();
+        public Predicate<PostEntity> Predicate => (PostEntity post) => Include.Any(user => user.Id == post.UserId) && Exclude.All(user => user.Id != post.UserId);
 
         public int Degree { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }

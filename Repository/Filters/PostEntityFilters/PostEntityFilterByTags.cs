@@ -4,7 +4,6 @@ using Snippet.Data.Interfaces.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Snippet.Data.Filters.PostEntityFilters
 {
@@ -12,7 +11,7 @@ namespace Snippet.Data.Filters.PostEntityFilters
     {
         public IEnumerable<TagEntity> Tags { get; private set; }
 
-        public Predicate<PostEntity> Predicate => (PostEntity post) => post.Tags.Intersect(Tags).Count() != 0;
+        public Predicate<PostEntity> Predicate => (PostEntity post) => Tags.Intersect(post.Tags).Count() != 0;
 
         public int Degree { get; set; }
 
@@ -22,7 +21,7 @@ namespace Snippet.Data.Filters.PostEntityFilters
             {
                 throw new CreationFilterException("Tags can not equal null!");
             }
-            Tags = tags;
+            Tags = new HashSet<TagEntity>(tags);
         }
 
     }
