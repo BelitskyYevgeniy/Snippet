@@ -7,7 +7,7 @@ namespace Services.Responses
     public class PostResponse
     {
         
-        public string OwnerId { get; set; }
+        public int OwnerId { get; set; }
 
         public string Tittle { get; set; }
 
