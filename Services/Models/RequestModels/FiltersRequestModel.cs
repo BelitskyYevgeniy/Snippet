@@ -1,5 +1,4 @@
 ﻿using Services.Models;
-using Snippet.BLL.Interfaces.Filters;
 using System;
 using System.Collections.Generic;
 
@@ -18,6 +17,5 @@ namespace Snippet.BLL.Models.RequestModels
 
         public Language Language { get; set; } = default;
 
-        public ISortFilter<Post> SortFilter { get; set; } = default;
     }
 }
