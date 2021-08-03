@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Snippet.Data.Entities.Base;
@@ -11,10 +13,13 @@ namespace Snippet.Data.Interfaces.Generic
         where TEntity : BaseEntity
     {
         Task<int> GetCount(CancellationToken ct);
-        Task<IReadOnlyCollection<TEntity>> GetAsync(int start, int count, IEnumerable<IFilter<TEntity>> filters, CancellationToken ct);
         Task<IReadOnlyCollection<TEntity>> GetAllAsync(CancellationToken ct);
         Task<TEntity> GetByIdAsync(int id, CancellationToken ct);
-        Task<IReadOnlyCollection<TEntity>> FindAsync(Func<TEntity, bool> predicate, CancellationToken ct);
+        Task<IReadOnlyCollection<TEntity>> FindAsync(int count, int start = 0,
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string[] includeProperties = null,
+            CancellationToken ct = default);
         Task<TEntity> CreateAsync(TEntity entity, CancellationToken ct);
         Task<bool> DeleteAsync(int id, CancellationToken ct);
         Task<TEntity> UpdateAsync(TEntity entity, CancellationToken ct);

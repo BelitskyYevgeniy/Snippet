@@ -1,25 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Snippet.Data.Context;
 using Snippet.Data.Entities.Base;
-using Snippet.Data.Interfaces.Filters;
 using Snippet.Data.Interfaces.Generic;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Snippet.Data
-{ 
+{
     public class GenericRepository<TEntity> : IGenericRepositoryAsync<TEntity>
         where TEntity : BaseEntity
     {
         protected readonly RepositoryContext _dbContext;
-
-        public Task<int> GetCount(CancellationToken ct = default)
+        protected virtual bool ValidatePagination(int start, int count)
         {
-            return _dbContext.Set<TEntity>().CountAsync(ct);
+            return start >= 0 && count > 0;
         }
 
         public GenericRepository(RepositoryContext dbContext)
@@ -27,33 +25,14 @@ namespace Snippet.Data
             _dbContext = dbContext;
         }
 
-        public Task<TEntity> GetByIdAsync(int id, CancellationToken ct = default)
+        public virtual Task<int> GetCount(CancellationToken ct = default)
+        {
+            return _dbContext.Set<TEntity>().CountAsync(ct);
+        }
+
+        public virtual Task<TEntity> GetByIdAsync(int id, CancellationToken ct = default)
         {
             return _dbContext.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, ct);
-        }
-        public async Task<IReadOnlyCollection<TEntity>> GetAsync(int start, int count, IEnumerable<IFilter<TEntity>> filters, CancellationToken ct = default)
-        {
-            if(start < 0 || count < 0)
-            {
-                throw new ArgumentException();
-            }
-
-            var all = _dbContext.Set<TEntity>().AsNoTracking();
-
-            if (!(filters == null || filters.Count() == 0))
-            {
-                var filtersSet = new HashSet<IFilter<TEntity>>(filters);
-                filtersSet.OrderBy(filter => filter.Degree);
-                foreach (var filter in filtersSet)
-                {
-                    all = all.Where(e => filter.Predicate(e));
-                }
-            }
-            
-            return await all.Skip(start)
-                        .Take(count)
-                        .ToListAsync(ct)
-                        .ConfigureAwait(false);
         }
 
         public async Task<TEntity> CreateAsync(TEntity entity, CancellationToken ct = default)
@@ -69,13 +48,36 @@ namespace Snippet.Data
             await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
             return entityEntry.Entity;
         }
-        public async Task<IReadOnlyCollection<TEntity>> FindAsync(Func<TEntity, bool> predicate, CancellationToken ct = default)
+        public virtual async Task<IReadOnlyCollection<TEntity>> FindAsync(int count, int start = 0, 
+            Expression<Func<TEntity, bool>> filter = null, 
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, 
+            string[] includeProperties = null, 
+            CancellationToken ct = default)
         {
-            var list = await _dbContext.Set<TEntity>().AsNoTracking().ToListAsync(ct).ConfigureAwait(false);
-            var processedlist = list.Where(predicate).ToList();
-            return new ReadOnlyCollection<TEntity>(processedlist);
+
+            IQueryable<TEntity> query = _dbContext.Set<TEntity>();
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (includeProperties != null)
+            {
+                foreach (var includeProperty in includeProperties)
+                {
+                    try
+                    {
+                        query = query.Include(includeProperty);
+                    }
+                    catch{}
+                }
+            }
+            query = query == null ? query : orderBy(query);
+            query = ValidatePagination(start, count) ? query.Skip(start).Take(count) : query;
+            return await query.AsNoTracking().ToListAsync(ct);
         }
-        public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
+        public virtual async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
         {
             var entity = await GetByIdAsync(id, ct).ConfigureAwait(false);
             if (entity != null)
@@ -88,10 +90,10 @@ namespace Snippet.Data
             return false;
         }
 
-        public async Task<IReadOnlyCollection<TEntity>> GetAllAsync(CancellationToken ct)
+        public virtual async Task<IReadOnlyCollection<TEntity>> GetAllAsync(CancellationToken ct)
         {
-            int count = await GetCount(ct).ConfigureAwait(false);
-            return await GetAsync(0, count, null, ct).ConfigureAwait(false);
+            
+            return await _dbContext.Set<TEntity>().ToListAsync(ct).ConfigureAwait(false);
         }
     }
 }
