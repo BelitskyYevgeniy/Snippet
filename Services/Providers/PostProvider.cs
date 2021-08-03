@@ -12,28 +12,28 @@ namespace Services.Providers
     public class PostProvider : IPostProvider
     {
         private readonly IMapper _mapper;
-        private readonly IPostRepositoryAsync _tagRepository;
+        private readonly IPostRepositoryAsync _postRepository;
         public PostProvider(IMapper mapper , IPostRepositoryAsync tagRepository)
         {
             _mapper = mapper;
-            _tagRepository = tagRepository;
+            _postRepository = tagRepository;
         }
         public async Task<bool> DeleteAsync(int id, CancellationToken ct)
         {
-            return await _tagRepository.DeleteAsync(id, ct);
+            return await _postRepository.DeleteAsync(id, ct);
         }
 
 
         public async Task<Post> GetByIdAsync(int id, CancellationToken ct)
         {
-            var entity = await _tagRepository.GetByIdAsync(id, ct); 
+            var entity = await _postRepository.GetByIdAsync(id, ct); 
             
             return _mapper.Map<Post>(entity); 
         }
 
         public async Task<IReadOnlyCollection<Post>> GetAll(CancellationToken ct)
         {
-            var entities = await _tagRepository.GetAllAsync(ct);
+            var entities = await _postRepository.GetAllAsync(ct);
 
             return _mapper.Map<IReadOnlyCollection<Post>>(entities);
         }
@@ -41,7 +41,7 @@ namespace Services.Providers
         public async Task<Post> MakeAsync(Post post, CancellationToken ct)
         {
             var entity = _mapper.Map<Post, PostEntity>(post);
-            entity = await _tagRepository.CreateAsync(entity, ct);
+            entity = await _postRepository.CreateAsync(entity, ct);
 
            return _mapper.Map<Post>(entity);
         }
@@ -50,7 +50,7 @@ namespace Services.Providers
         {
             var entity = _mapper.Map<PostEntity>(model);
 
-            entity =await _tagRepository.UpdateAsync(entity,ct);
+            entity =await _postRepository.UpdateAsync(entity,ct);
             
 
             return _mapper.Map<Post>(entity);
