@@ -27,6 +27,7 @@ namespace Services.Configuration
             serviceCollection.AddScoped<ITagProvider, TagProvider>();
             serviceCollection.AddScoped<ILanguageProvider, LanguageProvider>();
             serviceCollection.AddScoped<ILikeProvider, LikeProvider>();
+            serviceCollection.AddScoped<IUserProvider, UserProvider>();
            
 
             return serviceCollection;
