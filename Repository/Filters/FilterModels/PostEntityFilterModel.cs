@@ -6,14 +6,16 @@ namespace Snippet.Data.Filters.FilterModels
 {
     class PostEntityFilterModel
     {
-        public DateTime? From { get; set; }
-        public DateTime? To { get; set; }
+        public DateTime? From { get; set; } = null;
+        public DateTime? To { get; set; } = null;
 
-        public IEnumerable<TagEntity> Tags { get; set; }
+        public IEnumerable<TagEntity> Tags { get; set; } = default;
 
-        public IEnumerable<UserEntity> Include { get; set; }
-        public IEnumerable<UserEntity> Exclude { get; set; }
+        public IEnumerable<UserEntity> Include { get; set; } = default;
+        public IEnumerable<UserEntity> Exclude { get; set; } = default;
 
-        public IEnumerable<LanguageEntity> Languages { get; set; }
+
+        public IEnumerable<LanguageEntity> Languages { get; set; } = default;
+
     }
 }
