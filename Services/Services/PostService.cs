@@ -31,9 +31,11 @@ namespace Services.Services
             var responses = _mapper.Map<IReadOnlyCollection<Post>, IReadOnlyCollection<PostResponse>>(posts);
             for(int i = 0; i < posts.Count; i++)
             {
-                responses.ElementAt(i).LanguageName = posts.ElementAt(i).Language.Name;
-                responses.ElementAt(i).OwnerName = posts.ElementAt(i).Owner.Name;
-                responses.ElementAt(i).LikeCount = await _likeProvider.GetAllByPostAsync(posts.ElementAt(i).Id, ct);
+                var response = responses.ElementAt(i);
+                var post = posts.ElementAt(i);
+                response.LanguageName = post.Language.Name;
+                response.OwnerName = post.Owner.Name;
+                response.LikeCount = await _likeProvider.GetAllByPostAsync(posts.ElementAt(i).Id, ct);
             }
 
             return responses;
