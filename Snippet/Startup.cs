@@ -25,6 +25,7 @@ namespace Snippet.WebAPI
             services.AddControllers();
             services.RegisterProviders();
             services.AddRepository(Configuration.GetConnectionString("DefaultConnection"));
+            services.RegisterServices();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Snippet.WebAPI", Version = "v1" });
@@ -43,10 +44,13 @@ namespace Snippet.WebAPI
 
             app.UseRouting();
 
-            app.UseAuthorization();
-            app.UseCancellationTokenTimeout();
-            app.UseExceptionHandler();
+            app.UseMiddleware<CancellationTokenTimeoutMiddleware>();
 
+
+            app.UseAuthorization();
+            
+
+            app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Snippet.WebAPI v1"));
 
             app.UseEndpoints(endpoints =>
