@@ -42,12 +42,14 @@ namespace Snippet.Data
 
             if (!(filters == null || filters.Count() == 0))
             {
-                foreach (var filter in filters)
+                var filtersSet = new HashSet<IFilter<TEntity>>(filters);
+                filtersSet.OrderBy(filter => filter.Degree);
+                foreach (var filter in filtersSet)
                 {
                     all = all.Where(e => filter.Predicate(e));
                 }
             }
-
+            
             return await all.Skip(start)
                         .Take(count)
                         .ToListAsync(ct)
