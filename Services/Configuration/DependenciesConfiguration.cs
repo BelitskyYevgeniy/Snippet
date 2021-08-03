@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Services.Interfaces.Providers;
+using Services.Interfaces.Services;
 using Services.Mapping;
 using Services.Providers;
+using Services.Services;
 using Snippet.BLL.Interfaces.Providers;
 
 
@@ -29,6 +31,14 @@ namespace Services.Configuration
             serviceCollection.AddScoped<ILikeProvider, LikeProvider>();
             serviceCollection.AddScoped<IUserProvider, UserProvider>();
            
+           
+
+            return serviceCollection;
+        }
+
+        public static IServiceCollection RegisterServices(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddScoped<IPostService, PostService>();
 
             return serviceCollection;
         }
