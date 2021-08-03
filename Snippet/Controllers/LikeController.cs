@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
 using Services.Models;
 using System.Threading;
@@ -18,6 +19,7 @@ namespace Snippet.WebAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public Task<Like> Like(Like like,CancellationToken ct)
         {
             return _likeProvider.Like(like,ct);

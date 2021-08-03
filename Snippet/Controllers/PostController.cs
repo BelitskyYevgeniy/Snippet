@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
 using Services.Interfaces.Services;
 using Services.Models;
@@ -36,18 +37,21 @@ namespace Snippet.WebAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public Task<Post> Create(Post post,CancellationToken ct)
         {
             return _postProvider.MakeAsync(post, ct);
         }
 
         [HttpDelete]
+        [Authorize]
         public Task<bool> Delete(int id, CancellationToken ct)
         {
             return _postProvider.DeleteAsync(id, ct);
         }
         
         [HttpPut]
+        [Authorize]
         public Task<Post> Update(Post post,CancellationToken ct)
         {
             return _postProvider.UpdateAsync(post, ct);
