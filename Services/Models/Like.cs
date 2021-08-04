@@ -9,8 +9,7 @@ namespace Services.Models
         public int postId  { get; set; }
         [Required]
         public int UserId { get; set; }
-        [Required]
-        public Post post { get; set; }
+        
     }
 
 }

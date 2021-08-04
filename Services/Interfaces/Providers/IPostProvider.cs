@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Services.Interfaces.Providers
 {
-    interface IPostProvider
+   public interface IPostProvider
     {
         Task<Post> MakeAsync(Post post, CancellationToken ct);
         Task<Post> GetByIdAsync(int id, CancellationToken ct);

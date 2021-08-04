@@ -15,6 +15,8 @@ namespace Snippet.Data.Configuration
             services.AddScoped<ITagRepositoryAsync, TagRepository>();
             services.AddScoped<ILanguageRepositoryAsync, LanguageRepository>();
             services.AddScoped<IPostRepositoryAsync, PostRepository>();
+            services.AddScoped<ICommentRepositoryAsync, CommentRepository>();
+            services.AddScoped<ILikeRepositoryAsync, LikeRepository>();
             return services;
         }
         public static IServiceCollection AddRepositoryContext(this IServiceCollection services, string connectionString)

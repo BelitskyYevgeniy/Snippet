@@ -2,28 +2,28 @@
 using Services.Models;
 using Snippet.BLL.Interfaces.Providers;
 using Snippet.Data.Entities;
-using Snippet.Data.Interfaces.Generic;
+using Snippet.Data.Interfaces;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Snippet.BLL.Providers
+namespace Services.Providers
 {
     public class TagProvider : ITagProvider
     {
         private readonly IMapper _mapper;
-        private readonly IGenericRepositoryAsync<TagEntity> _tagRepository;
+        private readonly ITagRepositoryAsync _tagRepository;
       
-        public TagProvider(IMapper mapper, IGenericRepositoryAsync<TagEntity> TagRepository)
+        public TagProvider(IMapper mapper, ITagRepositoryAsync tagRepository)
         {
             _mapper = mapper;
-            _tagRepository = TagRepository;
+            _tagRepository = tagRepository;
             
         }
 
-        public async Task<bool> DeleteAsync(Tag tag, CancellationToken ct)
+        public async Task<bool> DeleteAsync(int id, CancellationToken ct)
         {
-             return await _tagRepository.DeleteAsync(tag.Id, ct);
+             return await _tagRepository.DeleteAsync(id, ct);
         }
 
         public async Task<IReadOnlyCollection<Tag>> MakeAsync(IReadOnlyCollection<Tag> tags, CancellationToken ct) 

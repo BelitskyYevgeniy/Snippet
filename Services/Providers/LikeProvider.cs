@@ -2,6 +2,7 @@
 using Services.Interfaces.Providers;
 using Services.Models;
 using Snippet.Data.Entities;
+using Snippet.Data.Interfaces;
 using Snippet.Data.Interfaces.Generic;
 using System;
 using System.Collections.Generic;
@@ -16,17 +17,17 @@ namespace Services.Providers
     {
         private readonly IMapper _mapper;
 
-        private readonly IGenericRepositoryAsync<LikeEntity> _likeRepository;
-        public LikeProvider(IMapper mapper,IGenericRepositoryAsync<LikeEntity> likeRepository)
+        private readonly ILikeRepositoryAsync _likeRepository;
+        public LikeProvider(IMapper mapper, ILikeRepositoryAsync likeRepository)
         {
             _mapper = mapper;
             _likeRepository = likeRepository;
         }
 
-        public async Task<IReadOnlyCollection<Like>> GetAllByPostAsync(int postId, CancellationToken ct)
+        public async Task<int> GetAllByPostAsync(int postId, CancellationToken ct)
         {
             var entities = await _likeRepository.FindAsync((x) => x.PostId == postId, ct);
-            return _mapper.Map<IReadOnlyCollection<Like>>(entities);
+            return _mapper.Map<IReadOnlyCollection<Like>>(entities).Count;
 
         }
 

@@ -19,7 +19,7 @@ namespace Snippet.WebAPI.Middleware
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            using var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+            using var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(5000));
             using var cts = CancellationTokenSource
                 .CreateLinkedTokenSource(context!.RequestAborted, timeoutCts.Token);
 
