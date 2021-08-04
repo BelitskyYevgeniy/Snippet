@@ -40,5 +40,14 @@ namespace Snippet.Data.Repositories
             };
             return FindAsync(model.Start, model.Count, func, model.SortFilter.SortField, new string[] { "Tags"}, ct);
         }
+        public override async Task<PostEntity> GetByIdAsync(int id, CancellationToken ct = default)
+        {
+            var result = await FindAsync(0, 1, post => post.Id == id, null, null, ct);
+            if (result == null || result.Count() == 0)
+            {
+                return null;
+            }
+            return result.ElementAt(0);
+        }
     }
 }
