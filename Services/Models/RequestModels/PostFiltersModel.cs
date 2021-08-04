@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 
 
-namespace Snippet.BLL.Models.RequestModels
+namespace Snippet.BLL.Models.FilterModels
 {
-    public class PostFiltersRequestModel
+    public class PostFiltersModel
     {
         int Skip { get; set; } = 0;
         int Count { get; set; } = 1;

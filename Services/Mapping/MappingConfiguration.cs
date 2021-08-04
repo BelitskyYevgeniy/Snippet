@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Services.Models;
+using Snippet.BLL.Models.FilterModels;
 using Snippet.Data.Entities;
 using Snippet.Data.Filters.FilterModels;
 
@@ -15,7 +16,7 @@ namespace Services.Mapping
             CreateMap<PostEntity, Post>().ReverseMap();
             CreateMap<TagEntity, Tag>().ReverseMap();
             CreateMap<UserEntity, User>().ReverseMap();
-            CreateMap<PostEntityFilterModel, PostFilterModel>().ReverseMap();
+            CreateMap<PostEntityFilterModel, PostFiltersModel>().ReverseMap();
         }
     }
 }
