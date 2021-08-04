@@ -19,7 +19,7 @@ namespace Snippet.WebAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+
         public Task<Like> Like(Like like,CancellationToken ct)
         {
             return _likeProvider.Like(like,ct);
