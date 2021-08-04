@@ -25,29 +25,39 @@ namespace Services.Providers
             _likeRepository = likeRepository;
         }
 
-        public async Task<int> GetAllByPostAsync(int postId, CancellationToken ct)
+        /*public async Task<int> GetAllByPostAsync(int postId, CancellationToken ct)
         {
             var entities = await _likeRepository.FindAsync((x) => x.PostId == postId, ct);
             return _mapper.Map<IReadOnlyCollection<Like>>(entities).Count;
 
+        }*/
+
+        public Task<int> GetCountAsync(int postId, CancellationToken ct = default)
+        {
+            return _likeRepository.GetCount(ct);
         }
 
-        public async Task<Like> Like(Like like, CancellationToken ct)
+        public async Task<Like> CreateAsync(Like like, CancellationToken ct = default)
         {
             var entity = _mapper.Map<Like, LikeEntity>(like);
-            var liked = await _likeRepository.FindAsync((x) => x.UserId == like.UserId && x.PostId == like.postId, ct);
-            if (liked != null)
+            var foundLike = (await _likeRepository.FindAsync(filter: (x) => x.UserId == like.UserId && x.PostId == like.postId, ct: ct)).FirstOrDefault();
+            if (foundLike == null)
             {
-                 await  RemoveLike(liked.First().Id, ct);
+                entity = await _likeRepository.CreateAsync(entity, ct);
+                return _mapper.Map<LikeEntity, Like>(entity);
             }
-
-            entity = await _likeRepository.CreateAsync(entity, ct);
-            return _mapper.Map<LikeEntity, Like>(entity);
+            return null;
         }
 
-        public async Task<bool> RemoveLike(int likeId, CancellationToken ct)
+        public async Task<bool> RemoveAsync(Like like, CancellationToken ct = default)
         {
-            return await _likeRepository.DeleteAsync(likeId, ct);
+            var entity = _mapper.Map<Like, LikeEntity>(like);
+            var foundLike = (await _likeRepository.FindAsync(filter: (x) => x.UserId == like.UserId && x.PostId == like.postId, ct: ct)).FirstOrDefault();
+            if(foundLike != null)
+            {
+                return await _likeRepository.DeleteAsync(foundLike.Id, ct);
+            }
+            return false;
         }
     }
 }
