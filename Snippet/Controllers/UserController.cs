@@ -24,7 +24,7 @@ namespace Snippet.WebAPI.Controllers
         [HttpGet("{id:int}")]
         public Task<User> GetById(int id, CancellationToken ct)
         {
-            return _userProvider.GetById(id, ct);
+            return _userProvider.GetByIdAsync(id, ct);
         }
     }
 }
