@@ -13,9 +13,8 @@ namespace Services.Models
         public int? UserId { get; set; }
         [Required]
         public string Message { get; set; }
-        public DateTime CreationDateTime { get; set; }
-        [Required]
-        public DateTime LastUpdateDateTime { get; set; }
+        public DateTime CreationDateTime { get; set; } = DateTime.Now;
+        public DateTime LastUpdateDateTime { get; set; } = DateTime.Now;
         public int? FatherCommentId { get; set; }
     }
 }

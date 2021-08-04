@@ -7,9 +7,9 @@ namespace Services.Interfaces.Providers
 {
     public interface ICommentProvider
     {
-        Task<Comment> MakeAsync(Comment comment, CancellationToken ct);
-        Task<bool> DeleteAsync(int id, CancellationToken ct);
-        Task<IReadOnlyCollection<Comment>> GetAllByPostIdAsync(int postId, CancellationToken ct);
-        Task<Comment> UpdateAsync(Comment model, CancellationToken ct);
+        Task<Comment> CreateAsync(Comment comment, CancellationToken ct = default);
+        Task<bool> DeleteAsync(int id, CancellationToken ct = default);
+        Task<IReadOnlyCollection<Comment>> GetAllByPostIdAsync(int postId, int skip = 0, int count = 1, CancellationToken ct = default);
+        Task<Comment> UpdateAsync(Comment model, CancellationToken ct = default);
     }
 }
