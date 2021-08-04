@@ -8,6 +8,5 @@ namespace Snippet.Data.Interfaces.Filters
     public interface ISortFilter<TEntity> where TEntity : BaseEntity
     {
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> SortField { get; }
-        SortType SortMode { get; set; }
     }
 }
