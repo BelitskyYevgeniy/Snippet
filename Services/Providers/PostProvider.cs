@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Services.Interfaces.Providers;
 using Services.Models;
+using Snippet.BLL.Models.RequestModels;
 using Snippet.Data.Entities;
+using Snippet.Data.Filters.FilterModels;
 using Snippet.Data.Interfaces.Repositories;
 using System.Collections.Generic;
 using System.Threading;
@@ -18,27 +20,28 @@ namespace Services.Providers
             _mapper = mapper;
             _postRepository = tagRepository;
         }
-        public async Task<bool> DeleteAsync(int id, CancellationToken ct)
+        public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
         {
             return await _postRepository.DeleteAsync(id, ct);
         }
 
 
-        public async Task<Post> GetByIdAsync(int id, CancellationToken ct)
+        public async Task<Post> GetByIdAsync(int id, CancellationToken ct = default)
         {
             var entity = await _postRepository.GetByIdAsync(id, ct); 
             
             return _mapper.Map<Post>(entity); 
         }
 
-        public async Task<IReadOnlyCollection<Post>> GetAll(CancellationToken ct)
+        public async Task<IReadOnlyCollection<Post>> GetAsync(PostFiltersRequestModel model, CancellationToken ct = default)
         {
-            var entities = await _postRepository.GetAllAsync(ct);
+            var entityFilterModel = _mapper.Map<PostEntityFilterModel>(model);
+            var entities = await _postRepository.FindAsync(entityFilterModel, ct);
 
             return _mapper.Map<IReadOnlyCollection<Post>>(entities);
         }
 
-        public async Task<Post> MakeAsync(Post post, CancellationToken ct)
+        public async Task<Post> MakeAsync(Post post, CancellationToken ct = default)
         {
             var entity = _mapper.Map<Post, PostEntity>(post);
             entity = await _postRepository.CreateAsync(entity, ct);
@@ -46,7 +49,7 @@ namespace Services.Providers
            return _mapper.Map<Post>(entity);
         }
 
-        public async Task<Post> UpdateAsync(Post model, CancellationToken ct)
+        public async Task<Post> UpdateAsync(Post model, CancellationToken ct = default)
         {
             var entity = _mapper.Map<PostEntity>(model);
 
