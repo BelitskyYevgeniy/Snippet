@@ -2,11 +2,7 @@
 using Services.Interfaces.Providers;
 using Services.Models;
 using Snippet.Data.Entities;
-using Snippet.Data.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Snippet.Data.Interfaces.Repositories;
 using System.Threading;
 using System.Threading.Tasks;
 
