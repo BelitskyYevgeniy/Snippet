@@ -48,7 +48,7 @@ namespace Snippet.Data
             await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
             return entityEntry.Entity;
         }
-        public virtual async Task<IReadOnlyCollection<TEntity>> FindAsync(int count, int start = 0, 
+        public virtual async Task<IReadOnlyCollection<TEntity>> FindAsync(int start = 0, int count = 1, 
             Func<TEntity, bool> filter = null, 
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, 
             string[] includeProperties = null, 

@@ -38,7 +38,7 @@ namespace Snippet.Data.Repositories
                 }
                 return true;
             };
-            return FindAsync(model.Count, model.Start, func, model.SortFilter.SortField, new string[] { "Tags"}, ct);
+            return FindAsync(model.Start, model.Count, func, model.SortFilter.SortField, new string[] { "Tags"}, ct);
         }
     }
 }
