@@ -7,6 +7,7 @@ using Snippet.Data.Interfaces.Generic;
 using Snippet.Data.Entities;
 using Services.Models;
 using Snippet.Data.Interfaces;
+using Snippet.Data.Interfaces.Repositories;
 
 namespace Services.Providers
 {
