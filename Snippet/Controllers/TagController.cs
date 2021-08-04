@@ -13,7 +13,7 @@ namespace Snippet.WebAPI.Controllers
     [Route("[controller]")]
     public class TagController
     {
-        private readonly IMapper _mapper;
+        /*private readonly IMapper _mapper;
         private readonly ITagProvider _tagProvider;
 
         public TagController(IMapper mapper,ITagProvider tagProvider)
@@ -41,6 +41,6 @@ namespace Snippet.WebAPI.Controllers
         public Task<Tag> Update(Tag tag,CancellationToken ct)
         {
             return _tagProvider.UpdateAsync(tag, ct);
-        }
+        }*/
     }
 }
