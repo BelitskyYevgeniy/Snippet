@@ -6,6 +6,6 @@ namespace Services.Interfaces.Providers
 {
     public interface IUserProvider
     {
-        Task<User> GetById(int id, CancellationToken ct);
+        Task<User> GetByIdAsync(int id, CancellationToken ct);
     }
 }

@@ -18,7 +18,7 @@ namespace Services.Providers
             _mapper = mapper;
             _userRepository = userRepository;
         }
-        public async Task<User> GetById(int id, CancellationToken ct)
+        public async Task<User> GetByIdAsync(int id, CancellationToken ct)
         {
             var model = await _userRepository.GetByIdAsync(id, ct);
 
