@@ -1,10 +1,11 @@
-﻿using Services.Models.Base;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Services.Models
 {
-    public class Language:BaseModel
+    public class Language
     {     
+        [Key]
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
     }
