@@ -19,10 +19,20 @@ namespace Snippet.WebAPI.Controllers
         }
 
         [HttpPost]
-
-        public Task<Like> Like(Like like,CancellationToken ct)
+       // [Authorize]
+        public async Task<bool> PressLike(Like like,CancellationToken ct)
         {
-            return _likeProvider.Like(like,ct);
+            var newLike = await _likeProvider.CreateAsync(like, ct).ConfigureAwait(false);
+            if(newLike != null)
+            {
+                return !(await _likeProvider.RemoveAsync(like, ct).ConfigureAwait(false));
+            }
+            return true;
+        }
+        [HttpGet]
+        public Task<int> GetRaiting(int postId, CancellationToken ct)
+        {
+            return _likeProvider.GetCountAsync(postId, ct);
         }
     }
 }
