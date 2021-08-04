@@ -48,10 +48,10 @@ namespace Snippet.Data
             await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
             return entityEntry.Entity;
         }
-        public virtual async Task<IReadOnlyCollection<TEntity>> FindAsync(int skip = 0, int count = 1, 
-            Func<TEntity, bool> filter = null, 
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, 
-            string[] includeProperties = null, 
+        public virtual async Task<IReadOnlyCollection<TEntity>> FindAsync(int skip = 0, int count = 1,
+            Func<TEntity, bool> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string[] includeProperties = null,
             CancellationToken ct = default)
         {
 
@@ -71,10 +71,10 @@ namespace Snippet.Data
                     {
                         query = query.Include(includeProperty);
                     }
-                    catch{}
+                    catch { }
                 }
             }
-            query = query == null ? query : orderBy(query);
+            query = query == null || orderBy == null ? query : orderBy(query);
             query = ValidatePagination(skip, count) ? query.Skip(skip).Take(count) : query;
             return await query.AsNoTracking().ToListAsync(ct);
         }
