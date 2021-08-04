@@ -2,7 +2,7 @@
 using Services.Models;
 using Snippet.BLL.Interfaces.Providers;
 using Snippet.Data.Entities;
-using Snippet.Data.Interfaces;
+using Snippet.Data.Interfaces.Repositories;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
