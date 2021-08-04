@@ -1,10 +1,11 @@
 ﻿using Snippet.Data.Entities;
+using Snippet.Data.Filters.FilterModels.Base;
 using System;
 using System.Collections.Generic;
 
 namespace Snippet.Data.Filters.FilterModels
 {
-    class PostEntityFilterModel
+    public class PostEntityFilterModel: FilterModel<PostEntity>
     {
         public DateTime? From { get; set; } = null;
         public DateTime? To { get; set; } = null;
@@ -16,6 +17,5 @@ namespace Snippet.Data.Filters.FilterModels
 
 
         public IEnumerable<LanguageEntity> Languages { get; set; } = default;
-
     }
 }

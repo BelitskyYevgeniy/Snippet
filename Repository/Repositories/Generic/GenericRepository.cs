@@ -49,7 +49,7 @@ namespace Snippet.Data
             return entityEntry.Entity;
         }
         public virtual async Task<IReadOnlyCollection<TEntity>> FindAsync(int count, int start = 0, 
-            Expression<Func<TEntity, bool>> filter = null, 
+            Func<TEntity, bool> filter = null, 
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, 
             string[] includeProperties = null, 
             CancellationToken ct = default)
@@ -59,8 +59,9 @@ namespace Snippet.Data
 
             if (filter != null)
             {
-                query = query.Where(filter);
+                query = query.Where(e => filter(e));
             }
+
 
             if (includeProperties != null)
             {

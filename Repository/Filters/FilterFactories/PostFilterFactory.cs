@@ -45,7 +45,7 @@ namespace Snippet.Data.Filters.FilterFactories
                 result.Add(new PostEntityFilterByDateTime(model.From, model.To));
             }
 
-            return new ReadOnlyCollection<IFilter<PostEntity>>(result);
+            return new ReadOnlyCollection<IFilter<PostEntity>>(result.OrderBy(post => post.Degree).ToList());
         }
     }
 }
