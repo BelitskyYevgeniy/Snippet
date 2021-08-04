@@ -4,6 +4,6 @@ namespace Snippet.Data.Interfaces.Filters
 {
     public interface IFilterFactory<T> where T : class
     {
-        IReadOnlyCollection<IFilter<T>> CreateFilter(object obj);
+        IReadOnlyCollection<IFilter<T>> CreateFilters(object obj);
     }
 }

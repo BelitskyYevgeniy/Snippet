@@ -17,7 +17,7 @@ namespace Snippet.Data.Filters.FilterFactories
         {
             return new PostEntityFilterByDateTime(model.From, model.To);
         }
-        public IReadOnlyCollection<IFilter<PostEntity>> CreateFilter(object obj)
+        public IReadOnlyCollection<IFilter<PostEntity>> CreateFilters(object obj)
         {
             if(!(obj is PostEntityFilterModel))
             {

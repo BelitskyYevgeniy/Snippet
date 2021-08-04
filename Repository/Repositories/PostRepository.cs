@@ -24,7 +24,7 @@ namespace Snippet.Data.Repositories
         public Task<IReadOnlyCollection<PostEntity>> FindAsync(PostEntityFilterModel model, CancellationToken ct = default)
         {
             var factory = new PostFilterFactory();
-            var filters = factory.CreateFilter(model).OrderBy(filter => filter.Degree);
+            var filters = factory.CreateFilters(model).OrderBy(filter => filter.Degree);
             IQueryable<PostEntity> query = _dbContext.Posts;
             Func<PostEntity, bool> func =
             delegate (PostEntity post)
