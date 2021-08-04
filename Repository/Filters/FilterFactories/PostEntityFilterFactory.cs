@@ -21,22 +21,30 @@ namespace Snippet.Data.Filters.FilterFactories
             PostEntityFilterModel model = (PostEntityFilterModel)obj;
             if(model.Tags != null && model.Tags.Count() != 0)
             {
-                result.Add(new PostEntityFilterByTags(model.Tags));
+                var entity = new PostEntityFilterByTags(model.Tags);
+                entity.Degree = 1;
+                result.Add(entity);
             }
 
             if (model.Languages != null && model.Languages.Count() != 0)
             {
-                result.Add(new PostEntityByLanguages(model.Languages));
+                var entity = new PostEntityByLanguages(model.Languages);
+                entity.Degree = 10;
+                result.Add(entity);
             }
 
             if (model.Include != null && model.Exclude != null)
             {
-                result.Add(new PostEntityFilterByUsers(model.Include, model.Exclude));
+                var entity = new PostEntityFilterByUsers(model.Include, model.Exclude);
+                entity.Degree = 3;
+                result.Add(entity);
             }
 
             if (model.To != null && model.From != null)
             {
-                result.Add(new PostEntityFilterByDateTime(model.From, model.To));
+                var entity = new PostEntityFilterByDateTime(model.From, model.To);
+                entity.Degree = 8;
+                result.Add(entity);
             }
 
             return new ReadOnlyCollection<IFilter<PostEntity>>(result.OrderBy(post => post.Degree).ToList());
