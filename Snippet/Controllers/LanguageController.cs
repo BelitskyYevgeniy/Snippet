@@ -8,7 +8,7 @@ namespace Snippet.WebAPI.Controllers
 {
     public class LanguageController:ControllerBase
     {
-        private readonly ILanguageProvider _languageProvider;
+        /*private readonly ILanguageProvider _languageProvider;
 
         public LanguageController(ILanguageProvider languageProvider)
         {
@@ -31,6 +31,6 @@ namespace Snippet.WebAPI.Controllers
         public Task<Language> Update(Language language,CancellationToken ct)
         {
             return _languageProvider.UpdateAsync(language, ct);
-        }
+        }*/
     }
 }
