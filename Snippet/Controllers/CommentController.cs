@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
 using Services.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,38 +18,29 @@ namespace Snippet.WebAPI.Controllers
             _commentProvider = commentProvider;
         }
         [HttpGet]
-        public Task<IReadOnlyCollection<Comment>> GetAllByPostId(int postId,CancellationToken ct)
+        public Task<IReadOnlyCollection<Comment>> GetAllByPostId(int postId, int skip = 0, int count = 1, CancellationToken ct = default)
         {
-            return _commentProvider.GetAllByPostIdAsync(postId,ct);
+            return _commentProvider.GetAllByPostIdAsync(skip, count, postId, ct);
         }
 
         [HttpPost]
-        [Authorize]
+       // [Authorize]
         public Task<Comment> Create(Comment comment,CancellationToken ct)
         {
-            return _commentProvider.MakeAsync(comment, ct);
+            return _commentProvider.CreateAsync(comment, ct);
         }
 
         [HttpDelete]
-        [Authorize]
+       // [Authorize]
         public Task<bool> Delete(int id,CancellationToken ct)
         {
             return _commentProvider.DeleteAsync(id, ct);
         }
         [HttpPut]
-        [Authorize]
+       // [Authorize]
         public Task<Comment> Update(Comment comment,CancellationToken ct)
         {
-            
             return _commentProvider.UpdateAsync(comment, ct);
         }
-        [HttpPost]
-        [Authorize]
-        public Task<Comment> ToAnswer(Comment comment,int FatherCommentId,CancellationToken ct)
-        {
-            comment.FatherCommentId = FatherCommentId;
-            return _commentProvider.MakeAsync(comment, ct);
-        }
- 
     }
 }
