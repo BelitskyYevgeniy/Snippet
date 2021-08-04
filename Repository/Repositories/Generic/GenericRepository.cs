@@ -48,7 +48,7 @@ namespace Snippet.Data
             await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
             return entityEntry.Entity;
         }
-        public virtual async Task<IReadOnlyCollection<TEntity>> FindAsync(int start = 0, int count = 1, 
+        public virtual async Task<IReadOnlyCollection<TEntity>> FindAsync(int skip = 0, int count = 1, 
             Func<TEntity, bool> filter = null, 
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, 
             string[] includeProperties = null, 
@@ -75,7 +75,7 @@ namespace Snippet.Data
                 }
             }
             query = query == null ? query : orderBy(query);
-            query = ValidatePagination(start, count) ? query.Skip(start).Take(count) : query;
+            query = ValidatePagination(skip, count) ? query.Skip(skip).Take(count) : query;
             return await query.AsNoTracking().ToListAsync(ct);
         }
         public virtual async Task<bool> DeleteAsync(int id, CancellationToken ct = default)

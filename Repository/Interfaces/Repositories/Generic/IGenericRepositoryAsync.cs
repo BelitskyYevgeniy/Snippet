@@ -15,7 +15,7 @@ namespace Snippet.Data.Interfaces.Generic
         Task<int> GetCount(CancellationToken ct);
         Task<IReadOnlyCollection<TEntity>> GetAllAsync(CancellationToken ct);
         Task<TEntity> GetByIdAsync(int id, CancellationToken ct);
-        Task<IReadOnlyCollection<TEntity>> FindAsync(int start = 0, int count = 1,
+        Task<IReadOnlyCollection<TEntity>> FindAsync(int skip = 0, int count = 1,
             Func<TEntity, bool> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string[] includeProperties = null,
