@@ -18,7 +18,7 @@ namespace Snippet.WebAPI.Controllers
         [HttpPost]
         public Task<Language> Create(Language language,CancellationToken ct)
         {
-            return _languageProvider.MakeAsync(language, ct);
+            return _languageProvider.CreateAsync(language, ct);
         }
 
         [HttpDelete]
