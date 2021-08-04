@@ -41,7 +41,7 @@ namespace Services.Providers
             return _mapper.Map<IReadOnlyCollection<Post>>(entities);
         }
 
-        public async Task<Post> MakeAsync(Post post, CancellationToken ct = default)
+        public async Task<Post> CreateAsync(Post post, CancellationToken ct = default)
         {
             var entity = _mapper.Map<Post, PostEntity>(post);
             entity = await _postRepository.CreateAsync(entity, ct);
