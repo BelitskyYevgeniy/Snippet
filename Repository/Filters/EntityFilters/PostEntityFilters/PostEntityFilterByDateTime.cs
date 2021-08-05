@@ -3,7 +3,7 @@ using Snippet.Data.Filters.Exceptions;
 using Snippet.Data.Interfaces.Filters;
 using System;
 
-namespace Snippet.Data.Filters.PostEntityFilters
+namespace Snippet.Data.Filters.EntityFilters.PostEntityFilters
 {
     public class PostEntityFilterByDateTime : IFilter<PostEntity>
     {

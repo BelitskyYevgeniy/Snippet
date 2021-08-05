@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Snippet.Data.Filters.PostEntityFilters
+namespace Snippet.Data.Filters.EntityFilters.PostEntityFilters
 {
     public class PostEntityFilterByTags: IFilter<PostEntity>
     {

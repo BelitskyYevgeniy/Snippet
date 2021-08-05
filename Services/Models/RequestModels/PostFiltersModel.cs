@@ -7,8 +7,8 @@ namespace Snippet.BLL.Models.FilterModels
 {
     public class PostFiltersModel
     {
-        int Skip { get; set; } = 0;
-        int Count { get; set; } = 1;
+        public int Skip { get; set; } = 0;
+        public int Count { get; set; } = 1;
 
         public DateTime? From { get; set; } = default;
         public DateTime? To { get; set; } = default;
