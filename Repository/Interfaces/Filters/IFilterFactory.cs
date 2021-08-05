@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Snippet.Data.Entities.Base;
+using System.Collections.Generic;
 
 namespace Snippet.Data.Interfaces.Filters
 {
-    public interface IFilterFactory<T> where T : class
+    public interface IFilterFactory<TEntity> where TEntity : BaseEntity
     {
-        IReadOnlyCollection<IFilter<T>> CreateFilters(object obj);
+        IReadOnlyCollection<IFilter<TEntity>> CreateFilters(object obj);
     }
 }
