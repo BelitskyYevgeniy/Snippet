@@ -2,13 +2,10 @@
 using Services.Interfaces.Providers;
 using Services.Models;
 using Snippet.Data.Entities;
-using Snippet.Data.Interfaces;
-using Snippet.Data.Interfaces.Generic;
 using Snippet.Data.Interfaces.Repositories;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -40,7 +37,7 @@ namespace Services.Providers
         public async Task<Like> CreateAsync(Like like, CancellationToken ct = default)
         {
             var entity = _mapper.Map<Like, LikeEntity>(like);
-            var foundLike = (await _likeRepository.FindAsync(filter: (x) => x.UserId == like.UserId && x.PostId == like.postId, ct: ct)).FirstOrDefault();
+            var foundLike = (await _likeRepository.FindAsync(filter: new Expression<Func<LikeEntity, bool>>[] { (x) => x.UserId == like.UserId && x.PostId == like.postId }, ct: ct)).FirstOrDefault();
             if (foundLike == null)
             {
                 entity = await _likeRepository.CreateAsync(entity, ct);
@@ -52,7 +49,7 @@ namespace Services.Providers
         public async Task<bool> RemoveAsync(Like like, CancellationToken ct = default)
         {
             var entity = _mapper.Map<Like, LikeEntity>(like);
-            var foundLike = (await _likeRepository.FindAsync(filter: (x) => x.UserId == like.UserId && x.PostId == like.postId, ct: ct)).FirstOrDefault();
+            var foundLike = (await _likeRepository.FindAsync(filter: new Expression<Func<LikeEntity, bool>>[] { (x) => x.UserId == like.UserId && x.PostId == like.postId }, ct: ct)).FirstOrDefault();
             if(foundLike != null)
             {
                 return await _likeRepository.DeleteAsync(foundLike.Id, ct);

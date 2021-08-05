@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Linq.Expressions;
+using System;
 
 namespace Services.Providers
 {
@@ -33,7 +35,7 @@ namespace Services.Providers
             
             foreach (var entity in entities)
             {
-                var tag = (await _tagRepository.FindAsync(filter: (e) => e.Name == entity.Name, ct: ct).ConfigureAwait(false)).FirstOrDefault();
+                var tag = (await _tagRepository.FindAsync(filter: new Expression<Func<TagEntity, bool>>[] { (e) => e.Name == entity.Name }, ct: ct).ConfigureAwait(false)).FirstOrDefault();
                 if (tag == null)
                 {
                     await _tagRepository.CreateAsync(entity, ct);

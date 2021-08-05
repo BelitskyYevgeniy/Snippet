@@ -9,6 +9,8 @@ using Services.Models;
 using Snippet.Data.Interfaces;
 using Snippet.Data.Interfaces.Repositories;
 using System.Linq;
+using System.Linq.Expressions;
+using System;
 
 namespace Services.Providers
 {
@@ -28,7 +30,7 @@ namespace Services.Providers
         }
         public async Task<IReadOnlyCollection<Comment>> GetAllByPostIdAsync(int postId, int skip = 0, int count = 1, CancellationToken ct = default)
         {
-            var comments = await _commentRepository.FindAsync(skip, count, (x) => x.PostId == postId, comments => comments.OrderBy(comment => comment.CreationDateTime), null, ct);
+            var comments = await _commentRepository.FindAsync(skip, count, new Expression<Func<CommentEntity, bool>>[] { (x) => x.PostId == postId }, comments => comments.OrderBy(comment => comment.CreationDateTime), null, ct);
             return _mapper.Map<IEnumerable<CommentEntity>, IReadOnlyCollection<Comment>>(comments);
         }
         public async Task<Comment> CreateAsync(Comment comment, CancellationToken ct = default)
