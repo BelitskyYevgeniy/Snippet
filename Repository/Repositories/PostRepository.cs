@@ -2,13 +2,10 @@
 using Snippet.Data.Entities;
 using Snippet.Data.Filters.FilterFactories;
 using Snippet.Data.Filters.FilterModels;
-using Snippet.Data.Filters.PostEntityFilters;
-using Snippet.Data.Interfaces.Filters;
 using Snippet.Data.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 

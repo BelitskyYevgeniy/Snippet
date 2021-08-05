@@ -1,7 +1,7 @@
 ﻿using Snippet.Data.Entities;
 using Snippet.Data.Filters.Exceptions;
 using Snippet.Data.Filters.FilterModels;
-using Snippet.Data.Filters.PostEntityFilters;
+using Snippet.Data.Filters.EntityFilters.PostEntityFilters;
 using Snippet.Data.Interfaces.Filters;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
