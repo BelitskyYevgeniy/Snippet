@@ -4,6 +4,7 @@ using Snippet.Data.Interfaces.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Snippet.Data.Filters.EntityFilters.PostEntityFilters
 {
@@ -18,7 +19,7 @@ namespace Snippet.Data.Filters.EntityFilters.PostEntityFilters
             }
             Languages = new HashSet<LanguageEntity>(languages).ToArray();
         }
-        public Predicate<PostEntity> Predicate => (PostEntity post) => Languages.Any(language => language.Id == post.LanguageId);
+        public Expression<Func<PostEntity, bool>> Predicate => (PostEntity post) => Languages.Any(language => language.Id == post.LanguageId);
 
         public int Degree { get; set; }
     }

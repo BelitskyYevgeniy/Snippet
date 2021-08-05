@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Snippet.Data.Entities.Base;
+using System;
+using System.Linq.Expressions;
 
 namespace Snippet.Data.Interfaces.Filters
 {
-    public interface IFilter<T>
+    public interface IFilter<TEntity> where TEntity: BaseEntity
     {
-        Predicate<T> Predicate { get; }
+        Expression<Func<TEntity, bool>> Predicate { get; }
         int Degree { get; set; }
     }
 }

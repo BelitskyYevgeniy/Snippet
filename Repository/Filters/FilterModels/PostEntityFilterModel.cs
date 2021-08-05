@@ -17,5 +17,7 @@ namespace Snippet.Data.Filters.FilterModels
 
 
         public IEnumerable<LanguageEntity> Languages { get; set; } = default;
+
+
     }
 }

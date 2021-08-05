@@ -4,6 +4,7 @@ using Snippet.Data.Interfaces.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Snippet.Data.Filters.EntityFilters.PostEntityFilters
 {
@@ -11,7 +12,7 @@ namespace Snippet.Data.Filters.EntityFilters.PostEntityFilters
     {
         public IEnumerable<TagEntity> Tags { get; private set; }
 
-        public Predicate<PostEntity> Predicate => (PostEntity post) => Tags.Intersect(post.Tags).Count() != 0;
+        public Expression<Func<PostEntity, bool>> Predicate => (PostEntity post) => Tags.Intersect(post.Tags).Count() != 0;
 
         public int Degree { get; set; }
 

@@ -2,6 +2,7 @@
 using Snippet.Data.Filters.Exceptions;
 using Snippet.Data.Interfaces.Filters;
 using System;
+using System.Linq.Expressions;
 
 namespace Snippet.Data.Filters.EntityFilters.PostEntityFilters
 {
@@ -24,7 +25,7 @@ namespace Snippet.Data.Filters.EntityFilters.PostEntityFilters
         public DateTime From { get; private set; }
         public DateTime To { get; private set; }
 
-        public Predicate<PostEntity> Predicate => (PostEntity post) => From <= post.LastUpdateDateTime && post.LastUpdateDateTime >= To;
+        public Expression<Func<PostEntity, bool>> Predicate => (PostEntity post) => From <= post.LastUpdateDateTime && post.LastUpdateDateTime >= To;
 
         public int Degree { get; set; }
     }

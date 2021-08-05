@@ -3,6 +3,6 @@
     public class PaginationModel
     {
         public int Count { get; set; }
-        public int Start { get; set; }
+        public int Skip { get; set; }
     }
 }

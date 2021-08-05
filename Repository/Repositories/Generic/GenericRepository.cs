@@ -49,7 +49,7 @@ namespace Snippet.Data
             return entityEntry.Entity;
         }
         public virtual async Task<IReadOnlyCollection<TEntity>> FindAsync(int skip = 0, int count = 1,
-            Func<TEntity, bool> filter = null,
+            IEnumerable<Expression<Func<TEntity, bool>>> filters = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string[] includeProperties = null,
             CancellationToken ct = default)
@@ -57,9 +57,12 @@ namespace Snippet.Data
 
             IQueryable<TEntity> query = _dbContext.Set<TEntity>();
 
-            if (filter != null)
+            if (filters != null)
             {
-                query = query.Where(e => filter(e));
+                foreach (var filter in filters)
+                {
+                    query = query.Where(filter);
+                }
             }
 
 
@@ -75,7 +78,10 @@ namespace Snippet.Data
                 }
             }
             query = query == null || orderBy == null ? query : orderBy(query);
-            query = ValidatePagination(skip, count) ? query.Skip(skip).Take(count) : query;
+            int entityCount = await GetCount();
+            skip = skip < 0 ? 0 : skip > entityCount ? 0: skip;
+            count = count < 0 ? 1 : count > entityCount ? entityCount : count;
+            query = query.Skip(skip).Take(count);
             return await query.AsNoTracking().ToListAsync(ct);
         }
         public virtual async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
