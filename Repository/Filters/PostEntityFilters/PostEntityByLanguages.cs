@@ -16,7 +16,7 @@ namespace Snippet.Data.Filters.PostEntityFilters
             {
                 throw new CreationFilterException("languages(IEnumerable<LanguageEntity>) = null!");
             }
-            Languages = new HashSet<LanguageEntity>(languages);
+            Languages = new HashSet<LanguageEntity>(languages).ToArray();
         }
         public Predicate<PostEntity> Predicate => (PostEntity post) => Languages.Any(language => language.Id == post.LanguageId);
 

@@ -17,8 +17,8 @@ namespace Snippet.Data.Filters.PostEntityFilters
             {
                 throw new CreationFilterException("include(IEnumerable<UserEntity>) || include(IEnumerable<UserEntity>) = null!");
             }
-            Include = new HashSet<UserEntity>(include);
-            Exclude = new HashSet<UserEntity>(exclude);
+            Include = new HashSet<UserEntity>(include).ToArray();
+            Exclude = new HashSet<UserEntity>(exclude).ToArray();
         }
         public Predicate<PostEntity> Predicate => (PostEntity post) => Include.Any(user => user.Id == post.UserId) && Exclude.All(user => user.Id != post.UserId);
 
