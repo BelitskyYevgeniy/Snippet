@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace Snippet.WebAPI.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class CommentController:ControllerBase
     {
         private readonly ICommentProvider _commentProvider;
