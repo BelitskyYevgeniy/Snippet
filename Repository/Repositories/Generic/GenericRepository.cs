@@ -57,6 +57,11 @@ namespace Snippet.Data
 
             IQueryable<TEntity> query = _dbContext.Set<TEntity>();
 
+            if (query.ToListAsync().Result.Count < 0)
+            {
+                return await query.AsNoTracking().ToListAsync(ct); 
+            }
+
             if (filters != null)
             {
                 foreach (var filter in filters)
