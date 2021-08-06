@@ -26,7 +26,7 @@ namespace Snippet.WebAPI.Controllers
         }
 
         [HttpGet]
-        public Task<IReadOnlyCollection<Post>> Get([FromQuery]PostFiltersModel model, CancellationToken ct) 
+        public Task<IReadOnlyCollection<Post>> Get([FromQuery]PostFiltersRequest model, CancellationToken ct) 
         {
             return _postProvider.GetAsync(model, ct);
         }
