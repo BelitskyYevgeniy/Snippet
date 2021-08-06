@@ -34,7 +34,7 @@ namespace Services.Providers
             return _mapper.Map<Post>(entity); 
         }
 
-        public async Task<IReadOnlyCollection<Post>> GetAsync(PostFiltersModel model, CancellationToken ct = default)
+        public async Task<IReadOnlyCollection<Post>> GetAsync(PostFiltersRequest model, CancellationToken ct = default)
         {
             var entityFilterModel = _mapper.Map<PostEntityFilterModel>(model);
             var entities = await _postRepository.FindAsync(entityFilterModel, ct);
