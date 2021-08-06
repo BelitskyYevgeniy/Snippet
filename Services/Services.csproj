@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Repository\Snippet.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\NewFolder\" />
+  </ItemGroup>
+
 </Project>
