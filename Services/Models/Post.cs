@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Services.Models
 {
     public class Post
     {
-        [Key]
+       // [Key]
         public int Id { get; set; }
-        [Required]
-        public int UserId { get; set; }
+
+        public int? UserId { get; set; } = default;
 
         [Required]
         [MaxLength(1024)]
@@ -22,7 +23,12 @@ namespace Services.Models
 
         [Required]
         [MaxLength(4096)]
-        public string SnippetCode { get; set; } 
+        public string SnippetCode { get; set; }
+
+        [Required]
+        public DateTime CreationDateTime { get; set; }
+        [Required]
+        public DateTime LastUpdateDateTime { get; set; }
 
         public List<Tag> Tags { get; set; } = new List<Tag>();
     }
