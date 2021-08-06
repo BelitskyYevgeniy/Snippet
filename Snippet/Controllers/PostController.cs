@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
 using Services.Interfaces.Services;
 using Services.Models;
-using Services.Responses;
 using Snippet.BLL.Models.FilterModels;
 using System.Collections.Generic;
 using System.Threading;

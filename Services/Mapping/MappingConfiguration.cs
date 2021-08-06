@@ -13,8 +13,9 @@ namespace Services.Mapping
             CreateMap<CommentEntity, Comment>().ReverseMap();
             CreateMap<LanguageEntity, Language>().ReverseMap();
             CreateMap<LikeEntity, Like>().ReverseMap();
-            CreateMap<PostEntity, Post>().ReverseMap();
+            
             CreateMap<TagEntity, Tag>().ReverseMap();
+            CreateMap<PostEntity, Post>().ReverseMap();
             CreateMap<UserEntity, User>().ReverseMap();
             CreateMap<PostEntityFilterModel, PostFiltersRequest>().ReverseMap();
         }
