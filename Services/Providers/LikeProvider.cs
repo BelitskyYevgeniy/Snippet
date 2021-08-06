@@ -40,21 +40,16 @@ namespace Services.Providers
             var foundLike = (await _likeRepository.FindAsync(filter: new Expression<Func<LikeEntity, bool>>[] { (x) => x.UserId == like.UserId && x.PostId == like.postId }, ct: ct)).FirstOrDefault();
             if (foundLike == null)
             {
-                entity = await _likeRepository.CreateAsync(entity, ct);
-                return _mapper.Map<LikeEntity, Like>(entity);
+                await RemoveAsync(like, ct);
             }
             return null;
         }
 
         public async Task<bool> RemoveAsync(Like like, CancellationToken ct = default)
         {
-            var entity = _mapper.Map<Like, LikeEntity>(like);
-            var foundLike = (await _likeRepository.FindAsync(filter: new Expression<Func<LikeEntity, bool>>[] { (x) => x.UserId == like.UserId && x.PostId == like.postId }, ct: ct)).FirstOrDefault();
-            if(foundLike != null)
-            {
-                return await _likeRepository.DeleteAsync(foundLike.Id, ct);
-            }
-            return false;
+       
+            return await _likeRepository.DeleteAsync(like.Id, ct);
+    
         }
     }
 }
