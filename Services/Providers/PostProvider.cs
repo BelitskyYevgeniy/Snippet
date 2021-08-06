@@ -6,6 +6,7 @@ using Snippet.Data.Entities;
 using Snippet.Data.Filters.FilterModels;
 using Snippet.Data.Interfaces.Repositories;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,7 +39,7 @@ namespace Services.Providers
             var entityFilterModel = _mapper.Map<PostEntityFilterModel>(model);
             var entities = await _postRepository.FindAsync(entityFilterModel, ct);
 
-            return _mapper.Map<IReadOnlyCollection<Post>>(entities);
+            return _mapper.Map<List<Post>>(entities.ToList());
         }
 
         public async Task<Post> CreateAsync(Post post, CancellationToken ct = default)
