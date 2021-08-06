@@ -38,11 +38,13 @@ namespace Services.Providers
         {
             var entity = _mapper.Map<Like, LikeEntity>(like);
             var foundLike = (await _likeRepository.FindAsync(filter: new Expression<Func<LikeEntity, bool>>[] { (x) => x.UserId == like.UserId && x.PostId == like.postId }, ct: ct)).FirstOrDefault();
-            if (foundLike == null)
+            if (foundLike != null)
             {
                 await RemoveAsync(like, ct);
+                return null;
             }
-            return null;
+            entity = await _likeRepository.CreateAsync(entity, ct);
+            return like;
         }
 
         public async Task<bool> RemoveAsync(Like like, CancellationToken ct = default)
