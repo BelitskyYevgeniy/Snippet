@@ -1,0 +1,18 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Services.Models.RequestModels
+{
+    public class CommentRequest
+    {
+        [Required]
+        public int UserId { get; set; }
+
+        [Required]
+        public int PostId { get; set; }
+
+        [Required]
+        public string Message { get; set; }
+
+        public int? FatherCommentId { get; set; }
+    }
+}

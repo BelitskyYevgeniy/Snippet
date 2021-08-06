@@ -16,7 +16,7 @@ namespace Services.Mapping
             CreateMap<PostEntity, Post>().ReverseMap();
             CreateMap<TagEntity, Tag>().ReverseMap();
             CreateMap<UserEntity, User>().ReverseMap();
-            CreateMap<PostEntityFilterModel, PostFiltersModel>().ReverseMap();
+            CreateMap<PostEntityFilterModel, PostFiltersRequest>().ReverseMap();
         }
     }
 }
