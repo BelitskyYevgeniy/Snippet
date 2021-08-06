@@ -31,7 +31,12 @@ namespace Snippet.Data.Repositories
                 expressions.Add(filter.Predicate);
             }
             var sortFilter = sortFactory.Create(model);
-            return FindAsync(model.Skip, model.Count, expressions, sortFilter.SortFunc, new string[] { "Tags", "Language", "User" }, ct);
+            Func<IQueryable<PostEntity>, IOrderedQueryable <PostEntity>> sortFunc = null;
+            if(sortFilter != null)
+            {
+                sortFunc = sortFilter.SortFunc;
+            }
+            return FindAsync(model.Skip, model.Count, expressions, sortFunc, new string[] { "Tags", "Language", "User" }, ct);
         }
         public override async Task<PostEntity> GetByIdAsync(int id, CancellationToken ct = default)
         {
