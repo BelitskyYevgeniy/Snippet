@@ -79,9 +79,16 @@ namespace Snippet.Data
             }
             query = query == null || orderBy == null ? query : orderBy(query);
             int entityCount = await GetCount();
-            skip = skip < 0 ? 0 : skip > entityCount ? 0: skip;
-            count = count < 0 ? 1 : count > entityCount ? entityCount : count;
-            query = query.Skip(skip).Take(count);
+            if(skip > 0)
+            {
+                query = query.Skip(skip);
+            }
+            if (count > 0)
+            {
+                count = count < 0 ? 1 : count > entityCount ? entityCount : count;
+                query = query.Take(count);
+            }
+            
             return await query.AsNoTracking().ToListAsync(ct);
         }
         public virtual async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
