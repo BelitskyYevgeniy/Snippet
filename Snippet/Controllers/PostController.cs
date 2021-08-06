@@ -26,6 +26,7 @@ namespace Snippet.WebAPI.Controllers
         }
 
         [HttpGet]
+
         public Task<IReadOnlyCollection<Post>> Get([FromQuery]PostFiltersRequest model, CancellationToken ct) 
         {
             return _postProvider.GetAsync(model, ct);
@@ -41,7 +42,7 @@ namespace Snippet.WebAPI.Controllers
        // [Authorize]
         public Task<Post> Create(Post post,CancellationToken ct)
         {
-            return _postProvider.CreateAsync(post, ct);
+            return _postService.CreateAsync(post, ct);
         }
 
         [HttpDelete]
