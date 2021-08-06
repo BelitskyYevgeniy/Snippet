@@ -23,8 +23,11 @@ namespace Snippet.WebAPI.Controllers
         public async Task<bool> PressLike(Like like,CancellationToken ct)
         {
             var newLike = await _likeProvider.CreateAsync(like, ct).ConfigureAwait(false);
-           
-            return newLike!=null?true:false;
+            if(newLike != null)
+            {
+                return !(await _likeProvider.RemoveAsync(like, ct).ConfigureAwait(false));
+            }
+            return true;
         }
         [HttpGet]
         public Task<int> GetRaiting(int postId, CancellationToken ct)
