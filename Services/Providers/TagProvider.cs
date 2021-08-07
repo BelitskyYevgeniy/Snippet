@@ -32,11 +32,15 @@ namespace Services.Providers
         public async Task<IReadOnlyCollection<Tag>> CreateAsync(IReadOnlyCollection<Tag> tags, CancellationToken ct) 
         {
             var entities = _mapper.Map<IReadOnlyCollection<Tag>, IReadOnlyCollection<TagEntity>>(tags);
-            
+
+            var includes = new List<Expression<Func<TagEntity, object>>>()
+            {
+                tag => tag.PostTags
+            };
             foreach (var entity in entities)
             {
                 var tag = (await _tagRepository.FindAsync(filter: new Expression<Func<TagEntity, bool>>[] { (e) => e.Name == entity.Name }, 
-                    includeProperties: new string[] { "Posts" },ct: ct).ConfigureAwait(false)).FirstOrDefault();
+                    includeProperties: includes, ct: ct).ConfigureAwait(false)).FirstOrDefault();
                 if (tag == null)
                 {
                     await _tagRepository.CreateAsync(entity, ct);

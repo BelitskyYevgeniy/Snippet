@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Services.Models;
 using Services.Models.RequestModels;
+using Services.Models.ResponseModels;
 using Snippet.BLL.Models.FilterModels;
 using Snippet.Data.Entities;
 using Snippet.Data.Filters.FilterModels;
@@ -11,6 +12,7 @@ namespace Services.Mapping
     {
         public MappingConfiguration()
         {
+            CreateMap<PostEntity, Post>().ReverseMap();
             CreateMap<CommentEntity, Comment>().ReverseMap();
             CreateMap<LanguageEntity, Language>().ReverseMap();
             CreateMap<LikeEntity, Like>().ReverseMap();
@@ -25,6 +27,12 @@ namespace Services.Mapping
             CreateMap<LanguageEntity, LanguageRequest>().ReverseMap();
             CreateMap<LikeEntity, LikeRequest>().ReverseMap();
             CreateMap<UserEntity, UserRequest>().ReverseMap();
+
+            CreateMap<PostEntity, PostResponse>().ReverseMap();
+            CreateMap<TagEntity, TagResponse>().ReverseMap();
+            CreateMap<CommentEntity, CommentResponse>().ReverseMap();
+            CreateMap<LanguageEntity, LanguageResponse>().ReverseMap();
+            CreateMap<UserEntity, UserResponse>().ReverseMap();
 
         }
     }

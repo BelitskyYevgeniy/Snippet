@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
 using Services.Models;
 using Services.Models.RequestModels;
+using Services.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -21,14 +22,14 @@ namespace Snippet.WebAPI.Controllers
             _commentProvider = commentProvider;
         }
         [HttpGet]
-        public Task<IReadOnlyCollection<Comment>> GetAllByPostId(int postId, int skip = 0, int count = 1, CancellationToken ct = default)
+        public Task<IReadOnlyCollection<CommentResponse>> GetAllByPostId(int postId, int skip = 0, int count = 1, CancellationToken ct = default)
         {
             return _commentProvider.GetAllByPostIdAsync(skip, count, postId, ct);
         }
 
         [HttpPost]
        // [Authorize]
-        public Task<CommentRequest> Create(CommentRequest comment,CancellationToken ct)
+        public Task<CommentResponse> Create(CommentRequest comment,CancellationToken ct)
         {
             return _commentProvider.CreateAsync(comment, ct);
         }
@@ -41,7 +42,7 @@ namespace Snippet.WebAPI.Controllers
         }
         [HttpPut]
        // [Authorize]
-        public Task<CommentRequest> Update(CommentRequest comment,int commentId,CancellationToken ct)
+        public Task<CommentResponse> Update(CommentRequest comment,int commentId,CancellationToken ct)
         {
             return _commentProvider.UpdateAsync(comment,commentId, ct);
         }

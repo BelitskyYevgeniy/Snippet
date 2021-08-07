@@ -3,6 +3,7 @@ using Services.Interfaces.Providers;
 using Services.Interfaces.Services;
 using Services.Models;
 using Services.Models.RequestModels;
+using Services.Models.ResponseModels;
 using Snippet.BLL.Models.FilterModels;
 using System.Collections.Generic;
 using System.Threading;
@@ -26,20 +27,20 @@ namespace Snippet.WebAPI.Controllers
 
         [HttpGet]
 
-        public Task<IReadOnlyCollection<Post>> Get([FromQuery]PostFiltersRequest model, CancellationToken ct) 
+        public Task<IReadOnlyCollection<PostResponse>> Get([FromQuery]PostFiltersRequest model, CancellationToken ct) 
         {
             return _postProvider.GetAsync(model, ct);
         }
 
         [HttpGet("{id:int}")]
-        public Task<Post> GetById(int id,CancellationToken ct)
+        public Task<PostResponse> GetById(int id,CancellationToken ct)
         {
             return _postProvider.GetByIdAsync(id, ct);
         }
 
         [HttpPost]
        // [Authorize]
-        public Task<PostRequest> Create(PostRequest post,CancellationToken ct)
+        public Task<PostResponse> Create(PostRequest post,CancellationToken ct)
         {
             return _postService.CreateAsync(post, ct);
         }
@@ -53,7 +54,7 @@ namespace Snippet.WebAPI.Controllers
         
         [HttpPut]
        // [Authorize]
-        public Task<PostRequest> Update(PostRequest post,int postId,CancellationToken ct)
+        public Task<PostResponse> Update(PostRequest post,int postId,CancellationToken ct)
         {
             return _postProvider.UpdateAsync(post,postId, ct);
         }
