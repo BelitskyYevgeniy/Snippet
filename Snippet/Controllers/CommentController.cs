@@ -29,7 +29,7 @@ namespace Snippet.WebAPI.Controllers
 
         [HttpPost]
        // [Authorize]
-        public Task<CommentRequest> Create(CommentRequest comment,CancellationToken ct)
+        public Task<CommentResponse> Create(CommentRequest comment,CancellationToken ct)
         {
             return _commentProvider.CreateAsync(comment, ct);
         }
@@ -42,7 +42,7 @@ namespace Snippet.WebAPI.Controllers
         }
         [HttpPut]
        // [Authorize]
-        public Task<CommentRequest> Update(CommentRequest comment,int commentId,CancellationToken ct)
+        public Task<CommentResponse> Update(CommentRequest comment,int commentId,CancellationToken ct)
         {
             return _commentProvider.UpdateAsync(comment,commentId, ct);
         }

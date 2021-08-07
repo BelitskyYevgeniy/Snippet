@@ -35,16 +35,16 @@ namespace Services.Providers
             var comments = await _commentRepository.FindAsync(skip, count, new Expression<Func<CommentEntity, bool>>[] { (x) => x.PostId == postId }, comments => comments.OrderBy(comment => comment.CreationDateTime), null, ct);
             return _mapper.Map<IEnumerable<CommentEntity>, IReadOnlyCollection<CommentResponse>>(comments);
         }
-        public async Task<CommentRequest> CreateAsync(CommentRequest comment, CancellationToken ct = default)
+        public async Task<CommentResponse> CreateAsync(CommentRequest comment, CancellationToken ct = default)
         {
             var entity = _mapper.Map<CommentEntity>(comment);
             entity.CreationDateTime = DateTime.Now;
 
             entity = await _commentRepository.CreateAsync(entity,ct);
             
-            return _mapper.Map<CommentRequest>(entity);
+            return _mapper.Map<CommentResponse>(entity);
         }
-        public async Task<CommentRequest> UpdateAsync(CommentRequest model,int commentId, CancellationToken ct)
+        public async Task<CommentResponse> UpdateAsync(CommentRequest model,int commentId, CancellationToken ct)
         {
             var entity = _mapper.Map<CommentEntity>(model);
 
@@ -52,7 +52,7 @@ namespace Services.Providers
             entity.LastUpdateDateTime = DateTime.Now;
             entity = await _commentRepository.UpdateAsync(entity, ct);
 
-            return _mapper.Map<CommentRequest>(entity);
+            return _mapper.Map<CommentResponse>(entity);
         }
     }
 }
