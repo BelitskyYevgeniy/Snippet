@@ -1,4 +1,5 @@
 ﻿using Services.Models;
+using Services.Models.RequestModels;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,6 +9,6 @@ namespace Services.Interfaces.Services
     {
         /*Task<PostResponse> GetByIdAsync(int id, CancellationToken ct);
         Task<IReadOnlyCollection<PostResponse>> GetAll(CancellationToken ct);*/
-        Task<Post> CreateAsync(Post model, CancellationToken ct = default);
+        Task<PostRequest> CreateAsync(PostRequest model, CancellationToken ct = default);
     }
 }
