@@ -29,7 +29,7 @@ namespace Snippet.Data.Entities
         public DateTime CreationDateTime { get; set; }
         [Required]
         public DateTime LastUpdateDateTime { get; set; }
-        public List<TagEntity> Tags { get; set; } = new List<TagEntity>();
+        public List<PostTagEntity> PostTags { get; set; } = new List<PostTagEntity>();
         public List<LikeEntity> Likes { get; set; } = new List<LikeEntity>();
         public List<CommentEntity> Comments { get; set; } = new List<CommentEntity>();
         
