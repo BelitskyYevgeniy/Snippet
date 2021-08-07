@@ -33,7 +33,7 @@ namespace Snippet.Data.Context
             modelBuilder.Entity<PostEntity>().HasKey(e => e.Id).HasName("PrimaryKey_PostId");
             modelBuilder.Entity<LikeEntity>().HasKey(e => e.Id).HasName("PrimaryKey_LikeId");
 
-            modelBuilder.Entity<UserEntity>()
+           /* modelBuilder.Entity<UserEntity>()
                 .HasMany(e => e.Posts)
                 .WithOne(e => e.User)
                 .HasForeignKey(e => e.UserId)
@@ -102,7 +102,7 @@ namespace Snippet.Data.Context
                .HasOne(e => e.Post)
                .WithMany(e => e.Comments)
                .HasForeignKey(e => e.PostId)
-               .OnDelete(DeleteBehavior.NoAction);
+               .OnDelete(DeleteBehavior.NoAction);*/
 
             modelBuilder.Entity<UserEntity>().HasIndex(u => u.Name).IsUnique();
             modelBuilder.Entity<TagEntity>().HasIndex(u => u.Name).IsUnique();
