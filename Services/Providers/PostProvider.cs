@@ -18,13 +18,23 @@ namespace Services.Providers
     {
         private readonly IMapper _mapper;
         private readonly IPostRepositoryAsync _postRepository;
-        public PostProvider(IMapper mapper , IPostRepositoryAsync tagRepository)
+        private readonly ICommentRepositoryAsync _commentRepository;
+        private readonly ICommentProvider _commentProvider;
+        public PostProvider(IMapper mapper , IPostRepositoryAsync tagRepository,ICommentProvider commentProvider,ICommentRepositoryAsync commentRepository)
         {
             _mapper = mapper;
             _postRepository = tagRepository;
+            _commentProvider = commentProvider;
+            _commentRepository = commentRepository;
         }
         public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
         {
+            var comments =await _commentProvider.GetAllByPostIdAsync(id,0,await _commentRepository.GetCount(ct), ct);
+            foreach(var comment in comments)
+            {
+                await _commentProvider.DeleteAsync(comment.Id, ct);
+            }
+
             return await _postRepository.DeleteAsync(id, ct);
         }
 
