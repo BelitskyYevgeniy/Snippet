@@ -42,6 +42,11 @@ namespace Snippet.Data
             return entityEntry.Entity;
         }
 
+        public async Task CreateRangeAsync(IEnumerable<TEntity> entity, CancellationToken ct = default)
+        {
+            await _dbContext.Set<TEntity>().AddRangeAsync(entity, ct).ConfigureAwait(false);
+        }
+
         public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken ct = default)
         {
             var entityEntry = _dbContext.Set<TEntity>().Update(entity);
@@ -97,11 +102,23 @@ namespace Snippet.Data
             if (entity != null)
             {
                 var entityEntry = _dbContext.Set<TEntity>().Remove(entity);
-               await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
+                await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
                 return entityEntry != null;
             }
 
             return false;
+        }
+
+        public virtual async Task<bool> DeleteAsync(TEntity entity, CancellationToken ct = default)
+        {
+            _dbContext.Set<TEntity>().Remove(entity);
+            return await _dbContext.SaveChangesAsync() != 0;
+        }
+
+        public virtual async Task<int> DeleterRangeAsync(IEnumerable<TEntity> entities, CancellationToken ct = default)
+        {
+            _dbContext.RemoveRange(entities);
+            return await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
         }
 
         public virtual async Task<IReadOnlyCollection<TEntity>> GetAllAsync(CancellationToken ct)
