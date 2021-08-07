@@ -55,7 +55,7 @@ namespace Snippet.Data
             CancellationToken ct = default)
         {
 
-            IQueryable<TEntity> query = _dbContext.Set<TEntity>();
+            IQueryable<TEntity> query = _dbContext.Set<TEntity>().AsNoTracking();
 
             if (query.ToListAsync().Result.Count < 1)
             {
@@ -95,7 +95,7 @@ namespace Snippet.Data
             if (entity != null)
             {
                 var entityEntry = _dbContext.Set<TEntity>().Remove(entity);
-                await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
+               await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
                 return entityEntry != null;
             }
 
