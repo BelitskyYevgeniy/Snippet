@@ -2,6 +2,7 @@
 using Services.Interfaces.Providers;
 using Services.Interfaces.Services;
 using Services.Models;
+using Services.Models.RequestModels;
 using Snippet.BLL.Interfaces.Providers;
 using System.Linq;
 using System.Threading;
@@ -22,9 +23,9 @@ namespace Services.Services
             _tagProvider = tagProvider;
         }
         
-        public async Task<Post> CreateAsync(Post model, CancellationToken ct = default)
+        public async Task<PostRequest> CreateAsync(PostRequest model, CancellationToken ct = default)
         {
-            model.Tags = (await _tagProvider.CreateAsync(model.Tags, ct).ConfigureAwait(false)).ToList();
+            //model.Tags = (await _tagProvider.CreateAsync(model.Tags, ct).ConfigureAwait(false)).ToList();
 
             return await _postProvider.CreateAsync(model, ct).ConfigureAwait(false);
         }

@@ -2,6 +2,7 @@
 using Services.Interfaces.Providers;
 using Services.Interfaces.Services;
 using Services.Models;
+using Services.Models.RequestModels;
 using Snippet.BLL.Models.FilterModels;
 using System.Collections.Generic;
 using System.Threading;
@@ -38,7 +39,7 @@ namespace Snippet.WebAPI.Controllers
 
         [HttpPost]
        // [Authorize]
-        public Task<Post> Create(Post post,CancellationToken ct)
+        public Task<PostRequest> Create(PostRequest post,CancellationToken ct)
         {
             return _postService.CreateAsync(post, ct);
         }
@@ -52,9 +53,9 @@ namespace Snippet.WebAPI.Controllers
         
         [HttpPut]
        // [Authorize]
-        public Task<Post> Update(Post post,CancellationToken ct)
+        public Task<PostRequest> Update(PostRequest post,int postId,CancellationToken ct)
         {
-            return _postProvider.UpdateAsync(post, ct);
+            return _postProvider.UpdateAsync(post,postId, ct);
         }
 
 

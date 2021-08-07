@@ -11,6 +11,7 @@ using Snippet.Data.Interfaces.Repositories;
 using System.Linq;
 using System.Linq.Expressions;
 using System;
+using Services.Models.RequestModels;
 
 namespace Services.Providers
 {
@@ -33,24 +34,24 @@ namespace Services.Providers
             var comments = await _commentRepository.FindAsync(skip, count, new Expression<Func<CommentEntity, bool>>[] { (x) => x.PostId == postId }, comments => comments.OrderBy(comment => comment.CreationDateTime), null, ct);
             return _mapper.Map<IEnumerable<CommentEntity>, IReadOnlyCollection<Comment>>(comments);
         }
-        public async Task<Comment> CreateAsync(Comment comment, CancellationToken ct = default)
+        public async Task<CommentRequest> CreateAsync(CommentRequest comment, CancellationToken ct = default)
         {
             var entity = _mapper.Map<CommentEntity>(comment);
+            entity.CreationDateTime = DateTime.Now;
 
             entity = await _commentRepository.CreateAsync(entity,ct);
             
-            return _mapper.Map<Comment>(entity);
+            return _mapper.Map<CommentRequest>(entity);
         }
-        public async Task<Comment> UpdateAsync(Comment model, CancellationToken ct)
+        public async Task<CommentRequest> UpdateAsync(CommentRequest model,int commentId, CancellationToken ct)
         {
-            model.LastUpdateDateTime = System.DateTime.Now;
-
             var entity = _mapper.Map<CommentEntity>(model);
 
+            entity.Id = commentId;
+            entity.LastUpdateDateTime = DateTime.Now;
             entity = await _commentRepository.UpdateAsync(entity, ct);
 
-
-            return _mapper.Map<Comment>(entity);
+            return _mapper.Map<CommentRequest>(entity);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Services.Interfaces.Providers;
 using Services.Models;
+using Services.Models.RequestModels;
 using Snippet.BLL.Models.FilterModels;
 using Snippet.Data.Entities;
 using Snippet.Data.Filters.FilterModels;
@@ -42,22 +43,24 @@ namespace Services.Providers
             return _mapper.Map<List<Post>>(entities.ToList());
         }
 
-        public async Task<Post> CreateAsync(Post post, CancellationToken ct = default)
+        public async Task<PostRequest> CreateAsync(PostRequest post, CancellationToken ct = default)
         {
-            var entity = _mapper.Map<Post, PostEntity>(post);
+            var entity = _mapper.Map<PostRequest, PostEntity>(post);
             entity = await _postRepository.CreateAsync(entity, ct);
 
-           return _mapper.Map<Post>(entity);
+           return post;
         }
 
-        public async Task<Post> UpdateAsync(Post model, CancellationToken ct = default)
+        public async Task<PostRequest> UpdateAsync(PostRequest model,int postId, CancellationToken ct = default)
         {
-            var entity = _mapper.Map<PostEntity>(model);
+            var newEntity = _mapper.Map<PostRequest,PostEntity>(model);
 
-            entity =await _postRepository.UpdateAsync(entity,ct);
+            newEntity.Id = postId;
             
 
-            return _mapper.Map<Post>(entity);
+            newEntity =await _postRepository.UpdateAsync(newEntity,ct);
+
+            return model;
         }
     }
 }

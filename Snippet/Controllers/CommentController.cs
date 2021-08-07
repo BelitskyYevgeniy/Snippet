@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
 using Services.Models;
+using Services.Models.RequestModels;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -27,7 +28,7 @@ namespace Snippet.WebAPI.Controllers
 
         [HttpPost]
        // [Authorize]
-        public Task<Comment> Create(Comment comment,CancellationToken ct)
+        public Task<CommentRequest> Create(CommentRequest comment,CancellationToken ct)
         {
             return _commentProvider.CreateAsync(comment, ct);
         }
@@ -40,9 +41,9 @@ namespace Snippet.WebAPI.Controllers
         }
         [HttpPut]
        // [Authorize]
-        public Task<Comment> Update(Comment comment,CancellationToken ct)
+        public Task<CommentRequest> Update(CommentRequest comment,int commentId,CancellationToken ct)
         {
-            return _commentProvider.UpdateAsync(comment, ct);
+            return _commentProvider.UpdateAsync(comment,commentId, ct);
         }
     }
 }

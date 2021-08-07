@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
 using Services.Models;
+using Services.Models.RequestModels;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace Snippet.WebAPI.Controllers
 
         [HttpPost]
        // [Authorize]
-        public async Task<bool> PressLike(Like like,CancellationToken ct)
+        public async Task<bool> PressLike(LikeRequest like,CancellationToken ct)
         {
             var newLike = await _likeProvider.CreateAsync(like, ct).ConfigureAwait(false);
 

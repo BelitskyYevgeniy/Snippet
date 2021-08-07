@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Services.Interfaces.Providers;
 using Services.Models;
+using Services.Models.RequestModels;
 using Snippet.Data.Entities;
 using Snippet.Data.Interfaces.Repositories;
 using System;
@@ -34,23 +35,23 @@ namespace Services.Providers
             return _likeRepository.GetCount(ct);
         }
 
-        public async Task<Like> CreateAsync(Like like, CancellationToken ct = default)
+        public async Task<LikeRequest> CreateAsync(LikeRequest like, CancellationToken ct = default)
         {
-            var entity = _mapper.Map<Like, LikeEntity>(like);
-            var foundLike = (await _likeRepository.FindAsync(filter: new Expression<Func<LikeEntity, bool>>[] { (x) => x.UserId == like.UserId && x.PostId == like.postId }, ct: ct)).FirstOrDefault();
+            var entity = _mapper.Map<LikeRequest, LikeEntity>(like);
+            var foundLike = (await _likeRepository.FindAsync(filter: new Expression<Func<LikeEntity, bool>>[] { (x) => x.UserId == like.UserId && x.PostId == like.PostId }, ct: ct)).FirstOrDefault();
             if (foundLike != null)
             {
-                await RemoveAsync(like, ct);
+               var res = await RemoveAsync(foundLike.Id, ct);
                 return null;
             }
             entity = await _likeRepository.CreateAsync(entity, ct);
             return like;
         }
 
-        public async Task<bool> RemoveAsync(Like like, CancellationToken ct = default)
+        public async Task<bool> RemoveAsync(int likeId, CancellationToken ct = default)
         {
        
-            return await _likeRepository.DeleteAsync(like.Id, ct);
+            return await _likeRepository.DeleteAsync(likeId, ct);
     
         }
     }
