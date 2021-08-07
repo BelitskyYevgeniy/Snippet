@@ -51,25 +51,16 @@ namespace Snippet.Data
         public virtual async Task<IReadOnlyCollection<TEntity>> FindAsync(int skip = 0, int count = 1,
             IEnumerable<Expression<Func<TEntity, bool>>> filters = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            string[] includeProperties = null,
+            IEnumerable<Expression<Func<TEntity, object>>> includeProperties= null,
             CancellationToken ct = default)
         {
 
             IQueryable<TEntity> query = _dbContext.Set<TEntity>().AsNoTracking();
 
-            if (query.ToListAsync().Result.Count < 1)
+            if (query.Count() < 1)
             {
                 return await query.AsNoTracking().ToListAsync(ct); 
             }
-
-            if (filters != null)
-            {
-                foreach (var filter in filters)
-                {
-                    query = query.Where(filter);
-                }
-            }
-
 
             if (includeProperties != null)
             {
@@ -82,6 +73,17 @@ namespace Snippet.Data
                     catch { }
                 }
             }
+
+            if (filters != null)
+            {
+                foreach (var filter in filters)
+                {
+                    query = query.Where(filter);
+                }
+            }
+
+
+            
             query = query == null || orderBy == null ? query : orderBy(query);
             int entityCount = await GetCount();
             skip = skip < 0 ? 0 : skip > entityCount ? 0: skip;
