@@ -23,7 +23,7 @@ namespace Snippet.Data.Interfaces.Generic
         Task CreateRangeAsync(IEnumerable<TEntity> entities, CancellationToken ct = default);
         Task<bool> DeleteAsync(int id, CancellationToken ct = default);
         Task<bool> DeleteAsync(TEntity entity, CancellationToken ct = default);
-        Task<int> DeleterRangeAsync(IEnumerable<TEntity> entities, CancellationToken ct = default)
+        Task<int> DeleteRangeAsync(IEnumerable<TEntity> entities, CancellationToken ct = default)
         Task<TEntity> UpdateAsync(TEntity entity, CancellationToken ct = default);
         
     }

@@ -115,7 +115,7 @@ namespace Snippet.Data
             return await _dbContext.SaveChangesAsync() != 0;
         }
 
-        public virtual async Task<int> DeleterRangeAsync(IEnumerable<TEntity> entities, CancellationToken ct = default)
+        public virtual async Task<int> DeleteRangeAsync(IEnumerable<TEntity> entities, CancellationToken ct = default)
         {
             _dbContext.RemoveRange(entities);
             return await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
