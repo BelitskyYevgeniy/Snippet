@@ -7,8 +7,6 @@ namespace Services.Models.RequestModels
 {
     public class PostRequest
     {
-        [Required]
-        public int Id { get; set; }
 
         [Required]
         [MaxLength(1024)]
@@ -24,6 +22,6 @@ namespace Services.Models.RequestModels
         [MaxLength(4096)]
         public string SnippetCode { get; set; }
 
-        public List<Tag> Tags { get; set; } = new List<Tag>();
+        public List<TagRequest> Tags { get; set; } = new List<TagRequest>();
     }
 }
