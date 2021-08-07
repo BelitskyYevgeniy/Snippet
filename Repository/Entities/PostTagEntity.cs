@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Snippet.Data.Entities.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace Snippet.Data.Entities
 {
-    public class PostTagEntity
+    public class PostTagEntity : BaseEntity
     {
+
         [Required]
         public int PostId { get; set; }
         public PostEntity Post { get; set; }
