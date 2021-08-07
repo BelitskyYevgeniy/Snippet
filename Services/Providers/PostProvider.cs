@@ -56,7 +56,9 @@ namespace Services.Providers
 
         public async Task<PostResponse> CreateAsync(PostRequest post, CancellationToken ct = default)
         {
+
             var entity = _mapper.Map<PostRequest, PostEntity>(post);
+            entity.CreationDateTime = System.DateTime.Now; 
             entity = await _postRepository.CreateAsync(entity, ct);
 
            return _mapper.Map<PostEntity,PostResponse>(entity);
