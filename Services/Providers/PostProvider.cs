@@ -2,6 +2,7 @@
 using Services.Interfaces.Providers;
 using Services.Models;
 using Services.Models.RequestModels;
+using Services.Models.ResponseModels;
 using Snippet.BLL.Models.FilterModels;
 using Snippet.Data.Entities;
 using Snippet.Data.Filters.FilterModels;
@@ -28,19 +29,19 @@ namespace Services.Providers
         }
 
 
-        public async Task<Post> GetByIdAsync(int id, CancellationToken ct = default)
+        public async Task<PostResponse> GetByIdAsync(int id, CancellationToken ct = default)
         {
             var entity = await _postRepository.GetByIdAsync(id, ct); 
             
-            return _mapper.Map<Post>(entity); 
+            return _mapper.Map<PostResponse>(entity); 
         }
 
-        public async Task<IReadOnlyCollection<Post>> GetAsync(PostFiltersRequest model, CancellationToken ct = default)
+        public async Task<IReadOnlyCollection<PostResponse>> GetAsync(PostFiltersRequest model, CancellationToken ct = default)
         {
             var entityFilterModel = _mapper.Map<PostEntityFilterModel>(model);
             var entities = await _postRepository.FindAsync(entityFilterModel, ct);
 
-            return _mapper.Map<List<Post>>(entities.ToList());
+            return _mapper.Map<List<PostResponse>>(entities.ToList());
         }
 
         public async Task<PostRequest> CreateAsync(PostRequest post, CancellationToken ct = default)

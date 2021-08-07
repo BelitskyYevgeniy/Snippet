@@ -12,6 +12,7 @@ namespace Services.Mapping
     {
         public MappingConfiguration()
         {
+            CreateMap<PostEntity, Post>().ReverseMap();
             CreateMap<CommentEntity, Comment>().ReverseMap();
             CreateMap<LanguageEntity, Language>().ReverseMap();
             CreateMap<LikeEntity, Like>().ReverseMap();
