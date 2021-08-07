@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
 using Services.Models;
 using Services.Models.RequestModels;
+using Services.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -21,7 +22,7 @@ namespace Snippet.WebAPI.Controllers
             _commentProvider = commentProvider;
         }
         [HttpGet]
-        public Task<IReadOnlyCollection<Comment>> GetAllByPostId(int postId, int skip = 0, int count = 1, CancellationToken ct = default)
+        public Task<IReadOnlyCollection<CommentResponse>> GetAllByPostId(int postId, int skip = 0, int count = 1, CancellationToken ct = default)
         {
             return _commentProvider.GetAllByPostIdAsync(skip, count, postId, ct);
         }
