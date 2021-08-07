@@ -24,7 +24,7 @@ namespace Snippet.WebAPI.Controllers
         [HttpGet]
         public Task<IReadOnlyCollection<CommentResponse>> GetAllByPostId(int postId, int skip = 0, int count = 1, CancellationToken ct = default)
         {
-            return _commentProvider.GetAllByPostIdAsync(skip, count, postId, ct);
+            return _commentProvider.GetAllByPostIdAsync(postId,skip,count,ct);
         }
 
         [HttpPost]
