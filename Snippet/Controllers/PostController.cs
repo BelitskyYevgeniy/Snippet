@@ -40,7 +40,7 @@ namespace Snippet.WebAPI.Controllers
 
         [HttpPost]
        // [Authorize]
-        public Task<PostRequest> Create(PostRequest post,CancellationToken ct)
+        public Task<PostResponse> Create(PostRequest post,CancellationToken ct)
         {
             return _postService.CreateAsync(post, ct);
         }
@@ -54,7 +54,7 @@ namespace Snippet.WebAPI.Controllers
         
         [HttpPut]
        // [Authorize]
-        public Task<PostRequest> Update(PostRequest post,int postId,CancellationToken ct)
+        public Task<PostResponse> Update(PostRequest post,int postId,CancellationToken ct)
         {
             return _postProvider.UpdateAsync(post,postId, ct);
         }

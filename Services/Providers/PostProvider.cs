@@ -44,15 +44,15 @@ namespace Services.Providers
             return _mapper.Map<List<PostResponse>>(entities.ToList());
         }
 
-        public async Task<PostRequest> CreateAsync(PostRequest post, CancellationToken ct = default)
+        public async Task<PostResponse> CreateAsync(PostRequest post, CancellationToken ct = default)
         {
             var entity = _mapper.Map<PostRequest, PostEntity>(post);
             entity = await _postRepository.CreateAsync(entity, ct);
 
-           return post;
+           return _mapper.Map<PostEntity,PostResponse>(entity);
         }
 
-        public async Task<PostRequest> UpdateAsync(PostRequest model,int postId, CancellationToken ct = default)
+        public async Task<PostResponse> UpdateAsync(PostRequest model,int postId, CancellationToken ct = default)
         {
             var newEntity = _mapper.Map<PostRequest,PostEntity>(model);
 
@@ -61,7 +61,7 @@ namespace Services.Providers
 
             newEntity =await _postRepository.UpdateAsync(newEntity,ct);
 
-            return model;
+            return _mapper.Map<PostEntity, PostResponse>(newEntity);
         }
     }
 }

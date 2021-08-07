@@ -10,11 +10,11 @@ namespace Services.Interfaces.Providers
 {
     public interface IPostProvider
     {
-        Task<PostRequest> CreateAsync(PostRequest post, CancellationToken ct = default);
+        Task<PostResponse> CreateAsync(PostRequest post, CancellationToken ct = default);
         Task<PostResponse> GetByIdAsync(int id, CancellationToken ct = default);
         Task<bool> DeleteAsync(int id, CancellationToken ct = default);
         Task<IReadOnlyCollection<PostResponse>> GetAsync(PostFiltersRequest model, CancellationToken ct = default);
-        Task<PostRequest> UpdateAsync(PostRequest model,int postId, CancellationToken ct = default);
+        Task<PostResponse> UpdateAsync(PostRequest model,int postId, CancellationToken ct = default);
 
 
 
