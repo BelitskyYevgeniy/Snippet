@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
 using Services.Models;
+using Services.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace Snippet.WebAPI.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public Task<User> GetById(int id, CancellationToken ct)
+        public Task<UserResponse> GetById(int id, CancellationToken ct)
         {
             return _userProvider.GetByIdAsync(id, ct);
         }

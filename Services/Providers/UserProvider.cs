@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Services.Interfaces.Providers;
 using Services.Models;
+using Services.Models.ResponseModels;
 using Snippet.Data.Entities;
 using Snippet.Data.Interfaces.Repositories;
 using System.Threading;
@@ -18,11 +19,11 @@ namespace Services.Providers
             _mapper = mapper;
             _userRepository = userRepository;
         }
-        public async Task<User> GetByIdAsync(int id, CancellationToken ct)
+        public async Task<UserResponse> GetByIdAsync(int id, CancellationToken ct)
         {
             var model = await _userRepository.GetByIdAsync(id, ct);
 
-            return _mapper.Map<UserEntity, User>(model);
+            return _mapper.Map<UserEntity, UserResponse>(model);
         }
     }
 }
