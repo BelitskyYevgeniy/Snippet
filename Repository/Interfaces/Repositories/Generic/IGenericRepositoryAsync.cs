@@ -17,7 +17,7 @@ namespace Snippet.Data.Interfaces.Generic
         Task<IReadOnlyCollection<TEntity>> FindAsync(int skip = 0, int count = 1,
             IEnumerable<Expression<Func<TEntity, bool>>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            string[] includeProperties = null,
+            IEnumerable<Expression<Func<TEntity, object>>> includeProperties = null,
             CancellationToken ct = default);
         Task<TEntity> CreateAsync(TEntity entity, CancellationToken ct);
         Task<bool> DeleteAsync(int id, CancellationToken ct);
