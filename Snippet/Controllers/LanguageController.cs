@@ -3,6 +3,7 @@ using Services.Interfaces.Providers;
 using Services.Models;
 using Services.Models.RequestModels;
 using Services.Models.ResponseModels;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,6 +20,12 @@ namespace Snippet.WebAPI.Controllers
             _languageProvider = languageProvider;
         }
 
+        [HttpGet]
+        public Task<IReadOnlyCollection<LanguageResponse>> GetRaiting(CancellationToken ct)
+        {
+            return _languageProvider.GetRating(ct);
+        }
+
         [HttpPost]
         public Task<LanguageResponse> Create(LanguageRequest language, CancellationToken ct)
         {
@@ -28,7 +35,7 @@ namespace Snippet.WebAPI.Controllers
         [HttpDelete]
         public Task<bool> Delete(int id, CancellationToken ct)
         {
-            return _languageProvider.DeleteAsync(id, ct);
+            return  _languageProvider.DeleteAsync(id, ct);
         }
 
         //[HttpPut]
