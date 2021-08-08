@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Services.Interfaces.Providers;
 using Services.Models;
+using Services.Models.RequestModels;
+using Services.Models.ResponseModels;
 using Snippet.Data.Entities;
 using Snippet.Data.Interfaces;
 using Snippet.Data.Interfaces.Generic;
@@ -26,23 +28,23 @@ namespace Services.Providers
             return await _languageRepository.DeleteAsync(id, ct);
         }
 
-        public async Task<Language> CreateAsync(Language language, CancellationToken ct = default)
+        public async Task<LanguageResponse> CreateAsync(LanguageRequest language, CancellationToken ct = default)
         {
-            var entity = _mapper.Map<Language, LanguageEntity>(language);
+            var entity = _mapper.Map<LanguageRequest, LanguageEntity>(language);
             entity = await _languageRepository.CreateAsync(entity, ct);
 
-            return _mapper.Map<Language>(entity);
+            return _mapper.Map<LanguageResponse>(entity);
         }
 
-        public async Task<Language> UpdateAsync(Language language, CancellationToken ct = default)
-        {
-            var entity = _mapper.Map<LanguageEntity>(language);
+        //public async Task<Language> UpdateAsync(Language language, CancellationToken ct = default)
+        //{
+        //    var entity = _mapper.Map<LanguageEntity>(language);
 
-            entity = await _languageRepository.UpdateAsync(entity, ct);
+        //    entity = await _languageRepository.UpdateAsync(entity, ct);
 
 
-            return _mapper.Map<Language>(entity);
-        }
+        //    return _mapper.Map<Language>(entity);
+        //}
 
         public async Task<Language> GetByIdAsync(int id, CancellationToken ct = default)
         {
