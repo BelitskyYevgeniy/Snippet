@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Snippet.Data.Entities
 {
-    public class PostTagEntity : BaseEntity
+    public class PostTagEntity
     {
 
         [Required]

@@ -11,7 +11,6 @@ namespace Snippet.Data.Context
         public DbSet<PostEntity> Posts { get; set; }
         public DbSet<LikeEntity> Likes { get; set; }
         public DbSet<CommentEntity> Comments { get; set; }
-        public DbSet<PostTagEntity> PostTags { get; set; }
 
 
 
@@ -32,7 +31,7 @@ namespace Snippet.Data.Context
             modelBuilder.Entity<LanguageEntity>().HasKey(e => e.Id).HasName("PrimaryKey_LanguageId");
             modelBuilder.Entity<PostEntity>().HasKey(e => e.Id).HasName("PrimaryKey_PostId");
             modelBuilder.Entity<LikeEntity>().HasKey(e => e.Id).HasName("PrimaryKey_LikeId");
-            modelBuilder.Entity<PostTagEntity>().HasKey(e => e.Id).HasName("PrimareKey_PostTagid");
+            modelBuilder.Entity<PostTagEntity>().HasKey(e => new { e.PostId, e.TagId });
             modelBuilder.Entity<UserEntity>()
                 .HasMany(e => e.Posts)
                 .WithOne(e => e.User)
@@ -67,7 +66,7 @@ namespace Snippet.Data.Context
                 .HasMany(e => e.PostTags)
                 .WithOne(e => e.Post)
                 .HasForeignKey(e => e.PostId)
-                .OnDelete(DeleteBehavior.Cascade);
+                /*.OnDelete(DeleteBehavior.Cascade)*/;
 
             modelBuilder.Entity<PostEntity>()
                 .HasMany(e => e.Likes)
@@ -110,9 +109,9 @@ namespace Snippet.Data.Context
                 .HasMany(e => e.PostTags)
                 .WithOne(e => e.Tag)
                 .HasForeignKey(e => e.TagId)
-                .OnDelete(DeleteBehavior.Cascade);
+                /*.OnDelete(DeleteBehavior.Cascade)*/;
 
-            modelBuilder.Entity<PostTagEntity>()
+            /*modelBuilder.Entity<PostTagEntity>()
                 .HasOne(e => e.Post)
                 .WithMany(e => e.PostTags)
                 .HasForeignKey(e => e.PostId)
@@ -122,7 +121,7 @@ namespace Snippet.Data.Context
                 .HasOne(e => e.Tag)
                 .WithMany(e => e.PostTags)
                 .HasForeignKey(e => e.TagId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.NoAction);*/
             
             modelBuilder.Entity<UserEntity>().HasIndex(u => u.Name).IsUnique();
             modelBuilder.Entity<TagEntity>().HasIndex(u => u.Name).IsUnique();
