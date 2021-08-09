@@ -11,7 +11,7 @@ namespace Services.Interfaces.Providers
     {
         Task<CommentResponse> CreateAsync(CommentRequest comment, CancellationToken ct = default);
         Task<bool> DeleteAsync(int id, CancellationToken ct = default);
-        Task<IReadOnlyCollection<CommentResponse>> GetAllByPostIdAsync(int postId, int skip = 0, int count = 1, CancellationToken ct = default);
-        Task<CommentResponse> UpdateAsync(CommentRequest model,int commentId, CancellationToken ct = default);
+        Task<IReadOnlyCollection<CommentResponse>> GetAllByPostIdAsync(int postId, int skip = 0, int count = int.MaxValue, CancellationToken ct = default);
+        Task<CommentResponse> UpdateAsync(int commentId, CommentRequest model, CancellationToken ct = default);
     }
 }
