@@ -2,7 +2,6 @@
 using Services.Models;
 using Services.Models.RequestModels;
 using Services.Models.ResponseModels;
-using Snippet.BLL.Models.FilterModels;
 using Snippet.Data.Entities;
 using Snippet.Data.Filters.FilterModels;
 
@@ -34,7 +33,6 @@ namespace Services.Mapping
             CreateMap<LanguageEntity, LanguageResponse>().ReverseMap();
             CreateMap<UserEntity, UserResponse>().ReverseMap();
 
-            CreateMap<PostFiltersRequest, PostEntityFilterModel>();
         }
     }
 }
