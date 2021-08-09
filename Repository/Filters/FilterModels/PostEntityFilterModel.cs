@@ -16,7 +16,7 @@ namespace Snippet.Data.Filters.FilterModels
         public IEnumerable<UserEntity> Exclude { get; set; } = default;
 
 
-        public IEnumerable<LanguageEntity> Languages { get; set; } = default;
+        public IEnumerable<int> Languages { get; set; } = default;
 
 
     }

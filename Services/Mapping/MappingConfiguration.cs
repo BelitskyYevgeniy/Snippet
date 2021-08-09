@@ -19,7 +19,7 @@ namespace Services.Mapping
 
             CreateMap<TagEntity, Tag>().ReverseMap();
             CreateMap<UserEntity, User>().ReverseMap();
-            CreateMap<PostEntityFilterModel, PostFiltersRequest>().ReverseMap();
+            
 
             CreateMap<PostEntity, PostRequest>().ReverseMap();
             CreateMap<TagEntity, TagRequest>().ReverseMap();
@@ -34,6 +34,7 @@ namespace Services.Mapping
             CreateMap<LanguageEntity, LanguageResponse>().ReverseMap();
             CreateMap<UserEntity, UserResponse>().ReverseMap();
 
+            CreateMap<PostFiltersRequest, PostEntityFilterModel>();
         }
     }
 }

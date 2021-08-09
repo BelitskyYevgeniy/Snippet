@@ -19,7 +19,7 @@ namespace Snippet.BLL.Models.FilterModels
 
         public IEnumerable<TagRequest> Tags { get; set; } = default;
 
-        public int? LanguageId { get; set; } = default;
+        public IEnumerable<int> Languages { get; set; } = default;
 
     }
 }
