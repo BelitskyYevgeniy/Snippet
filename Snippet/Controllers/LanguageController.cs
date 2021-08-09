@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
-using Services.Models;
-using Services.Models.RequestModels;
 using Services.Models.ResponseModels;
 using System.Collections.Generic;
 using System.Threading;
@@ -21,22 +19,22 @@ namespace Snippet.WebAPI.Controllers
         }
 
         [HttpGet]
-        public Task<IReadOnlyCollection<LanguageResponse>> GetRaiting(CancellationToken ct)
+        public Task<IReadOnlyCollection<LanguageResponse>> GetRaiting(int count = int.MaxValue, CancellationToken ct = default)
         {
-            return _languageProvider.GetRating(ct);
+            return _languageProvider.GetTopAsync(count, ct);
         }
 
-        [HttpPost]
+/*        [HttpPost]
         public Task<LanguageResponse> Create(LanguageRequest language, CancellationToken ct)
         {
             return _languageProvider.CreateAsync(language, ct);
-        }
+        }*/
 
-        [HttpDelete]
+/*        [HttpDelete]
         public Task<bool> Delete(int id, CancellationToken ct)
         {
             return  _languageProvider.DeleteAsync(id, ct);
-        }
+        }*/
 
         //[HttpPut]
         //public Task<Language> Update(Language language, CancellationToken ct)
