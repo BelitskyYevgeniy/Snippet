@@ -18,7 +18,7 @@ namespace Services.Services
         private readonly IPostProvider _postProvider;
         private readonly ITagProvider _tagProvider;
         private readonly ICommentProvider _commentProvider;
-
+        private readonly ILikeProvider _likeProvider;
 
         private async Task<PostResponse> UpdateAsync(PostEntity entity, IReadOnlyCollection<TagRequest> tags, CancellationToken ct = default)
         {
@@ -60,8 +60,8 @@ namespace Services.Services
 
         public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
         {
-            var post = await _postProvider.GetByIdAsync(id, ct);
-            if(post == null)
+            var post = await _postProvider.GetByIdAsync(id, false, ct);
+            if (post == null)
             {
                 return false;
             }
@@ -70,7 +70,7 @@ namespace Services.Services
             {
                 await _commentProvider.DeleteAsync(comment.Id, ct);
             }
-
+            _postProvider.Get
             await _tagProvider.UpdateTagsAsync(post.PostTags, null, ct);
             return await _postProvider.DeleteAsync(post, ct);
         }
@@ -78,7 +78,7 @@ namespace Services.Services
 
         public async Task<PostResponse> GetByIdAsync(int id, CancellationToken ct = default)
         {
-            var post = await _postProvider.GetByIdAsync(id, ct);
+            var post = await _postProvider.GetByIdAsync(id, ct: ct);
             return _postProvider.ConvertToResponse(post);
         }
 
@@ -93,7 +93,7 @@ namespace Services.Services
         }
         public async Task<PostResponse> UpdateAsync(int postId, PostRequest model, CancellationToken ct = default)
         {
-            var existingPost = await _postProvider.GetByIdAsync(postId, ct);
+            var existingPost = await _postProvider.GetByIdAsync(postId, ct: ct);
             if(existingPost == null)
             {
                 return null;

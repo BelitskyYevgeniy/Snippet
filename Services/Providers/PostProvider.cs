@@ -47,9 +47,9 @@ namespace Services.Providers
         {
             return await _postRepository.DeleteAsync(entity, ct);
         }
-        public Task<PostEntity> GetByIdAsync(int id, CancellationToken ct = default)
+        public Task<PostEntity> GetByIdAsync(int id, bool toTracke = false, CancellationToken ct = default)
         {
-            return _postRepository.GetByIdAsync(id, ct: ct); 
+            return _postRepository.GetByIdAsync(id, toTracke, ct); 
         }
 
         public async Task<IReadOnlyCollection<PostResponse>> GetAsync(PostEntityFilterModel model, CancellationToken ct = default)

@@ -109,20 +109,18 @@ namespace Snippet.Data.Context
                 .HasMany(e => e.PostTags)
                 .WithOne(e => e.Tag)
                 .HasForeignKey(e => e.TagId)
-                /*.OnDelete(DeleteBehavior.Cascade)*/;
+                .OnDelete(DeleteBehavior.Cascade);
 
-            /*modelBuilder.Entity<PostTagEntity>()
+            modelBuilder.Entity<PostTagEntity>()
                 .HasOne(e => e.Post)
                 .WithMany(e => e.PostTags)
-                .HasForeignKey(e => e.PostId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(e => e.PostId);
 
             modelBuilder.Entity<PostTagEntity>()
                 .HasOne(e => e.Tag)
                 .WithMany(e => e.PostTags)
-                .HasForeignKey(e => e.TagId)
-                .OnDelete(DeleteBehavior.NoAction);*/
-            
+                .HasForeignKey(e => e.TagId);
+
             modelBuilder.Entity<UserEntity>().HasIndex(u => u.Name).IsUnique();
             modelBuilder.Entity<TagEntity>().HasIndex(u => u.Name).IsUnique();
             modelBuilder.Entity<LanguageEntity>().HasIndex(u => u.Name).IsUnique();

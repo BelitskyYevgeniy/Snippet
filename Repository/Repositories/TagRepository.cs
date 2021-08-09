@@ -46,9 +46,7 @@ namespace Snippet.Data.Repositories
             {
                 var query = _dbContext.PostTags.Include(pt => pt.Tag).Where(pt => pt.TagId == postTag.TagId).AsNoTracking();
                 var shouldDeleteTag = query.Count() == 1;
-                var tag = query.Select(pt => pt.Tag).FirstOrDefault();
-                postTag.Tag = null;
-                postTag.Post = null;
+                var tag = postTag.Tag;
                 _dbContext.PostTags.Remove(postTag);
                 if (shouldDeleteTag)
                 {
