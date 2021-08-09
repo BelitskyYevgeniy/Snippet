@@ -70,7 +70,6 @@ namespace Services.Services
             {
                 await _commentProvider.DeleteAsync(comment.Id, ct);
             }
-            _postProvider.Get
             await _tagProvider.UpdateTagsAsync(post.PostTags, null, ct);
             return await _postProvider.DeleteAsync(post, ct);
         }

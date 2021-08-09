@@ -35,7 +35,6 @@ namespace Services.Providers
         public async Task<IReadOnlyCollection<CommentResponse>> GetAllByPostIdAsync(int postId, int skip = 0, int count = int.MaxValue, CancellationToken ct = default)
         {
             count = _paginationService.ValidateCount(count);
-            var comments = await _commentRepository.FindAsync(skip, count, new Expression<Func<CommentEntity, bool>>[] { (x) => x.PostId == postId }, comments => comments.OrderBy(comment => comment.CreationDateTime), null, ct);
             var comments = await _commentRepository.FindAsync(skip, count, false,
                 new Expression<Func<CommentEntity, bool>>[] { (x) => x.PostId == postId }, 
                 comments => comments.OrderBy(comment => comment.CreationDateTime), null, ct);
