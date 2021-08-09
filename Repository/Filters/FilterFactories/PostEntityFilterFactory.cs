@@ -33,21 +33,25 @@ namespace Snippet.Data.Filters.FilterFactories
                 result.Add(entity);
             }
 
-            if (model.Include != null && model.Exclude != null)
+            bool isNotEmptyInclude = (model.Include != null);
+            bool isNotEmptyExclude = (model.Exclude != null);
+            if (isNotEmptyInclude || isNotEmptyExclude)
             {
+                model.Include = isNotEmptyInclude ? model.Include : new List<UserEntity>();
+                model.Exclude = isNotEmptyExclude ? model.Include : new List<UserEntity>();
                 var entity = new PostEntityFilterByUsers(model.Include, model.Exclude);
                 entity.Degree = 3;
                 result.Add(entity);
             }
 
-            if (model.To != null && model.From != null)
+            if (model.To != null || model.From != null)
             {
                 var entity = new PostEntityFilterByDateTime(model.From, model.To);
                 entity.Degree = 8;
                 result.Add(entity);
             }
 
-            return new ReadOnlyCollection<IFilter<PostEntity>>(result.OrderBy(post => post.Degree).ToList());
+            return new ReadOnlyCollection<IFilter<PostEntity>>(result.OrderByDescending(post => post.Degree).ToList());
         }
     }
 }
