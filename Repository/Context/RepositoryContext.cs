@@ -11,7 +11,7 @@ namespace Snippet.Data.Context
         public DbSet<PostEntity> Posts { get; set; }
         public DbSet<LikeEntity> Likes { get; set; }
         public DbSet<CommentEntity> Comments { get; set; }
-
+        public DbSet<PostTagEntity> PostTags { get; set; }
 
 
         public RepositoryContext()

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Snippet.Data.Context;
 using Snippet.Data.Entities.Base;
 using Snippet.Data.Interfaces.Generic;
@@ -51,7 +52,7 @@ namespace Snippet.Data
         public virtual async Task<IReadOnlyCollection<TEntity>> FindAsync(int skip = 0, int count = 1,
             IEnumerable<Expression<Func<TEntity, bool>>> filters = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            IEnumerable<Expression<Func<TEntity, object>>> includeProperties= null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
             CancellationToken ct = default)
         {
 
@@ -62,16 +63,9 @@ namespace Snippet.Data
                 return await query.AsNoTracking().ToListAsync(ct); 
             }
 
-            if (includeProperties != null)
+            if (include != null)
             {
-                foreach (var includeProperty in includeProperties)
-                {
-                    try
-                    {
-                        query = query.Include(includeProperty);
-                    }
-                    catch { }
-                }
+                query = include(query);
             }
 
             if (filters != null)
@@ -96,12 +90,16 @@ namespace Snippet.Data
             var entity = await GetByIdAsync(id, ct).ConfigureAwait(false);
             if (entity != null)
             {
-                var entityEntry = _dbContext.Set<TEntity>().Remove(entity);
-               await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
-                return entityEntry != null;
+                return await DeleteAsync(entity);
             }
 
             return false;
+        }
+        public virtual async Task<bool> DeleteAsync(TEntity entity, CancellationToken ct = default)
+        {
+                var entityEntry = _dbContext.Set<TEntity>().Remove(entity);
+                await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
+                return entityEntry != null;
         }
 
         public virtual async Task<IReadOnlyCollection<TEntity>> GetAllAsync(CancellationToken ct)

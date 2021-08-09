@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Linq.Expressions;
 using System;
+using Services.Models.RequestModels;
 
 namespace Services.Providers
 {
@@ -29,34 +30,26 @@ namespace Services.Providers
              return await _tagRepository.DeleteAsync(id, ct);
         }
 
-        public async Task<IReadOnlyCollection<Tag>> CreateAsync(IReadOnlyCollection<Tag> tags, CancellationToken ct) 
+        public async Task<IReadOnlyCollection<TagEntity>> CreateAsync(IReadOnlyCollection<TagRequest> tags, CancellationToken ct) 
         {
-            var entities = _mapper.Map<IReadOnlyCollection<Tag>, IReadOnlyCollection<TagEntity>>(tags);
-
-            var includes = new List<Expression<Func<TagEntity, object>>>()
-            {
-                tag => tag.PostTags
-            };
+            var entities = _mapper.Map<IReadOnlyCollection<TagEntity>>(tags);
+            var result = new List<TagEntity>();
             foreach (var entity in entities)
             {
-                var tag = (await _tagRepository.FindAsync(filter: new Expression<Func<TagEntity, bool>>[] { (e) => e.Name == entity.Name }, 
-                    includeProperties: includes, ct: ct).ConfigureAwait(false)).FirstOrDefault();
+                var tag = (await _tagRepository.FindAsync(filter: new Expression<Func<TagEntity, bool>>[] { (e) => e.Name == entity.Name }, ct: ct)
+                    .ConfigureAwait(false)).FirstOrDefault();
                 if (tag == null)
                 {
-                    await _tagRepository.CreateAsync(entity, ct);
+                    tag = await _tagRepository.CreateAsync(entity, ct);
                 }
+                result.Add(tag);
             }
-            return _mapper.Map<IReadOnlyCollection<Tag>>(entities);
+            return result;
         }
 
-     /*   public async Task<Tag> UpdateAsync(Tag model, CancellationToken ct)
+        public Task UpdateTagsAsync(IEnumerable<PostTagEntity> currentItems, IEnumerable<PostTagEntity> newItems, CancellationToken ct = default)
         {
-            var entity = _mapper.Map<TagEntity>(model);
-
-            entity = await _tagRepository.UpdateAsync(entity, ct);
-
-
-            return _mapper.Map<Tag>(entity);
-        }*/
+            return _tagRepository.UpdateTagsAsync(currentItems, newItems, ct);
+        }
     }
 }

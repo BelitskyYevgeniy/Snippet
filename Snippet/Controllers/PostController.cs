@@ -35,7 +35,7 @@ namespace Snippet.WebAPI.Controllers
         [HttpGet("{id:int}")]
         public Task<PostResponse> GetById(int id,CancellationToken ct)
         {
-            return _postProvider.GetByIdAsync(id, ct);
+            return _postService.GetByIdAsync(id, ct);
         }
 
         [HttpPost]
@@ -49,14 +49,14 @@ namespace Snippet.WebAPI.Controllers
       //  [Authorize]
         public Task<bool> Delete(int id, CancellationToken ct)
         {
-            return _postProvider.DeleteAsync(id, ct);
+            return _postService.DeleteAsync(id, ct);
         }
         
         [HttpPut]
        // [Authorize]
         public Task<PostResponse> Update(PostRequest post,int postId,CancellationToken ct)
         {
-            return _postProvider.UpdateAsync(post,postId, ct);
+            return _postService.UpdateAsync(postId, post, ct);
         }
 
 

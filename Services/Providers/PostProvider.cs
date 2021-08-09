@@ -7,6 +7,7 @@ using Snippet.BLL.Models.FilterModels;
 using Snippet.Data.Entities;
 using Snippet.Data.Filters.FilterModels;
 using Snippet.Data.Interfaces.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -18,60 +19,66 @@ namespace Services.Providers
     {
         private readonly IMapper _mapper;
         private readonly IPostRepositoryAsync _postRepository;
-        private readonly ICommentRepositoryAsync _commentRepository;
-        private readonly ICommentProvider _commentProvider;
-        public PostProvider(IMapper mapper , IPostRepositoryAsync tagRepository,ICommentProvider commentProvider,ICommentRepositoryAsync commentRepository)
+
+        
+
+        public PostProvider(IMapper mapper , IPostRepositoryAsync tagRepository)
         {
             _mapper = mapper;
             _postRepository = tagRepository;
-            _commentProvider = commentProvider;
-            _commentRepository = commentRepository;
+
         }
-        public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
+
+        public PostResponse ConvertToResponse(PostEntity entity)
         {
-            var comments =await _commentProvider.GetAllByPostIdAsync(id,0,await _commentRepository.GetCount(ct), ct);
-            foreach(var comment in comments)
+
+            var response = _mapper.Map<PostResponse>(entity);
+            if (entity.PostTags == null || entity.PostTags.Count == 0)
             {
-                await _commentProvider.DeleteAsync(comment.Id, ct);
+                response.Tags = new List<TagResponse>();
             }
-
-            return await _postRepository.DeleteAsync(id, ct);
+            else
+            {
+                response.Tags = _mapper.Map<List<TagResponse>>(
+                    entity.PostTags.Select(e => e.Tag).ToList());
+            }
+            return response;
         }
 
 
-        public async Task<PostResponse> GetByIdAsync(int id, CancellationToken ct = default)
+        public async Task<bool> DeleteAsync(PostEntity entity, CancellationToken ct = default)
         {
-            var entity = await _postRepository.GetByIdAsync(id, ct); 
-            
-            return _mapper.Map<PostResponse>(entity); 
+            return await _postRepository.DeleteAsync(entity, ct);
+        }
+        public Task<PostEntity> GetByIdAsync(int id, CancellationToken ct = default)
+        {
+            return _postRepository.GetByIdAsync(id, ct); 
         }
 
         public async Task<IReadOnlyCollection<PostResponse>> GetAsync(PostFiltersRequest model, CancellationToken ct = default)
         {
             var entityFilterModel = _mapper.Map<PostEntityFilterModel>(model);
-            var entities = await _postRepository.FindAsync(entityFilterModel, ct);
-
-            return _mapper.Map<List<PostResponse>>(entities.ToList());
+            var posts = await _postRepository.FindAsync(entityFilterModel, ct);
+            var responses = new List<PostResponse>();
+            foreach(var post in posts)
+            {
+                responses.Add(ConvertToResponse(post));
+            }
+            return responses;
         }
 
-        public async Task<PostResponse> CreateAsync(PostRequest post, CancellationToken ct = default)
+        public Task<PostEntity> CreateAsync(PostEntity post, CancellationToken ct = default)
         {
-
-            var entity = _mapper.Map<PostRequest, PostEntity>(post);
-            entity.CreationDateTime = System.DateTime.Now; 
-            entity = await _postRepository.CreateAsync(entity, ct);
-
-           return _mapper.Map<PostEntity,PostResponse>(entity);
+            post.CreationDateTime = System.DateTime.Now;
+            post.LastUpdateDateTime = post.CreationDateTime;
+            return _postRepository.CreateAsync(post, ct);
         }
 
-        public async Task<PostResponse> UpdateAsync(PostRequest model,int postId, CancellationToken ct = default)
+        public async Task<PostResponse> UpdateAsync(PostEntity entity, CancellationToken ct = default)
         {
-            var newEntity = _mapper.Map<PostRequest,PostEntity>(model);
-
-            newEntity.Id = postId;
-            
-
-            newEntity =await _postRepository.UpdateAsync(newEntity,ct);
+            entity.PostTags = null;
+            entity.LastUpdateDateTime = DateTime.Now;
+            var newEntity = await _postRepository.UpdateAsync(entity, ct);
 
             return _mapper.Map<PostEntity, PostResponse>(newEntity);
         }
