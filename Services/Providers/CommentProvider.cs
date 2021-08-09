@@ -13,18 +13,20 @@ using System.Linq.Expressions;
 using System;
 using Services.Models.RequestModels;
 using Services.Models.ResponseModels;
+using Services.Interfaces.Services;
 
 namespace Services.Providers
 {
     public class CommentProvider : ICommentProvider
     {
-
+        private readonly IPaginationService _paginationService;
         private readonly ICommentRepositoryAsync _commentRepository;
         private readonly IMapper _mapper;
-        public CommentProvider(IMapper mapper, ICommentRepositoryAsync commentRepository)
+        public CommentProvider(IMapper mapper, ICommentRepositoryAsync commentRepository,IPaginationService paginationService)
         {
             _mapper = mapper;
             _commentRepository = commentRepository;
+            _paginationService = paginationService;
         }
         public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
         {
@@ -32,6 +34,8 @@ namespace Services.Providers
         }
         public async Task<IReadOnlyCollection<CommentResponse>> GetAllByPostIdAsync(int postId, int skip = 0, int count = int.MaxValue, CancellationToken ct = default)
         {
+            count = _paginationService.ValidateCount(count);
+            var comments = await _commentRepository.FindAsync(skip, count, new Expression<Func<CommentEntity, bool>>[] { (x) => x.PostId == postId }, comments => comments.OrderBy(comment => comment.CreationDateTime), null, ct);
             var comments = await _commentRepository.FindAsync(skip, count, false,
                 new Expression<Func<CommentEntity, bool>>[] { (x) => x.PostId == postId }, 
                 comments => comments.OrderBy(comment => comment.CreationDateTime), null, ct);

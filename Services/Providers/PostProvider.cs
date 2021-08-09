@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using Services.Interfaces.Providers;
+using Services.Interfaces.Services;
+using Services.Models;
+using Services.Models.RequestModels;
 using Services.Models.ResponseModels;
 using Snippet.Data.Entities;
 using Snippet.Data.Filters.FilterModels;
@@ -16,14 +19,14 @@ namespace Services.Providers
     {
         private readonly IMapper _mapper;
         private readonly IPostRepositoryAsync _postRepository;
-
+        private readonly IPaginationService _paginationService;
         
 
-        public PostProvider(IMapper mapper , IPostRepositoryAsync tagRepository)
+        public PostProvider(IMapper mapper , IPostRepositoryAsync tagRepository,IPaginationService paginationService)
         {
             _mapper = mapper;
             _postRepository = tagRepository;
-
+            _paginationService = paginationService;
         }
 
         public PostResponse ConvertToResponse(PostEntity entity)
@@ -54,6 +57,7 @@ namespace Services.Providers
 
         public async Task<IReadOnlyCollection<PostResponse>> GetAsync(PostEntityFilterModel model, CancellationToken ct = default)
         {
+            model.Count = _paginationService.ValidateCount(model.Count);
             var entityFilterModel = _mapper.Map<PostEntityFilterModel>(model);
             var posts = await _postRepository.FindAsync(entityFilterModel, ct);
             var responses = new List<PostResponse>();
