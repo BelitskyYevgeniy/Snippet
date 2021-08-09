@@ -31,6 +31,7 @@ namespace Services.Configuration
             serviceCollection.AddScoped<ILikeProvider, LikeProvider>();
             serviceCollection.AddScoped<IUserProvider, UserProvider>();
            
+
            
 
             return serviceCollection;
@@ -39,6 +40,7 @@ namespace Services.Configuration
         public static IServiceCollection RegisterServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<IPostService, PostService>();
+            serviceCollection.AddTransient<IPaginationService, PaginationService>();
 
             return serviceCollection;
         }
