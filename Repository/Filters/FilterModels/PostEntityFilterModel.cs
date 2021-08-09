@@ -12,8 +12,8 @@ namespace Snippet.Data.Filters.FilterModels
 
         public IEnumerable<string> Tags { get; set; } = default;
 
-        public IEnumerable<UserEntity> Include { get; set; } = default;
-        public IEnumerable<UserEntity> Exclude { get; set; } = default;
+        public IEnumerable<int> Include { get; set; } = default;
+        public IEnumerable<int> Exclude { get; set; } = default;
 
 
         public IEnumerable<int> Languages { get; set; } = default;
