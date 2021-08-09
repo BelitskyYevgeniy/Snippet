@@ -8,6 +8,7 @@ namespace Snippet.Data.Interfaces.Repositories
 {
     public interface ITagRepositoryAsync: IGenericRepositoryAsync<TagEntity>
     {
-        public Task UpdateTagsAsync(IEnumerable<PostTagEntity> currentItems, IEnumerable<PostTagEntity> newItems, CancellationToken ct = default);
+        Task<IReadOnlyCollection<TagEntity>> GetTopAsync(int count = int.MaxValue, CancellationToken ct = default);
+        Task UpdateTagsAsync(IEnumerable<PostTagEntity> currentItems, IEnumerable<PostTagEntity> newItems, CancellationToken ct = default);
     }
 }

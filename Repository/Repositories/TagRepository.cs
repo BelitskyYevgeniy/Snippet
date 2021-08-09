@@ -59,6 +59,28 @@ namespace Snippet.Data.Repositories
             await _dbContext.PostTags.AddRangeAsync(addedPostTags, ct);
             await _dbContext.SaveChangesAsync(ct);
         }
+
+
+        public async Task<IReadOnlyCollection<TagEntity>> GetTopAsync(int count = int.MaxValue, CancellationToken ct = default)
+        {
+            count = count < 1 ? int.MaxValue : count;
+            return await _dbContext.Tags.AsNoTracking()
+                .Include(e => e.PostTags)
+                .Select(e => new
+                {
+                    Id = e.Id,
+                    Name = e.Name,
+                    Count = e.PostTags.Count
+                })
+                .OrderBy(obj => obj.Count)
+                .Take(count)
+                .Select(obj => new TagEntity
+                {
+                    Id = obj.Id,
+                    Name = obj.Name
+                }).ToListAsync(ct);
+
+        }
     }
 
 }

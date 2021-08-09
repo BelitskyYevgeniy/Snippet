@@ -21,7 +21,12 @@ namespace Snippet.Data.Repositories
             count = count < 1 ? int.MaxValue : count;
             return await _dbContext.Languages.AsNoTracking()
                 .Include(e => e.Posts)
-                .Join(_dbContext.Posts, e => e.Id, e => e.LanguageId, (lang, post) => new { lang.Id, lang.Name, lang.Posts.Count })
+                .Select(e => new
+                {
+                    Id = e.Id,
+                    Name = e.Name,
+                    Count = e.Posts.Count
+                })
                 .OrderBy(obj => obj.Count)
                 .Take(count)
                 .Select(obj => new LanguageEntity 
