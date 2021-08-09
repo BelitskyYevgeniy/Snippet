@@ -15,7 +15,7 @@ namespace Snippet.Data.Filters.EntityFilters.PostEntityFilters
         {
             if(languages == null)
             {
-                throw new CreationFilterException("languages(IEnumerable<LanguageEntity>) = null!");
+                throw new CreationFilterException("languages(IEnumerable<int>) = null!");
             }
             Languages = new HashSet<int>(languages).ToArray();
         }
