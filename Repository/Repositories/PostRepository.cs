@@ -38,15 +38,15 @@ namespace Snippet.Data.Repositories
                 sortFunc = sortFilter.SortFunc;
             }
 
-            return FindAsync(model.Skip, model.Count, expressions, sortFunc,
+            return FindAsync(model.Skip, model.Count, false, expressions, sortFunc,
                 e => e.Include(e => e.Language)
                 .Include(e => e.User)
                 .Include(e => e.PostTags)
                 .ThenInclude(e => e.Tag), ct);
         }
-        public override async Task<PostEntity> GetByIdAsync(int id, CancellationToken ct = default)
+        public override async Task<PostEntity> GetByIdAsync(int id, bool toTracke = false, CancellationToken ct = default)
         {
-            var result = await FindAsync(0, 1, new List<Expression<Func<PostEntity, bool>>>() { post => post.Id == id }, null,
+            var result = await FindAsync(0, 1, toTracke, new List<Expression<Func<PostEntity, bool>>>() { post => post.Id == id }, null,
                 e => e.Include(e => e.Language)
                .Include(e => e.PostTags)
                .ThenInclude(e => e.Tag)

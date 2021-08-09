@@ -31,9 +31,14 @@ namespace Snippet.Data
             return _dbContext.Set<TEntity>().CountAsync(ct);
         }
 
-        public virtual Task<TEntity> GetByIdAsync(int id, CancellationToken ct = default)
+        public virtual Task<TEntity> GetByIdAsync(int id, bool toTracke = false, CancellationToken ct = default)
         {
-            return _dbContext.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, ct);
+            var query = _dbContext.Set<TEntity>().AsQueryable();
+            if(!toTracke)
+            {
+                query = query.AsNoTracking();
+            }
+            return query.FirstOrDefaultAsync(e => e.Id == id, ct);
         }
 
         public async Task<TEntity> CreateAsync(TEntity entity, CancellationToken ct = default)
@@ -50,17 +55,22 @@ namespace Snippet.Data
             return entityEntry.Entity;
         }
         public virtual async Task<IReadOnlyCollection<TEntity>> FindAsync(int skip = 0, int count = 1,
+            bool toTracke = false,
             IEnumerable<Expression<Func<TEntity, bool>>> filters = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
             CancellationToken ct = default)
         {
 
-            IQueryable<TEntity> query = _dbContext.Set<TEntity>().AsNoTracking();
+            IQueryable<TEntity> query = _dbContext.Set<TEntity>();
+            if(!toTracke)
+            {
+                query = query.AsNoTracking();
+            }
 
             if (query.Count() < 1)
             {
-                return await query.AsNoTracking().ToListAsync(ct); 
+                return await query.ToListAsync(ct); 
             }
 
             if (include != null)
@@ -83,11 +93,11 @@ namespace Snippet.Data
             skip = skip < 0 ? 0 : skip > entityCount ? 0: skip;
             count = count < 0 ? 1 : count > entityCount ? entityCount : count;
             query = query.Skip(skip).Take(count);
-            return await query.AsNoTracking().ToListAsync(ct);
+            return await query.ToListAsync(ct);
         }
         public virtual async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
         {
-            var entity = await GetByIdAsync(id, ct).ConfigureAwait(false);
+            var entity = await GetByIdAsync(id, ct: ct).ConfigureAwait(false);
             if (entity != null)
             {
                 return await DeleteAsync(entity);

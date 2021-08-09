@@ -14,8 +14,9 @@ namespace Snippet.Data.Interfaces.Generic
     {
         Task<int> GetCount(CancellationToken ct = default);
         Task<IReadOnlyCollection<TEntity>> GetAllAsync(CancellationToken ct = default);
-        Task<TEntity> GetByIdAsync(int id, CancellationToken ct = default);
+        Task<TEntity> GetByIdAsync(int id, bool toTracke = false, CancellationToken ct = default);
         Task<IReadOnlyCollection<TEntity>> FindAsync(int skip = 0, int count = 1,
+            bool toTracke = false,
             IEnumerable<Expression<Func<TEntity, bool>>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
