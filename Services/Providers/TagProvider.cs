@@ -31,12 +31,12 @@ namespace Services.Providers
             var result = await _tagRepository.GetTopAsync(count, ct);
             return _mapper.Map<IReadOnlyCollection<TagResponse>>(result);
         }
-        public async Task<bool> DeleteAsync(int id, CancellationToken ct)
+        public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
         {
              return await _tagRepository.DeleteAsync(id, ct);
         }
 
-        public async Task<IReadOnlyCollection<TagEntity>> CreateAsync(IReadOnlyCollection<TagRequest> tags, CancellationToken ct) 
+        public async Task<IReadOnlyCollection<TagEntity>> CreateAsync(IReadOnlyCollection<TagRequest> tags, CancellationToken ct = default) 
         {
             var entities = _mapper.Map<IReadOnlyCollection<TagEntity>>(tags);
             var result = new List<TagEntity>();

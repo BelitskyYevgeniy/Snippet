@@ -33,7 +33,7 @@ namespace Snippet.WebAPI.Controllers
 
         [HttpDelete]
        // [Authorize]
-        public Task<bool> Delete(int id,CancellationToken ct)
+        public Task<bool> Delete(int id, CancellationToken ct = default)
         {
             return _commentProvider.DeleteAsync(id, ct);
         }
@@ -41,7 +41,7 @@ namespace Snippet.WebAPI.Controllers
        // [Authorize]
         public Task<CommentResponse> Update(int commentId, CommentRequest comment, CancellationToken ct = default)
         {
-            return _commentProvider.UpdateAsync(comment,commentId, ct);
+            return _commentProvider.UpdateAsync(commentId, comment, ct);
         }
     }
 }
