@@ -32,7 +32,7 @@ namespace Services.Providers
         }
         public async Task<IReadOnlyCollection<CommentResponse>> GetAllByPostIdAsync(int postId, int skip = 0, int count = int.MaxValue, CancellationToken ct = default)
         {
-            var comments = await _commentRepository.FindAsync(skip, count, 
+            var comments = await _commentRepository.FindAsync(skip, count, false,
                 new Expression<Func<CommentEntity, bool>>[] { (x) => x.PostId == postId }, 
                 comments => comments.OrderBy(comment => comment.CreationDateTime), null, ct);
             return _mapper.Map<IEnumerable<CommentEntity>, IReadOnlyCollection<CommentResponse>>(comments);

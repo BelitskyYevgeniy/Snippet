@@ -49,7 +49,7 @@ namespace Services.Providers
         }
         public Task<PostEntity> GetByIdAsync(int id, CancellationToken ct = default)
         {
-            return _postRepository.GetByIdAsync(id, ct); 
+            return _postRepository.GetByIdAsync(id, ct: ct); 
         }
 
         public async Task<IReadOnlyCollection<PostResponse>> GetAsync(PostEntityFilterModel model, CancellationToken ct = default)

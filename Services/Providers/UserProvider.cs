@@ -21,7 +21,7 @@ namespace Services.Providers
         }
         public async Task<UserResponse> GetByIdAsync(int id, CancellationToken ct)
         {
-            var model = await _userRepository.GetByIdAsync(id, ct);
+            var model = await _userRepository.GetByIdAsync(id, ct: ct);
 
             return _mapper.Map<UserEntity, UserResponse>(model);
         }

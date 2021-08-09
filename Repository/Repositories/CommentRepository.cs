@@ -15,7 +15,7 @@ namespace Snippet.Data.Repositories
 
         public async Task RemoveAllByPostId(int postId, CancellationToken ct = default)
         {
-            var comments = await FindAsync(0, await GetCount(ct),
+            var comments = await FindAsync(0, await GetCount(ct), false,
             new List<Expression<Func<CommentEntity, bool>>>()
             {
                 comment => comment.PostId == postId
