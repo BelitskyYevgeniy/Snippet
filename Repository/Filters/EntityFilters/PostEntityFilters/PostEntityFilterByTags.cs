@@ -10,19 +10,19 @@ namespace Snippet.Data.Filters.EntityFilters.PostEntityFilters
 {
     public class PostEntityFilterByTags: IFilter<PostEntity>
     {
-        public IEnumerable<TagEntity> Tags { get; private set; }
+        public IEnumerable<string> Tags { get; private set; }
 
-        public Expression<Func<PostEntity, bool>> Predicate => (PostEntity post) => Tags.SelectMany(tag => tag.PostTags).Intersect(post.PostTags).Count() != 0;
+        public Expression<Func<PostEntity, bool>> Predicate => (PostEntity post) => post.PostTags.Any(pt => Tags.Contains(pt.Tag.Name));
 
         public int Degree { get; set; }
 
-        public PostEntityFilterByTags(IEnumerable<TagEntity> tags)
+        public PostEntityFilterByTags(IEnumerable<string> tags)
         {
             if(tags == null)
             {
                 throw new CreationFilterException("Tags can not equal null!");
             }
-            Tags = new HashSet<TagEntity>(tags);
+            Tags = new HashSet<string>(tags);
         }
 
     }

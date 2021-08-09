@@ -77,7 +77,9 @@ namespace Services.Providers
         public async Task<PostResponse> UpdateAsync(PostEntity entity, CancellationToken ct = default)
         {
             entity.PostTags = null;
+            #region
             entity.LastUpdateDateTime = DateTime.Now;
+            #endregion
             var newEntity = await _postRepository.UpdateAsync(entity, ct);
 
             return _mapper.Map<PostEntity, PostResponse>(newEntity);

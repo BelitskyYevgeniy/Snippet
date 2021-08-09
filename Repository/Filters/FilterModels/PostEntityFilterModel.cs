@@ -10,7 +10,7 @@ namespace Snippet.Data.Filters.FilterModels
         public DateTime? From { get; set; } = null;
         public DateTime? To { get; set; } = null;
 
-        public IEnumerable<TagEntity> Tags { get; set; } = default;
+        public IEnumerable<string> Tags { get; set; } = default;
 
         public IEnumerable<UserEntity> Include { get; set; } = default;
         public IEnumerable<UserEntity> Exclude { get; set; } = default;

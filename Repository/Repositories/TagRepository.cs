@@ -44,7 +44,7 @@ namespace Snippet.Data.Repositories
             ProcessUpdateTagsRequest(currentItems, newItems, out removedPostTags, out addedPostTags);
             foreach (var postTag in removedPostTags)
             {
-                var query = _dbContext.PostTags.Include(pt => pt.Tag).Where(pt => pt.TagId == postTag.TagId);
+                var query = _dbContext.PostTags.Include(pt => pt.Tag).Where(pt => pt.TagId == postTag.TagId).AsNoTracking();
                 var shouldDeleteTag = query.Count() == 1;
                 var tag = query.Select(pt => pt.Tag).FirstOrDefault();
                 postTag.Tag = null;

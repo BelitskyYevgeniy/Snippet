@@ -1,5 +1,6 @@
 ﻿using Services.Models;
 using Services.Models.RequestModels;
+using Snippet.Data.Entities;
 using System;
 using System.Collections.Generic;
 
@@ -17,7 +18,7 @@ namespace Snippet.BLL.Models.FilterModels
         public IEnumerable<UserRequest> IncludeUsers { get; set; } = default;
         public IEnumerable<UserRequest> ExcludeUsers { get; set; } = default;
 
-        public IEnumerable<TagRequest> Tags { get; set; } = default;
+        public ICollection<string> Tags { get; set; } = default;
 
         public IEnumerable<int> Languages { get; set; } = default;
 
