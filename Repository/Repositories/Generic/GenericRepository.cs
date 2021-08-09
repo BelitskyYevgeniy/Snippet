@@ -102,7 +102,7 @@ namespace Snippet.Data
                 return entityEntry != null;
         }
 
-        public virtual async Task<IReadOnlyCollection<TEntity>> GetAllAsync(CancellationToken ct)
+        public virtual async Task<IReadOnlyCollection<TEntity>> GetAllAsync(CancellationToken ct = default)
         {
             
             return await _dbContext.Set<TEntity>().ToListAsync(ct).ConfigureAwait(false);
