@@ -24,7 +24,7 @@ namespace Snippet.Data.Filters.SortFilterFactories
             var filter = new SortFilter<PostEntity>();
             switch (model.SortField)
             {
-                 case "rating":
+                 case "likes":
                     {
                         if(model.SortDirection == SortDirection.Ascending)
                         {
