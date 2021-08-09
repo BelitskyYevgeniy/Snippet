@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using Services.Interfaces.Providers;
-using Services.Models;
-using Services.Models.RequestModels;
 using Services.Models.ResponseModels;
-using Snippet.BLL.Models.FilterModels;
 using Snippet.Data.Entities;
 using Snippet.Data.Filters.FilterModels;
 using Snippet.Data.Interfaces.Repositories;
@@ -55,7 +52,7 @@ namespace Services.Providers
             return _postRepository.GetByIdAsync(id, ct); 
         }
 
-        public async Task<IReadOnlyCollection<PostResponse>> GetAsync(PostFiltersRequest model, CancellationToken ct = default)
+        public async Task<IReadOnlyCollection<PostResponse>> GetAsync(PostEntityFilterModel model, CancellationToken ct = default)
         {
             var entityFilterModel = _mapper.Map<PostEntityFilterModel>(model);
             var posts = await _postRepository.FindAsync(entityFilterModel, ct);

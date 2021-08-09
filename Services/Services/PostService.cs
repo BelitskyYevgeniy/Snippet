@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
 using Services.Interfaces.Providers;
 using Services.Interfaces.Services;
-using Services.Models;
 using Services.Models.RequestModels;
 using Services.Models.ResponseModels;
 using Snippet.BLL.Interfaces.Providers;
-using Snippet.BLL.Models.FilterModels;
 using Snippet.Data.Entities;
-using Snippet.Data.Filters.FilterModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;

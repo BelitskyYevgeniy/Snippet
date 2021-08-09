@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
 using Services.Interfaces.Services;
-using Services.Models;
 using Services.Models.RequestModels;
 using Services.Models.ResponseModels;
-using Snippet.BLL.Models.FilterModels;
+using Snippet.Data.Filters.FilterModels;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,7 +25,7 @@ namespace Snippet.WebAPI.Controllers
         }
 
         [HttpGet]
-        public Task<IReadOnlyCollection<PostResponse>> Get([FromQuery]PostFiltersRequest model, CancellationToken ct) 
+        public Task<IReadOnlyCollection<PostResponse>> Get([FromQuery]PostEntityFilterModel model, CancellationToken ct) 
         {
             return _postProvider.GetAsync(model, ct);
         }
