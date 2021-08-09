@@ -2,17 +2,15 @@
 using Snippet.Data.Filters.EntitySortFilters;
 using Snippet.Data.Filters.Exceptions;
 using Snippet.Data.Filters.FilterModels;
+using Snippet.Data.Filters.FilterModels.Base;
 using Snippet.Data.Interfaces.Filters;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Snippet.Data.Filters.SortFilterFactories
 {
     public class PostEntitySortFilterFactory : ISortFilterFactory
     {
-        public ISortFilter<PostEntity> Create(object obj)
+        public ISortFilter<PostEntity> Create(FilterModel obj)
         {
             if(!(obj is PostEntityFilterModel))
             {

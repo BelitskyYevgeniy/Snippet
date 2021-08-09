@@ -6,12 +6,13 @@ using Snippet.Data.Interfaces.Filters;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Snippet.Data.Filters.FilterModels.Base;
 
 namespace Snippet.Data.Filters.FilterFactories
 {
     class PostEntityFilterFactory : IFilterFactory<PostEntity>
     {
-        public IReadOnlyCollection<IFilter<PostEntity>> CreateFilters(object obj)
+        public IReadOnlyCollection<IFilter<PostEntity>> CreateFilters(FilterModel obj)
         {
             if(!(obj is PostEntityFilterModel))
             {
@@ -37,8 +38,8 @@ namespace Snippet.Data.Filters.FilterFactories
             bool isNotEmptyExclude = (model.Exclude != null);
             if (isNotEmptyInclude || isNotEmptyExclude)
             {
-                model.Include = isNotEmptyInclude ? model.Include : new List<UserEntity>();
-                model.Exclude = isNotEmptyExclude ? model.Include : new List<UserEntity>();
+                model.Include = isNotEmptyInclude ? model.Include : new List<int>();
+                model.Exclude = isNotEmptyExclude ? model.Include : new List<int>();
                 var entity = new PostEntityFilterByUsers(model.Include, model.Exclude);
                 entity.Degree = 3;
                 result.Add(entity);

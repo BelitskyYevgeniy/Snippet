@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Snippet.Data.Filters.FilterModels
 {
-    public class PostEntityFilterModel: FilterModel<PostEntity>
+    public class PostEntityFilterModel: FilterModel
     {
         public DateTime? From { get; set; } = null;
         public DateTime? To { get; set; } = null;
