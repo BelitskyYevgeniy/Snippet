@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Services.Models;
+using Services.Models.ResponseModels;
 using Snippet.BLL.Interfaces.Providers;
 using System.Collections.Generic;
 using System.Threading;
@@ -13,14 +12,23 @@ namespace Snippet.WebAPI.Controllers
     [Route("[controller]")]
     public class TagController
     {
-        /*private readonly IMapper _mapper;
+        private readonly IMapper _mapper;
         private readonly ITagProvider _tagProvider;
 
-        public TagController(IMapper mapper,ITagProvider tagProvider)
+        public TagController(IMapper mapper, ITagProvider tagProvider)
         {
             _mapper = mapper;
             _tagProvider = tagProvider;
         }
+
+        [HttpGet]
+        public Task<IReadOnlyCollection<TagResponse>> GetTop(int count = int.MaxValue, CancellationToken ct = default)
+        {
+            return _tagProvider.GetTopAsync(count, ct);
+        }
+
+
+        /*
 
         [HttpDelete]
         [Authorize]

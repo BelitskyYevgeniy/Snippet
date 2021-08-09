@@ -10,6 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System;
 using Services.Models.RequestModels;
+using Services.Models.ResponseModels;
 
 namespace Services.Providers
 {
@@ -25,6 +26,11 @@ namespace Services.Providers
             
         }
 
+        public async Task<IReadOnlyCollection<TagResponse>> GetTopAsync(int count = int.MaxValue, CancellationToken ct = default)
+        {
+            var result = await _tagRepository.GetTopAsync(count, ct);
+            return _mapper.Map<IReadOnlyCollection<TagResponse>>(result);
+        }
         public async Task<bool> DeleteAsync(int id, CancellationToken ct)
         {
              return await _tagRepository.DeleteAsync(id, ct);
