@@ -12,9 +12,10 @@ namespace Services.Interfaces.Providers
 {
     public interface ILikeProvider
     {
-        public Task<LikeRequest> CreateAsync(LikeRequest like,CancellationToken ct = default);
-        public Task<bool> RemoveAsync(int likeId, CancellationToken ct = default);
-        public Task<int> GetCountAsync(int postId, CancellationToken ct = default);
-
+        Task<LikeRequest> CreateAsync(LikeRequest like,CancellationToken ct = default);
+        Task<bool> RemoveAsync(int likeId, CancellationToken ct = default);
+        Task<int> GetCountAsync(int postId, CancellationToken ct = default);
+        Task<IReadOnlyCollection<LikeEntity>> GetAllByPostAsync(int postId, CancellationToken ct = default);
+        Task DeleteLikesOfPostAsync(int postId, CancellationToken ct = default);
     }
 }

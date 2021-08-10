@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Services.Interfaces.Providers;
-using Services.Models;
 using Services.Models.RequestModels;
 using Snippet.Data.Entities;
 using Snippet.Data.Interfaces.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -23,13 +23,21 @@ namespace Services.Providers
             _likeRepository = likeRepository;
         }
 
-        /*public async Task<int> GetAllByPostAsync(int postId, CancellationToken ct)
+        public Task<IReadOnlyCollection<LikeEntity>> GetAllByPostAsync(int postId, CancellationToken ct = default)
         {
-            var entities = await _likeRepository.FindAsync((x) => x.PostId == postId, ct);
-            return _mapper.Map<IReadOnlyCollection<Like>>(entities).Count;
+            return _likeRepository.FindAsync(skip: 0, count: int.MaxValue,
+                filter: new List<Expression<Func<LikeEntity, bool>>>() { (x) => x.PostId == postId }, 
+                ct: ct);
+        }
 
-        }*/
-
+        public async Task DeleteLikesOfPostAsync(int postId, CancellationToken ct = default)
+        {
+            var likes = await GetAllByPostAsync(postId, ct);
+            if (likes != null && likes.Count != 0)
+            {
+                await _likeRepository.DeleteRangeAsync(likes);
+            }
+        }
         public Task<int> GetCountAsync(int postId, CancellationToken ct = default)
         {
             return _likeRepository.GetCount(ct);
