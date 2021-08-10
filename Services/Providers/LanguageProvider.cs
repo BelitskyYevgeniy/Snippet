@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Services.Interfaces.Providers;
+using Services.Interfaces.Services;
 using Services.Models.ResponseModels;
 using Snippet.Data.Interfaces.Repositories;
 using System.Collections.Generic;
@@ -13,10 +14,12 @@ namespace Services.Providers
 
         private readonly IMapper _mapper;
         private readonly ILanguageRepositoryAsync _languageRepository;
-        public LanguageProvider(IMapper mapper, ILanguageRepositoryAsync languageRepository,IPostProvider postProvider,IPostRepositoryAsync postRepository)
+        private readonly IPaginationService _paginationService;
+        public LanguageProvider(IMapper mapper, ILanguageRepositoryAsync languageRepository,IPostProvider postProvider,IPostRepositoryAsync postRepository,IPaginationService paginationService)
         {
             _mapper = mapper;
             _languageRepository = languageRepository;
+            _paginationService = paginationService;
         }
 
        /* public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
@@ -34,6 +37,7 @@ namespace Services.Providers
 
         public async Task<IReadOnlyCollection<LanguageResponse>> GetTopAsync(int count = 1, CancellationToken ct = default)
         {
+            count = _paginationService.ValidateCount(count);
             var result = await _languageRepository.GetTopAsync(count, ct);
             return _mapper.Map<IReadOnlyCollection<LanguageResponse>>(result);
         }
