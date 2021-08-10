@@ -54,7 +54,11 @@ namespace Snippet.WebAPI
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Snippet.WebAPI v1"));
-
+            app.UseCors(builder => builder
+                                .AllowAnyOrigin()
+                                .AllowAnyMethod()
+                                .AllowAnyHeader()
+                                .WithExposedHeaders("custom-header"));
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
