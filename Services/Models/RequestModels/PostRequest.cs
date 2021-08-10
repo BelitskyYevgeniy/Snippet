@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Services.Models.RequestModels
 {
@@ -9,17 +7,17 @@ namespace Services.Models.RequestModels
     {
 
         [Required]
-        [MaxLength(1024)]
+        [MaxLength(1024, ErrorMessage = "Tittle size can not be more than 1024 bytes")]
         public string Tittle { get; set; }
 
-        [MaxLength(2048)]
+        [MaxLength(2048, ErrorMessage = "Description size can not be more than 2048 bytes")]
         public string Description { get; set; }
 
         [Required]
         public int LanguageId { get; set; }
 
         [Required]
-        [MaxLength(4096)]
+        [MaxLength(4096, ErrorMessage = "Code size can not be more than 4096 bytes")]
         public string SnippetCode { get; set; }
 
         public List<TagRequest> Tags { get; set; } = new List<TagRequest>();

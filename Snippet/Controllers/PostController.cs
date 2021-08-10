@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
 using Services.Interfaces.Services;
 using Services.Models.RequestModels;
 using Services.Models.ResponseModels;
 using Snippet.Data.Filters.FilterModels;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,36 +27,70 @@ namespace Snippet.WebAPI.Controllers
         }
 
         [HttpGet]
-        public Task<IReadOnlyCollection<PostResponse>> Get([FromQuery]PostEntityFilterModel model, CancellationToken ct) 
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IReadOnlyCollection<PostResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Get([FromQuery]PostEntityFilterModel model, CancellationToken ct = default) 
         {
-            return _postProvider.GetAsync(model, ct);
+            if(model == null || !ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var response = await _postProvider.GetAsync(model, ct);
+            if(response == null)
+            {
+                return BadRequest("Model is not valid");
+            }
+            return Ok(response);
         }
 
         [HttpGet("{id:int}")]
-        public Task<PostResponse> GetById(int id,CancellationToken ct)
+        public Task<PostResponse> GetById(int id, CancellationToken ct = default)
         {
             return _postService.GetByIdAsync(id, ct);
         }
 
         [HttpPost]
-       // [Authorize]
-        public Task<PostResponse> Create(PostRequest post,CancellationToken ct)
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(PostResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        // [Authorize]
+        public async Task<IActionResult> Create([FromBody]PostRequest post, CancellationToken ct = default)
         {
-            return _postService.CreateAsync(post, ct);
+            if(post == null || !(ModelState.IsValid))
+            {
+                return BadRequest(ModelState);
+            }
+            var response = await _postService.CreateAsync(post, ct);
+            if(response == null)
+            {
+                return BadRequest("Model is not valid");
+            }
+            return Created(Url.Content("~/") , response);
         }
 
-        [HttpDelete]
-      //  [Authorize]
-        public Task<bool> Delete(int id, CancellationToken ct)
+        [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        //  [Authorize]
+        public Task<bool> Delete(int id, CancellationToken ct = default)
         {
             return _postService.DeleteAsync(id, ct);
         }
         
-        [HttpPut]
+        [HttpPut("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PostResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
        // [Authorize]
-        public Task<PostResponse> Update(PostRequest post,int postId,CancellationToken ct)
+        public async Task<IActionResult> Update(int id, [FromBody]PostRequest post, CancellationToken ct = default)
         {
-            return _postService.UpdateAsync(postId, post, ct);
+            if (post == null || !(ModelState.IsValid))
+            {
+                return BadRequest(ModelState);
+            }
+            var response = await _postService.UpdateAsync(id, post, ct);
+            if (response == null)
+            {
+                return BadRequest("Model is not valid");
+            }
+            return Ok(response);
         }
 
 
