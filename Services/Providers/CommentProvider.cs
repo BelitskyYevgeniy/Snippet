@@ -25,6 +25,27 @@ namespace Services.Providers
             _commentRepository = commentRepository;
             _paginationService = paginationService;
         }
+        private async Task<bool> ValidateRequest(int? id, CommentRequest request, CancellationToken ct = default)
+        {
+            if(id != null)
+            {
+                var entity = await _commentRepository.GetByIdAsync((int)id, ct : ct);
+                if(entity == null)
+                {
+                    return false;
+                }
+            }
+            if(request.FatherCommentId != null)
+            {
+                var entity = await _commentRepository.GetByIdAsync((int)request.FatherCommentId, ct: ct);
+                if (entity == null)
+                {
+                    return false;
+                }
+            }
+            return request.Message != null;
+        }
+
         public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
         {
             return await _commentRepository.DeleteAsync(id, ct);
@@ -46,6 +67,14 @@ namespace Services.Providers
         }
         public async Task<CommentResponse> CreateAsync(CommentRequest comment, CancellationToken ct = default)
         {
+            if (comment.FatherCommentId != null)
+            {
+                var commentFather = await _commentRepository.GetByIdAsync((int)comment.FatherCommentId);
+                if (comment == null)
+                {
+                    return null;
+                }
+            }
             var entity = _mapper.Map<CommentEntity>(comment);
             entity.CreationDateTime = DateTime.Now;
 
@@ -53,11 +82,12 @@ namespace Services.Providers
             
             return _mapper.Map<CommentResponse>(entity);
         }
-        public async Task<CommentResponse> UpdateAsync(int commentId, CommentRequest model, CancellationToken ct = default)
+        public async Task<CommentResponse> UpdateAsync(int id, CommentRequest model, CancellationToken ct = default)
         {
+            
             var entity = _mapper.Map<CommentEntity>(model);
 
-            entity.Id = commentId;
+            entity.Id = id;
             entity.LastUpdateDateTime = DateTime.Now;
             entity = await _commentRepository.UpdateAsync(entity, ct);
 

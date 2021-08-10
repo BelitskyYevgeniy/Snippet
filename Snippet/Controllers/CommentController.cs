@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
 using Services.Models.RequestModels;
 using Services.Models.ResponseModels;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,30 +21,54 @@ namespace Snippet.WebAPI.Controllers
         {
             _commentProvider = commentProvider;
         }
-        [HttpGet]
-        public Task<IReadOnlyCollection<CommentResponse>> GetAllByPostId(int postId, int skip = 0, int count = int.MaxValue, CancellationToken ct = default)
+        [HttpGet("{postId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IReadOnlyCollection<CommentResponse>))]
+        public async Task<IActionResult> GetAllByPostId(int postId, int skip = 0, int count = int.MaxValue, CancellationToken ct = default)
         {
-            return _commentProvider.GetAllByPostIdAsync(postId, skip, count, ct);
+            return Ok(await _commentProvider.GetAllByPostIdAsync(postId, skip, count, ct));
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CommentResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
        // [Authorize]
-        public Task<CommentResponse> Create(CommentRequest comment, CancellationToken ct = default)
+        public async Task<IActionResult> Create([FromBody]CommentRequest comment, CancellationToken ct = default)
         {
-            return _commentProvider.CreateAsync(comment, ct);
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _commentProvider.CreateAsync(comment, ct);
+            if(result == null)
+            {
+                return BadRequest("Wrong father id");
+            }
+            return Ok(result);
         }
 
         [HttpDelete]
-       // [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        // [Authorize]
         public Task<bool> Delete(int id, CancellationToken ct = default)
         {
             return _commentProvider.DeleteAsync(id, ct);
         }
-        [HttpPut]
-       // [Authorize]
-        public Task<CommentResponse> Update(int commentId, CommentRequest comment, CancellationToken ct = default)
+        [HttpPut("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        // [Authorize]
+        public async Task<IActionResult> Update([FromBody]int id, [FromBody]CommentRequest comment, CancellationToken ct = default)
         {
-            return _commentProvider.UpdateAsync(commentId, comment, ct);
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var response = await _commentProvider.UpdateAsync(id, comment, ct);
+            if(comment == null)
+            {
+                return NotFound();
+            }
+            return Ok(response);
         }
     }
 }
