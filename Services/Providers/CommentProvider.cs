@@ -3,10 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using System.Threading;
 using Services.Interfaces.Providers;
-using Snippet.Data.Interfaces.Generic;
 using Snippet.Data.Entities;
-using Services.Models;
-using Snippet.Data.Interfaces;
 using Snippet.Data.Interfaces.Repositories;
 using System.Linq;
 using System.Linq.Expressions;
@@ -32,6 +29,7 @@ namespace Services.Providers
         {
             return await _commentRepository.DeleteAsync(id, ct);
         }
+
         public async Task<IReadOnlyCollection<CommentResponse>> GetAllByPostIdAsync(int postId, int skip = 0, int count = int.MaxValue, CancellationToken ct = default)
         {
             count = _paginationService.ValidateCount(count);
@@ -39,6 +37,12 @@ namespace Services.Providers
                 new Expression<Func<CommentEntity, bool>>[] { (x) => x.PostId == postId }, 
                 comments => comments.OrderBy(comment => comment.CreationDateTime), null, ct);
             return _mapper.Map<IEnumerable<CommentEntity>, IReadOnlyCollection<CommentResponse>>(comments);
+        }
+        public async Task DeleteAllByPostIdAsync(int postId, CancellationToken ct = default)
+        {
+            var commentResponses = await GetAllByPostIdAsync(postId, 0, ct: ct);
+            var comments = _mapper.Map<IReadOnlyCollection<CommentEntity>>(commentResponses);
+            await _commentRepository.DeleteRangeAsync(comments, ct);
         }
         public async Task<CommentResponse> CreateAsync(CommentRequest comment, CancellationToken ct = default)
         {

@@ -46,12 +46,13 @@ namespace Services.Services
         }
 
 
-        public PostService(IMapper mapper, IPostProvider postProvider, ITagProvider tagProvider, ICommentProvider commentProvider)
+        public PostService(IMapper mapper, IPostProvider postProvider, ITagProvider tagProvider, ICommentProvider commentProvider, ILikeProvider likeProvider)
         {
             _mapper = mapper;
             _postProvider = postProvider;
             _tagProvider = tagProvider;
             _commentProvider = commentProvider;
+            _likeProvider = likeProvider;
         }
 
         
@@ -65,7 +66,7 @@ namespace Services.Services
             {
                 return false;
             }
-            
+            await _commentProvider.DeleteAllByPostIdAsync(id, ct);
             await _likeProvider.DeleteLikesOfPostAsync(id, ct);
             await _tagProvider.UpdateTagsAsync(post.PostTags, null, ct);
             return await _postProvider.DeleteAsync(post, ct);
