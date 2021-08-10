@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
-using Services.Models;
 using Services.Models.RequestModels;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,14 +19,22 @@ namespace Snippet.WebAPI.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
        // [Authorize]
-        public async Task<bool> PressLike(LikeRequest like,CancellationToken ct)
+        public async Task<IActionResult> PressLike([FromBody]LikeRequest like, CancellationToken ct)
         {
+            if(like == null || !ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var newLike = await _likeProvider.CreateAsync(like, ct).ConfigureAwait(false);
 
-            return newLike == null ? false:true;
+            var result = newLike == null ? false : true;
+            return Ok(result);
         }
-        [HttpGet]
+        [HttpGet("{postId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public Task<int> GetRaiting(int postId, CancellationToken ct)
         {
             return _likeProvider.GetCountAsync(postId, ct);
