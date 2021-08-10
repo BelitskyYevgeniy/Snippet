@@ -64,7 +64,7 @@ namespace Snippet.WebAPI.Controllers
                 return BadRequest(ModelState);
             }
             var response = await _commentProvider.UpdateAsync(id, comment, ct);
-            if(comment == null)
+            if(response == null)
             {
                 return NotFound();
             }
