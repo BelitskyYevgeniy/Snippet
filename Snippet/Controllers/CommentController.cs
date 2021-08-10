@@ -43,10 +43,10 @@ namespace Snippet.WebAPI.Controllers
             {
                 return BadRequest("Wrong father id");
             }
-            return Ok(result);
+            return Created(Url.Content("~/"), result);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         // [Authorize]
         public Task<bool> Delete(int id, CancellationToken ct = default)
@@ -57,7 +57,7 @@ namespace Snippet.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         // [Authorize]
-        public async Task<IActionResult> Update([FromBody]int id, [FromBody]CommentRequest comment, CancellationToken ct = default)
+        public async Task<IActionResult> Update(int id, [FromBody]CommentRequest comment, CancellationToken ct = default)
         {
             if(comment == null || !ModelState.IsValid)
             {
