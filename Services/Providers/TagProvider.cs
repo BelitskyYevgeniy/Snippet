@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 using System;
 using Services.Models.RequestModels;
 using Services.Models.ResponseModels;
+using Services.Interfaces.Services;
 
 namespace Services.Providers
 {
@@ -18,16 +19,19 @@ namespace Services.Providers
     {
         private readonly IMapper _mapper;
         private readonly ITagRepositoryAsync _tagRepository;
+        private readonly IPaginationService _paginationService;
       
-        public TagProvider(IMapper mapper, ITagRepositoryAsync tagRepository)
+        public TagProvider(IMapper mapper, ITagRepositoryAsync tagRepository,IPaginationService paginationService)
         {
             _mapper = mapper;
             _tagRepository = tagRepository;
+            _paginationService = paginationService;
             
         }
 
         public async Task<IReadOnlyCollection<TagResponse>> GetTopAsync(int count = int.MaxValue, CancellationToken ct = default)
         {
+            count = _paginationService.ValidateCount(count);
             var result = await _tagRepository.GetTopAsync(count, ct);
             return _mapper.Map<IReadOnlyCollection<TagResponse>>(result);
         }
