@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
 using Services.Models.ResponseModels;
 using System.Collections.Generic;
@@ -19,7 +20,8 @@ namespace Snippet.WebAPI.Controllers
         }
 
         [HttpGet]
-        public Task<IReadOnlyCollection<LanguageResponse>> GetRaiting(int count = int.MaxValue, CancellationToken ct = default)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IReadOnlyCollection<LanguageResponse>))]
+        public Task<IReadOnlyCollection<LanguageResponse>> GetTop(int count = int.MaxValue, CancellationToken ct = default)
         {
             return _languageProvider.GetTopAsync(count, ct);
         }
