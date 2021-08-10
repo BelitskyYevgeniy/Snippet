@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
 using Services.Models;
 using Services.Models.ResponseModels;
@@ -23,6 +24,8 @@ namespace Snippet.WebAPI.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public Task<UserResponse> GetById(int id, CancellationToken ct)
         {
             return _userProvider.GetByIdAsync(id, ct);
