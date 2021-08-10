@@ -22,10 +22,10 @@ namespace Snippet.WebAPI.Controllers
             _commentProvider = commentProvider;
         }
         [HttpGet("{postId:int}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IReadOnlyCollection<CommentResponse>))]
-        public async Task<IActionResult> GetAllByPostId(int postId, int skip = 0, int count = int.MaxValue, CancellationToken ct = default)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public Task<IReadOnlyCollection<CommentResponse>> GetAllByPostId(int postId, int skip = 0, int count = int.MaxValue, CancellationToken ct = default)
         {
-            return Ok(await _commentProvider.GetAllByPostIdAsync(postId, skip, count, ct));
+            return _commentProvider.GetAllByPostIdAsync(postId, skip, count, ct);
         }
 
         [HttpPost]
