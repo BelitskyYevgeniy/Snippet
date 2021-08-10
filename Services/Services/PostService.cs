@@ -65,11 +65,8 @@ namespace Services.Services
             {
                 return false;
             }
-            var comments = await _commentProvider.GetAllByPostIdAsync(id, 0, int.MaxValue, ct);
-            foreach (var comment in comments)
-            {
-                await _commentProvider.DeleteAsync(comment.Id, ct);
-            }
+            
+            await _likeProvider.DeleteLikesOfPostAsync(id, ct);
             await _tagProvider.UpdateTagsAsync(post.PostTags, null, ct);
             return await _postProvider.DeleteAsync(post, ct);
         }

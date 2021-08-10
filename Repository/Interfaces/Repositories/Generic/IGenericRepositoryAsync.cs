@@ -24,6 +24,7 @@ namespace Snippet.Data.Interfaces.Generic
         Task<TEntity> CreateAsync(TEntity entity, CancellationToken ct = default);
         Task<bool> DeleteAsync(int id, CancellationToken ct = default);
         Task<bool> DeleteAsync(TEntity entity, CancellationToken ct = default);
+        Task DeleteRangeAsync(IEnumerable<TEntity> entities, CancellationToken ct = default);
         Task<TEntity> UpdateAsync(TEntity entity, CancellationToken ct = default);
     }
 }
