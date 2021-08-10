@@ -38,10 +38,10 @@ namespace Services.Providers
             return _mapper.Map<IReadOnlyCollection<LanguageResponse>>(result);
         }
 
- /*       public async Task<LanguageResponse> GetByIdAsync(int id, CancellationToken ct = default)
+        public async Task<LanguageResponse> GetByIdAsync(int id, CancellationToken ct = default)
         {
-            var entity = await _languageRepository.GetByIdAsync(id, ct);
+            var entity = await _languageRepository.GetByIdAsync(id, ct : ct);
             return _mapper.Map<LanguageResponse>(entity);
-        }*/
+        }
     }
 }

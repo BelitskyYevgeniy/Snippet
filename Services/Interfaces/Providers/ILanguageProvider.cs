@@ -11,6 +11,6 @@ namespace Services.Interfaces.Providers
         //Task<bool> DeleteAsync(int id, CancellationToken ct = default);
         Task<IReadOnlyCollection<LanguageResponse>> GetTopAsync(int count = int.MaxValue, CancellationToken ct = default);
         //Task<Language> UpdateAsync(Language tag, CancellationToken ct = default);
-        //Task<Language> GetByIdAsync(int id, CancellationToken ct = default);
+        Task<LanguageResponse> GetByIdAsync(int id, CancellationToken ct = default);
     }
 }

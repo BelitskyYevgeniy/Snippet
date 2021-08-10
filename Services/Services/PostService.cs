@@ -19,7 +19,7 @@ namespace Services.Services
         private readonly ITagProvider _tagProvider;
         private readonly ICommentProvider _commentProvider;
         private readonly ILikeProvider _likeProvider;
-
+        private readonly ILanguageProvider _languageProvider;
         private async Task<PostResponse> UpdateAsync(PostEntity entity, IReadOnlyCollection<TagRequest> tags, CancellationToken ct = default)
         {
             var setTags = new HashSet<TagRequest>(tags);
@@ -46,13 +46,14 @@ namespace Services.Services
         }
 
 
-        public PostService(IMapper mapper, IPostProvider postProvider, ITagProvider tagProvider, ICommentProvider commentProvider, ILikeProvider likeProvider)
+        public PostService(IMapper mapper, IPostProvider postProvider, ITagProvider tagProvider, ICommentProvider commentProvider, ILikeProvider likeProvider, ILanguageProvider languageProvider)
         {
             _mapper = mapper;
             _postProvider = postProvider;
             _tagProvider = tagProvider;
             _commentProvider = commentProvider;
             _likeProvider = likeProvider;
+            _languageProvider = languageProvider;
         }
 
         
@@ -86,7 +87,9 @@ namespace Services.Services
             var entity = _mapper.Map<PostEntity>(model);
             entity = await _postProvider.CreateAsync(entity, ct);
             entity.PostTags = new List<PostTagEntity>();
-            return await UpdateAsync(entity, model.Tags, ct);
+            var response = await UpdateAsync(entity, model.Tags, ct);
+            response.Language = await _languageProvider.GetByIdAsync(entity.LanguageId, ct);
+            return response;
         }
         public async Task<PostResponse> UpdateAsync(int postId, PostRequest model, CancellationToken ct = default)
         {
