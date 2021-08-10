@@ -18,7 +18,7 @@ namespace Services.Services
         private readonly IPostProvider _postProvider;
         private readonly ITagProvider _tagProvider;
         private readonly ICommentProvider _commentProvider;
-       
+        private readonly ILikeProvider _likeProvider;
 
         private async Task<PostResponse> UpdateAsync(PostEntity entity, IReadOnlyCollection<TagRequest> tags, CancellationToken ct = default)
         {
