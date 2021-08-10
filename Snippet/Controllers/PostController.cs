@@ -44,6 +44,8 @@ namespace Snippet.WebAPI.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public Task<PostResponse> GetById(int id, CancellationToken ct = default)
         {
             return _postService.GetByIdAsync(id, ct);
