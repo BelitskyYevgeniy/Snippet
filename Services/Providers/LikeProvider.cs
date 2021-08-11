@@ -45,6 +45,10 @@ namespace Services.Providers
 
         public async Task<LikeRequest> CreateAsync(LikeRequest like, CancellationToken ct = default)
         {
+            if(like == null)
+            {
+                return null;
+            }
             var entity = _mapper.Map<LikeRequest, LikeEntity>(like);
             var foundLike = (await _likeRepository.FindAsync(filter: new Expression<Func<LikeEntity, bool>>[] { (x) => x.UserId == like.UserId && x.PostId == like.PostId }, ct: ct)).FirstOrDefault();
             if (foundLike != null)
