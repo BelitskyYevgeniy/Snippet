@@ -42,7 +42,7 @@ namespace Services.Configuration
         {
             serviceCollection.AddScoped<IPostService, PostService>();
             serviceCollection.AddTransient<IPaginationService, PaginationService>();
-
+            serviceCollection.AddScoped<IAuthenticateService, AuthenticateService>();
             return serviceCollection;
         }
 
