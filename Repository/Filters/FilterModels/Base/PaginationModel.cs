@@ -2,7 +2,7 @@
 {
     public class PaginationModel
     {
-        public int Count { get; set; }
-        public int Skip { get; set; }
+        public int Count { get; set; } = int.MaxValue;
+        public int Skip { get; set; } = default;
     }
 }

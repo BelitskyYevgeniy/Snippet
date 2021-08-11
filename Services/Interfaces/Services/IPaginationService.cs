@@ -9,5 +9,7 @@ namespace Services.Interfaces.Services
     public interface IPaginationService
     {
         int ValidateCount(int count);
+
+        int ValidateSkip(int skip);
     }
 }

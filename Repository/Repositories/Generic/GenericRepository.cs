@@ -102,7 +102,7 @@ namespace Snippet.Data
             query = query == null || orderBy == null ? query : orderBy(query);
             int entityCount = await GetCount();
             skip = skip < 0 ? 0 : skip > entityCount ? 0: skip;
-            count = count < 0 ? 1 : count > entityCount ? entityCount : count;
+            count = count < 0 || count > entityCount ? entityCount : count;
             query = query.Skip(skip).Take(count);
             return await query.ToListAsync(ct);
         }

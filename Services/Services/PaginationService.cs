@@ -13,18 +13,12 @@ namespace Services.Services
 
         public int ValidateCount(int count)
         {
-            if (count > maxCount)
-            {
-                return 50;
-            }
-            else if (count < 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return count;
-            }
+            return count < 0 || count > maxCount ? maxCount : count;
+        }
+
+        public int ValidateSkip(int skip)
+        {
+            return skip < 0 ? 0 : skip;
         }
     }
 }
