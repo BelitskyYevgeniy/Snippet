@@ -5,6 +5,7 @@ using Services.Models.RequestModels;
 using Services.Models.ResponseModels;
 using Snippet.BLL.Interfaces.Providers;
 using Snippet.Data.Entities;
+using Snippet.Data.Interfaces.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -19,6 +20,7 @@ namespace Services.Services
         private readonly ITagProvider _tagProvider;
         private readonly ICommentProvider _commentProvider;
         private readonly ILikeProvider _likeProvider;
+        private readonly IPostRepositoryAsync _postRepository;
 
         private async Task<PostResponse> UpdateAsync(PostEntity entity, IReadOnlyCollection<TagRequest> tags, CancellationToken ct = default)
         {
@@ -46,13 +48,14 @@ namespace Services.Services
         }
 
 
-        public PostService(IMapper mapper, IPostProvider postProvider, ITagProvider tagProvider, ICommentProvider commentProvider, ILikeProvider likeProvider)
+        public PostService(IMapper mapper, IPostProvider postProvider, ITagProvider tagProvider, ICommentProvider commentProvider, ILikeProvider likeProvider,IPostRepositoryAsync postRepository)
         {
             _mapper = mapper;
             _postProvider = postProvider;
             _tagProvider = tagProvider;
             _commentProvider = commentProvider;
             _likeProvider = likeProvider;
+            _postRepository = postRepository;
         }
 
         
@@ -100,6 +103,11 @@ namespace Services.Services
             entityModel.CreationDateTime = existingPost.CreationDateTime;
             entityModel.PostTags = existingPost.PostTags;
             return await UpdateAsync(entityModel, model.Tags, ct);
+        }
+        public async Task<int> GetCount(CancellationToken ct = default)
+        {
+            var count = await _postRepository.GetCount(ct);
+            return count;
         }
     }
 }

@@ -11,8 +11,7 @@ namespace Services.Interfaces.Services
         Task<PostResponse> CreateAsync(PostRequest model, CancellationToken ct = default);
         Task<bool> DeleteAsync(int id, CancellationToken ct = default);
         Task<PostResponse> GetByIdAsync(int id, CancellationToken ct = default);
-
-
+        Task<int> GetCount(CancellationToken ct = default);
 
 
     }

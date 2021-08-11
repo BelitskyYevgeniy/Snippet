@@ -57,6 +57,11 @@ namespace Snippet.WebAPI.Controllers
             return _postService.UpdateAsync(postId, post, ct);
         }
 
+        [HttpGet]
+        public Task<int> GetCount(CancellationToken ct)
+        {
+            return _postService.GetCount(ct);
+        }
 
 
     }
