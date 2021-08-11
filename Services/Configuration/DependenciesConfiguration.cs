@@ -41,6 +41,8 @@ namespace Services.Configuration
         public static IServiceCollection RegisterServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<IPostService, PostService>();
+            serviceCollection.AddScoped<ICommentService, CommentService>();
+
             serviceCollection.AddTransient<IPaginationService, PaginationService>();
             serviceCollection.AddScoped<IAuthenticationService, AuthenticationService>();
             return serviceCollection;

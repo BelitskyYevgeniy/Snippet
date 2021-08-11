@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
+using Services.Interfaces.Services;
 using Services.Models.RequestModels;
 using Services.Models.ResponseModels;
 using System.Collections.Generic;
@@ -16,10 +18,12 @@ namespace Snippet.WebAPI.Controllers
     public class CommentController : ControllerBase
     {
         private readonly ICommentProvider _commentProvider;
+        private readonly ICommentService _commentService;
 
-        public CommentController(ICommentProvider commentProvider)
+        public CommentController(ICommentProvider commentProvider, ICommentService commentService)
         {
             _commentProvider = commentProvider;
+            _commentService = commentService;
         }
         [HttpGet("{postId:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -31,14 +35,14 @@ namespace Snippet.WebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CommentResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-       // [Authorize]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody]CommentRequest comment, CancellationToken ct = default)
         {
             if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var result = await _commentProvider.CreateAsync(comment, ct);
+            var result = await _commentService.CreateAsync(comment, ct);
             if(result == null)
             {
                 return BadRequest("Wrong father id");
@@ -48,22 +52,22 @@ namespace Snippet.WebAPI.Controllers
 
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        // [Authorize]
+        [Authorize]
         public Task<bool> Delete(int id, CancellationToken ct = default)
         {
-            return _commentProvider.DeleteAsync(id, ct);
+            return _commentService.DeleteAsync(id, ct);
         }
         [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        // [Authorize]
+        [Authorize]
         public async Task<IActionResult> Update(int id, [FromBody]CommentRequest comment, CancellationToken ct = default)
         {
             if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var response = await _commentProvider.UpdateAsync(id, comment, ct);
+            var response = await _commentService.UpdateAsync(id, comment, ct);
             if(response == null)
             {
                 return NotFound();

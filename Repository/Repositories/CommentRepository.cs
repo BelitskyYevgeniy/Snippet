@@ -29,6 +29,16 @@ namespace Snippet.Data.Repositories
             {
                 return false;
             }
+
+            if (entity.FatherCommentId != null)
+            {
+
+                var comment = await _dbContext.Comments.Where(e => e.Id == entity.FatherCommentId).FirstOrDefaultAsync();
+                if (comment == null)
+                {
+                    return false;
+                }
+            }
             return true;
         }
     }

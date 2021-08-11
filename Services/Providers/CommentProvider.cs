@@ -8,9 +8,9 @@ using Snippet.Data.Interfaces.Repositories;
 using System.Linq;
 using System.Linq.Expressions;
 using System;
-using Services.Models.RequestModels;
 using Services.Models.ResponseModels;
 using Services.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Services.Providers
 {
@@ -26,9 +26,15 @@ namespace Services.Providers
             _paginationService = paginationService;
         }
 
-        public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
+        public Task<CommentEntity> GetByIdAsync(int id, CancellationToken ct = default)
         {
-            return await _commentRepository.DeleteAsync(id, ct);
+            return _commentRepository.GetByIdAsync(id, ct: ct);
+        }
+
+        [Authorize]
+        public async Task<bool> DeleteAsync(CommentEntity entity, CancellationToken ct = default)
+        {
+            return await _commentRepository.DeleteAsync(entity, ct);
         }
 
         public async Task<IReadOnlyCollection<CommentResponse>> GetAllByPostIdAsync(int postId, int skip = 0, int count = int.MaxValue, CancellationToken ct = default)
@@ -39,38 +45,34 @@ namespace Services.Providers
                 comments => comments.OrderBy(comment => comment.CreationDateTime), null, ct);
             return _mapper.Map<IEnumerable<CommentEntity>, IReadOnlyCollection<CommentResponse>>(comments);
         }
+
         public async Task DeleteAllByPostIdAsync(int postId, CancellationToken ct = default)
         {
             var commentResponses = await GetAllByPostIdAsync(postId, 0, ct: ct);
             var comments = _mapper.Map<IReadOnlyCollection<CommentEntity>>(commentResponses);
             await _commentRepository.DeleteRangeAsync(comments, ct);
         }
-        public async Task<CommentResponse> CreateAsync(CommentRequest comment, CancellationToken ct = default)
-        {
-            if (comment == null || comment.FatherCommentId != null)
-            {
-                var commentFather = await _commentRepository.GetByIdAsync((int)comment.FatherCommentId);
-                if (commentFather == null)
-                {
-                    return null;
-                }
-            }
-            var entity = _mapper.Map<CommentEntity>(comment);
-            entity.CreationDateTime = DateTime.Now;
 
-            entity = await _commentRepository.CreateAsync(entity,ct);
-            
-            return _mapper.Map<CommentResponse>(entity);
-        }
-        public async Task<CommentResponse> UpdateAsync(int id, CommentRequest model, CancellationToken ct = default)
+        [Authorize]
+        public async Task<CommentResponse> CreateAsync(CommentEntity comment, CancellationToken ct = default)
         {
-            if(model == null)
+            if (comment == null)
             {
                 return null;
             }
-            var entity = _mapper.Map<CommentEntity>(model);
+            comment.CreationDateTime = DateTime.Now;
 
-            entity.Id = id;
+            comment = await _commentRepository.CreateAsync(comment, ct);
+            
+            return _mapper.Map<CommentResponse>(comment);
+        }
+        [Authorize]
+        public async Task<CommentResponse> UpdateAsync(CommentEntity entity, CancellationToken ct = default)
+        {
+            if(entity == null)
+            {
+                return null;
+            }
             entity.LastUpdateDateTime = DateTime.Now;
             entity = await _commentRepository.UpdateAsync(entity, ct);
 
