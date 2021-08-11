@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.DependencyInjection;
 using Services.Interfaces.Providers;
 using Services.Interfaces.Services;
 using Services.Mapping;
@@ -43,6 +44,21 @@ namespace Services.Configuration
             serviceCollection.AddTransient<IPaginationService, PaginationService>();
 
             return serviceCollection;
+        }
+
+        public static IServiceCollection AddAuth0Authentication(this IServiceCollection services, string authority, string audience)
+        {
+            
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = authority;
+                options.Audience = audience;
+            });
+            return services;
         }
     }
 }

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,12 +21,14 @@ namespace Snippet.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
             services.RegisterMappingConfig();
             services.AddControllers();
             services.RegisterProviders();
             services.AddRepository(Configuration.GetConnectionString("DefaultConnection"));
             services.RegisterServices();
+            services.AddAuth0Authentication(
+                Configuration.GetConnectionString("Authority"),
+                Configuration.GetConnectionString("Audiency"));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Snippet.WebAPI", Version = "v1" });
