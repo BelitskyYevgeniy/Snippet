@@ -15,5 +15,6 @@ namespace Services.Interfaces.Providers
         Task<IReadOnlyCollection<PostResponse>> GetAsync(PostEntityFilterModel model, CancellationToken ct = default);
         Task<PostResponse> UpdateAsync(PostEntity entity, CancellationToken ct = default);
         PostResponse ConvertToResponse(PostEntity entity);
+        Task<int> GetCount(CancellationToken ct);
     }
 }
