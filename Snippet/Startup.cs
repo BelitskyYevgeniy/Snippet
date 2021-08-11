@@ -31,6 +31,9 @@ namespace Snippet.WebAPI
             services.AddAuth0Authentication(
                 auth0Configuration["Authority"],
                 auth0Configuration["Audiency"]);
+
+            services.AddHttpContextAccessor();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Snippet.WebAPI", Version = "v1" });

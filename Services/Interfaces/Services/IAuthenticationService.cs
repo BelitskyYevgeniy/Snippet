@@ -7,7 +7,7 @@ namespace Services.Interfaces.Services
 {
     public interface IAuthenticationService
     {
-        Task<UserResponse> GetUserAsync(HttpContext context, CancellationToken ct = default);
-        Task<UserResponse> RegisterUser(HttpContext context, CancellationToken ct = default);
+        Task<UserResponse> GetUserAsync(CancellationToken ct = default);
+        Task<UserResponse> RegisterUser(CancellationToken ct = default);
     }
 }

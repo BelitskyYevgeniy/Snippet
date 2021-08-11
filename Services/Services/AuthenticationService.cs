@@ -16,26 +16,28 @@ namespace Services.Services
     public class AuthenticationService : IAuthenticationService
     {
         private readonly IUserProvider _userProvider;
-        public AuthenticationService(IUserProvider userProvider)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public AuthenticationService(IHttpContextAccessor httpContextAccessor, IUserProvider userProvider)
         {
+            _httpContextAccessor = httpContextAccessor;
             _userProvider = userProvider;
         }
-        public Task<UserResponse> GetUserAsync(HttpContext context, CancellationToken ct = default)
+        public Task<UserResponse> GetUserAsync(CancellationToken ct = default)
         {
-            var userAuthId = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var userAuthId = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             return _userProvider.GetByAuthIdAsync(userAuthId, ct);
         }
-        public async Task<UserResponse> RegisterUser(HttpContext context, CancellationToken ct = default)
+        public async Task<UserResponse> RegisterUser(CancellationToken ct = default)
         {
-            var response = await GetUserAsync(context, ct);
+            var response = await GetUserAsync(ct);
             if(response != null)
             {
                 return response;
             }
             var request = new UserRequest
             {
-                Name = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value,
-                AuthId = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value
+                Name = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value,
+                AuthId = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value
             };
             return await _userProvider.CreateAsync(request, ct);
         }
