@@ -53,7 +53,7 @@ namespace Services.Providers
             return result;
         }
 
-        public Task UpdateTagsAsync(IEnumerable<PostTagEntity> currentItems, IEnumerable<PostTagEntity> newItems, CancellationToken ct = default)
+        public Task UpdateTagsAsync(IEnumerable<PostTagEntity> currentItems, IEnumerable<PostTagEntity> newItems, CancellationToken ct = default)//unsafe
         {
             return _tagRepository.UpdateTagsAsync(currentItems, newItems, ct);
         }
