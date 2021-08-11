@@ -122,6 +122,7 @@ namespace Snippet.Data.Context
                 .HasForeignKey(e => e.TagId);
 
             modelBuilder.Entity<UserEntity>().HasIndex(u => u.Name).IsUnique();
+            modelBuilder.Entity<UserEntity>().HasIndex(u => u.AuthId).IsUnique();
             modelBuilder.Entity<TagEntity>().HasIndex(u => u.Name).IsUnique();
             modelBuilder.Entity<LanguageEntity>().HasIndex(u => u.Name).IsUnique();
 
