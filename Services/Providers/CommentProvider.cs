@@ -25,26 +25,6 @@ namespace Services.Providers
             _commentRepository = commentRepository;
             _paginationService = paginationService;
         }
-        private async Task<bool> ValidateRequest(int? id, CommentRequest request, CancellationToken ct = default)
-        {
-            if(id != null)
-            {
-                var entity = await _commentRepository.GetByIdAsync((int)id, ct : ct);
-                if(entity == null)
-                {
-                    return false;
-                }
-            }
-            if(request.FatherCommentId != null)
-            {
-                var entity = await _commentRepository.GetByIdAsync((int)request.FatherCommentId, ct: ct);
-                if (entity == null)
-                {
-                    return false;
-                }
-            }
-            return request.Message != null;
-        }
 
         public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
         {
