@@ -34,7 +34,7 @@ namespace Snippet.WebAPI.Controllers
        // [Authorize]
         public async Task<IActionResult> Create([FromBody]CommentRequest comment, CancellationToken ct = default)
         {
-            if(comment == null || !ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -59,7 +59,7 @@ namespace Snippet.WebAPI.Controllers
         // [Authorize]
         public async Task<IActionResult> Update(int id, [FromBody]CommentRequest comment, CancellationToken ct = default)
         {
-            if(comment == null || !ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }

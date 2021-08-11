@@ -47,10 +47,10 @@ namespace Services.Providers
         }
         public async Task<CommentResponse> CreateAsync(CommentRequest comment, CancellationToken ct = default)
         {
-            if (comment.FatherCommentId != null)
+            if (comment == null || comment.FatherCommentId != null)
             {
                 var commentFather = await _commentRepository.GetByIdAsync((int)comment.FatherCommentId);
-                if (comment == null)
+                if (commentFather == null)
                 {
                     return null;
                 }
@@ -64,7 +64,10 @@ namespace Services.Providers
         }
         public async Task<CommentResponse> UpdateAsync(int id, CommentRequest model, CancellationToken ct = default)
         {
-            
+            if(model == null)
+            {
+                return null;
+            }
             var entity = _mapper.Map<CommentEntity>(model);
 
             entity.Id = id;
