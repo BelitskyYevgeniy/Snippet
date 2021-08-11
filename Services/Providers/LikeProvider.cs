@@ -33,7 +33,7 @@ namespace Services.Providers
         public async Task DeleteLikesOfPostAsync(int postId, CancellationToken ct = default)
         {
             var likes = await GetAllByPostAsync(postId, ct);
-            if (likes != null && likes.Count != 0)
+            if (likes.Count != 0)
             {
                 await _likeRepository.DeleteRangeAsync(likes);
             }
@@ -49,18 +49,11 @@ namespace Services.Providers
             var foundLike = (await _likeRepository.FindAsync(filter: new Expression<Func<LikeEntity, bool>>[] { (x) => x.UserId == like.UserId && x.PostId == like.PostId }, ct: ct)).FirstOrDefault();
             if (foundLike != null)
             {
-               var res = await RemoveAsync(foundLike.Id, ct);
-                return null;
+               var res = await _likeRepository.DeleteAsync(foundLike, ct);
+               return null;
             }
             entity = await _likeRepository.CreateAsync(entity, ct);
             return like;
-        }
-
-        public async Task<bool> RemoveAsync(int likeId, CancellationToken ct = default)
-        {
-       
-            return await _likeRepository.DeleteAsync(likeId, ct);
-    
         }
     }
 }
