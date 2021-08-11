@@ -23,6 +23,10 @@ namespace Snippet.Data.Repositories
 
         public Task<IReadOnlyCollection<PostEntity>> FindAsync(PostEntityFilterModel model, CancellationToken ct = default)
         {
+            if(model == null)
+            {
+                return null;
+            }
             var factory = new PostEntityFilterFactory();
             var sortFactory = new PostEntitySortFilterFactory();
             var filters = factory.CreateFilters(model).OrderBy(filter => filter.Degree);

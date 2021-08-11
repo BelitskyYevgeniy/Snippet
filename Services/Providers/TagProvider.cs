@@ -39,6 +39,10 @@ namespace Services.Providers
         public async Task<IReadOnlyCollection<TagEntity>> CreateAsync(IReadOnlyCollection<TagRequest> tags, CancellationToken ct = default) 
         {
             var entities = _mapper.Map<IReadOnlyCollection<TagEntity>>(tags);
+            if (entities == null)
+            {
+                return null;
+            }
             var result = new List<TagEntity>();
             foreach (var entity in entities)
             {
@@ -53,7 +57,7 @@ namespace Services.Providers
             return result;
         }
 
-        public Task UpdateTagsAsync(IEnumerable<PostTagEntity> currentItems, IEnumerable<PostTagEntity> newItems, CancellationToken ct = default)//unsafe
+        public Task UpdateTagsAsync(IEnumerable<PostTagEntity> currentItems, IEnumerable<PostTagEntity> newItems, CancellationToken ct = default)
         {
             return _tagRepository.UpdateTagsAsync(currentItems, newItems, ct);
         }

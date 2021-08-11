@@ -31,7 +31,7 @@ namespace Snippet.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Get([FromQuery]PostEntityFilterModel model, CancellationToken ct = default) 
         {
-            if(model == null || !ModelState.IsValid)
+            if(ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -57,7 +57,7 @@ namespace Snippet.WebAPI.Controllers
         // [Authorize]
         public async Task<IActionResult> Create([FromBody]PostRequest post, CancellationToken ct = default)
         {
-            if(post == null || !(ModelState.IsValid))
+            if(!(ModelState.IsValid))
             {
                 return BadRequest(ModelState);
             }
@@ -83,7 +83,7 @@ namespace Snippet.WebAPI.Controllers
        // [Authorize]
         public async Task<IActionResult> Update(int id, [FromBody]PostRequest post, CancellationToken ct = default)
         {
-            if (post == null || !(ModelState.IsValid))
+            if (!(ModelState.IsValid))
             {
                 return BadRequest(ModelState);
             }

@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Services.Interfaces.Providers;
 using Services.Interfaces.Services;
-using Services.Models;
-using Services.Models.RequestModels;
 using Services.Models.ResponseModels;
 using Snippet.Data.Entities;
 using Snippet.Data.Filters.FilterModels;
@@ -22,7 +20,7 @@ namespace Services.Providers
         private readonly IPaginationService _paginationService;
         
 
-        public PostProvider(IMapper mapper , IPostRepositoryAsync tagRepository,IPaginationService paginationService)
+        public PostProvider(IMapper mapper, IPostRepositoryAsync tagRepository, IPaginationService paginationService)
         {
             _mapper = mapper;
             _postRepository = tagRepository;
@@ -31,7 +29,10 @@ namespace Services.Providers
 
         public PostResponse ConvertToResponse(PostEntity entity)
         {
-
+            if(entity == null)
+            {
+                return null;
+            }
             var response = _mapper.Map<PostResponse>(entity);
             if (entity.PostTags == null || entity.PostTags.Count == 0)
             {
@@ -46,7 +47,7 @@ namespace Services.Providers
         }
 
 
-        public async Task<bool> DeleteAsync(PostEntity entity, CancellationToken ct = default)
+        public async Task<bool> DeleteAsync(PostEntity entity, CancellationToken ct = default)//unsafe
         {
             return await _postRepository.DeleteAsync(entity, ct);
         }
@@ -57,6 +58,10 @@ namespace Services.Providers
 
         public async Task<IReadOnlyCollection<PostResponse>> GetAsync(PostEntityFilterModel model, CancellationToken ct = default)
         {
+            if(model == null)
+            {
+                return null;
+            }
             model.Count = _paginationService.ValidateCount(model.Count);
             var entityFilterModel = _mapper.Map<PostEntityFilterModel>(model);
             var posts = await _postRepository.FindAsync(entityFilterModel, ct);
@@ -70,17 +75,23 @@ namespace Services.Providers
 
         public Task<PostEntity> CreateAsync(PostEntity post, CancellationToken ct = default)
         {
-            post.CreationDateTime = System.DateTime.Now;
+            if(post == null)
+            {
+                return null;
+            }
+            post.CreationDateTime = DateTime.Now;
             post.LastUpdateDateTime = post.CreationDateTime;
             return _postRepository.CreateAsync(post, ct);
         }
 
         public async Task<PostResponse> UpdateAsync(PostEntity entity, CancellationToken ct = default)
         {
+            if (entity == null)
+            {
+                return null;
+            }
             entity.PostTags = null;
-            #region
             entity.LastUpdateDateTime = DateTime.Now;
-            #endregion
             var newEntity = await _postRepository.UpdateAsync(entity, ct);
 
             return _mapper.Map<PostEntity, PostResponse>(newEntity);
