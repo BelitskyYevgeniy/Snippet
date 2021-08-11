@@ -13,10 +13,10 @@ using System.Threading.Tasks;
 namespace Services.Services
 {
     [Authorize]
-    public class AuthenticateService : IAuthenticateService
+    public class AuthenticationService : IAuthenticationService
     {
         private readonly IUserProvider _userProvider;
-        public AuthenticateService(IUserProvider userProvider)
+        public AuthenticationService(IUserProvider userProvider)
         {
             _userProvider = userProvider;
         }

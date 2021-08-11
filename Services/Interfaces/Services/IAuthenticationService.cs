@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Services.Interfaces.Services
 {
-    public interface IAuthenticateService
+    public interface IAuthenticationService
     {
         Task<UserResponse> GetUserAsync(HttpContext context, CancellationToken ct = default);
         Task<UserResponse> RegisterUser(HttpContext context, CancellationToken ct = default);
