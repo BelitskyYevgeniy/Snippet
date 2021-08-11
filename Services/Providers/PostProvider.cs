@@ -97,5 +97,11 @@ namespace Services.Providers
 
             return _mapper.Map<PostEntity, PostResponse>(newEntity);
         }
+
+        public async Task<int> GetCount(CancellationToken ct = default)
+        {
+            var count =await _postRepository.GetCount(ct);
+            return count;
+        }
     }
 }
