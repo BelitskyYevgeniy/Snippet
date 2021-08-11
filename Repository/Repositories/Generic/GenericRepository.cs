@@ -43,8 +43,7 @@ namespace Snippet.Data
 
         public async Task<TEntity> CreateAsync(TEntity entity, CancellationToken ct = default)
         {
-            var isValid = await ValidateEntity(entity, ct);
-            if (!isValid)
+            if (entity == null || !(await ValidateEntity(entity, ct)))
             {
                 return null;
             }
@@ -55,9 +54,12 @@ namespace Snippet.Data
 
         public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken ct = default)
         {
+            if (entity == null || !(await ValidateEntity(entity, ct)))
+            {
+                return null;
+            }
             var existingEntity = await _dbContext.Set<TEntity>().FindAsync(entity.Id, ct);
-            var isValid = await ValidateEntity(entity, ct);
-            if (existingEntity == null || !isValid)
+            if (existingEntity == null)
             {
                 return null;
             }
@@ -128,12 +130,19 @@ namespace Snippet.Data
         }
         public virtual async Task DeleteRangeAsync(IEnumerable<TEntity> entities, CancellationToken ct = default) //unsafe
         {
-
+            if(entities == null)
+            {
+                return;
+            }
             _dbContext.Set<TEntity>().RemoveRange(entities);
             await _dbContext.SaveChangesAsync(ct);
         }
         public virtual async Task<bool> DeleteAsync(TEntity entity, CancellationToken ct = default)
-        {     
+        {
+            if (entity == null || !(await ValidateEntity(entity, ct)))
+            {
+                return false;
+            }
             var entityEntry = _dbContext.Set<TEntity>().Remove(entity);
             await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
             return entityEntry != null;
