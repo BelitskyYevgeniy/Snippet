@@ -26,9 +26,11 @@ namespace Snippet.WebAPI
             services.RegisterProviders();
             services.AddRepository(Configuration.GetConnectionString("DefaultConnection"));
             services.RegisterServices();
+
+            var auth0Configuration = Configuration.GetSection("Auth0");
             services.AddAuth0Authentication(
-                Configuration.GetConnectionString("Authority"),
-                Configuration.GetConnectionString("Audiency"));
+                auth0Configuration["Authority"],
+                auth0Configuration["Audiency"]);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Snippet.WebAPI", Version = "v1" });
