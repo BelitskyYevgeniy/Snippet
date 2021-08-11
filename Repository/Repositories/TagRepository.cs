@@ -44,6 +44,10 @@ namespace Snippet.Data.Repositories
             ProcessUpdateTagsRequest(currentItems, newItems, out removedPostTags, out addedPostTags);
             foreach (var postTag in removedPostTags)
             {
+                if(postTag == null)
+                {
+                    continue;
+                }
                 var query = _dbContext.PostTags.Include(pt => pt.Tag).Where(pt => pt.TagId == postTag.TagId).AsNoTracking();
                 var shouldDeleteTag = query.Count() == 1;
                 var tag = postTag.Tag;
@@ -78,6 +82,11 @@ namespace Snippet.Data.Repositories
                     Name = obj.Name
                 }).ToListAsync(ct);
 
+        }
+
+        public override Task<bool> ValidateEntity(TagEntity entity, CancellationToken ct = default)
+        {
+            return Task.FromResult(!(entity == null || entity.Name == null || entity.Name.Length < 1));
         }
     }
 

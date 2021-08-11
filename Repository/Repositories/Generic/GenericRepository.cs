@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Snippet.Data.Context;
+using Snippet.Data.Entities;
 using Snippet.Data.Entities.Base;
 using Snippet.Data.Interfaces.Generic;
+using Snippet.Data.ValidateEntityExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Snippet.Data
 {
-    public class GenericRepository<TEntity> : IGenericRepositoryAsync<TEntity>
+    public abstract class GenericRepository<TEntity> : IGenericRepositoryAsync<TEntity>
         where TEntity : BaseEntity
     {
         protected readonly RepositoryContext _dbContext;
@@ -43,6 +45,11 @@ namespace Snippet.Data
 
         public async Task<TEntity> CreateAsync(TEntity entity, CancellationToken ct = default)
         {
+            var isValid = await ValidateEntity(entity, ct);
+            if (!isValid)
+            {
+                return null;
+            }
             var entityEntry = await _dbContext.Set<TEntity>().AddAsync(entity, ct).ConfigureAwait(false);
             await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
             return entityEntry.Entity;
@@ -50,6 +57,12 @@ namespace Snippet.Data
 
         public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken ct = default)
         {
+            var existingEntity = await _dbContext.Set<TEntity>().FindAsync(entity.Id, ct);
+            var isValid = await ValidateEntity(entity, ct);
+            if (existingEntity == null || !isValid)
+            {
+                return null;
+            }
             var entityEntry = _dbContext.Set<TEntity>().Update(entity);
             await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
             return entityEntry.Entity;
@@ -105,22 +118,24 @@ namespace Snippet.Data
 
             return false;
         }
-        public virtual async Task DeleteRangeAsync(IEnumerable<TEntity> entities, CancellationToken ct = default)
+        public virtual async Task DeleteRangeAsync(IEnumerable<TEntity> entities, CancellationToken ct = default) //unsafe
         {
+
             _dbContext.Set<TEntity>().RemoveRange(entities);
             await _dbContext.SaveChangesAsync(ct);
         }
         public virtual async Task<bool> DeleteAsync(TEntity entity, CancellationToken ct = default)
-        {
-                var entityEntry = _dbContext.Set<TEntity>().Remove(entity);
-                await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
-                return entityEntry != null;
+        {     
+            var entityEntry = _dbContext.Set<TEntity>().Remove(entity);
+            await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
+            return entityEntry != null;
         }
 
         public virtual async Task<IReadOnlyCollection<TEntity>> GetAllAsync(CancellationToken ct = default)
         {
-            
             return await _dbContext.Set<TEntity>().ToListAsync(ct).ConfigureAwait(false);
         }
+
+        public abstract Task<bool> ValidateEntity(TEntity entity, CancellationToken ct = default);
     }
 }

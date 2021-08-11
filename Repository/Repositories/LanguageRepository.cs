@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Snippet.Data.Repositories
 {
-    class LanguageRepository: GenericRepository<LanguageEntity>, ILanguageRepositoryAsync
+    public class LanguageRepository: GenericRepository<LanguageEntity>, ILanguageRepositoryAsync
     {
         public LanguageRepository(RepositoryContext db): base(db)
         {
@@ -34,6 +34,11 @@ namespace Snippet.Data.Repositories
                     Id = obj.Id,
                     Name = obj.Name
                 }).ToListAsync(ct);
+        }
+
+        public override Task<bool> ValidateEntity(LanguageEntity entity, CancellationToken ct = default)
+        {
+            return Task.FromResult(!(entity == null || entity.Name == null || entity.Name.Length < 1));
         }
     }
 }

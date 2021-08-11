@@ -57,5 +57,28 @@ namespace Snippet.Data.Repositories
             }
             return result.ElementAt(0);
         }
+
+        public override async Task<bool> ValidateEntity(PostEntity entity, CancellationToken ct = default)
+        {
+            if (entity.Tittle == null || entity.Tittle.Length < 1 || entity.Tittle.Length > 1024 ||
+               entity.Description == null || entity.Description.Length < 1 || entity.Description.Length > 2048 ||
+               entity.SnippetCode == null || entity.SnippetCode.Length < 1 || entity.SnippetCode.Length > 4096 ||
+               entity.LastUpdateDateTime < entity.CreationDateTime)
+            {
+                return false;
+            }
+            var lang = await _dbContext.Languages.Where(e => e.Id == entity.LanguageId).FirstOrDefaultAsync();
+            if (lang == null)
+            {
+                return false;
+            }
+
+            var user = await _dbContext.Users.Where(e => e.Id == entity.UserId).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
