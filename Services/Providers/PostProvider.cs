@@ -63,7 +63,7 @@ namespace Services.Providers
                 return null;
             }
             model.Count = _paginationService.ValidateCount(model.Count);
-            model.Count = _paginationService.ValidateSkip(model.Skip);
+            model.Skip = _paginationService.ValidateSkip(model.Skip);
             var entityFilterModel = _mapper.Map<PostEntityFilterModel>(model);
             var posts = await _postRepository.FindAsync(entityFilterModel, ct);
             var responses = new List<PostResponse>();
