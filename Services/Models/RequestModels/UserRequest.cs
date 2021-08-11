@@ -5,6 +5,8 @@ namespace Services.Models.RequestModels
     public class UserRequest
     {
         [Required]
-        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        [Required]
+        public string AuthId { get; set; } = string.Empty;
     }
 }
