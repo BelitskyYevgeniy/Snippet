@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Snippet.Data.Context;
-using Snippet.Data.Entities;
 using Snippet.Data.Entities.Base;
 using Snippet.Data.Interfaces.Generic;
-using Snippet.Data.ValidateEntityExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -37,7 +37,7 @@ namespace Snippet.Data.Repositories
                 }
             }
         }
-        public async Task UpdateTagsAsync(IEnumerable<PostTagEntity> currentItems, IEnumerable<PostTagEntity> newItems, CancellationToken ct = default)
+        public async Task UpdateTagsAsync(IEnumerable<PostTagEntity> currentItems, IEnumerable<PostTagEntity> newItems, CancellationToken ct = default)//unsafe
         {
             IEnumerable<PostTagEntity> removedPostTags;
             IEnumerable<PostTagEntity> addedPostTags;
