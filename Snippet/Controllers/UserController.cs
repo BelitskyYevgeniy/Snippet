@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
-using Services.Models;
+using Services.Interfaces.Services;
 using Services.Models.ResponseModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,18 +14,28 @@ namespace Snippet.WebAPI.Controllers
     public class UserController :ControllerBase
     {
         private readonly IUserProvider _userProvider;
-
-        public UserController(IUserProvider userProvider)
+        private readonly IAuthenticationService _authorizationService;
+        public UserController(IUserProvider userProvider, IAuthenticationService authorizationService)
         {
             _userProvider = userProvider;
+            _authorizationService = authorizationService;
         }
 
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public Task<UserResponse> GetById(int id, CancellationToken ct)
+        public Task<UserResponse> GetById(int id, CancellationToken ct = default)
         {
             return _userProvider.GetByIdAsync(id, ct);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public Task<UserResponse> Register(CancellationToken ct = default)
+        {
+            return _authorizationService.RegisterUserAsync(ct);
         }
     }
 }

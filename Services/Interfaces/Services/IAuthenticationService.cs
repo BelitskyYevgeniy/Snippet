@@ -8,6 +8,6 @@ namespace Services.Interfaces.Services
     public interface IAuthenticationService
     {
         Task<UserResponse> GetUserAsync(CancellationToken ct = default);
-        Task<UserResponse> RegisterUser(CancellationToken ct = default);
+        Task<UserResponse> RegisterUserAsync(CancellationToken ct = default);
     }
 }

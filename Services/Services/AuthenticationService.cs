@@ -27,7 +27,7 @@ namespace Services.Services
             var userAuthId = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             return _userProvider.GetByAuthIdAsync(userAuthId, ct);
         }
-        public async Task<UserResponse> RegisterUser(CancellationToken ct = default)
+        public async Task<UserResponse> RegisterUserAsync(CancellationToken ct = default)
         {
             var response = await GetUserAsync(ct);
             if(response != null)
