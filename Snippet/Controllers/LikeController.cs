@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
 using Services.Models.RequestModels;
@@ -21,16 +22,14 @@ namespace Snippet.WebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-       // [Authorize]
+        [Authorize]
         public async Task<IActionResult> PressLike([FromBody]LikeRequest like, CancellationToken ct)
         {
-            if(like == null || !ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var newLike = await _likeProvider.CreateAsync(like, ct).ConfigureAwait(false);
-
-            var result = newLike == null ? false : true;
+            var result = await _likeProvider.CreateAsync(like, ct).ConfigureAwait(false);
             return Ok(result);
         }
         [HttpGet("{postId:int}")]

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Services.Interfaces.Providers;
 using Services.Models.RequestModels;
+using Services.Models.ResponseModels;
 using Snippet.Data.Entities;
 using Snippet.Data.Interfaces.Repositories;
 using System;
@@ -43,21 +45,24 @@ namespace Services.Providers
             return _likeRepository.GetCount(ct);
         }
 
-        public async Task<LikeRequest> CreateAsync(LikeRequest like, CancellationToken ct = default)
+        [Authorize]
+        public async Task<bool> CreateAsync(LikeRequest like, CancellationToken ct = default)
         {
             if(like == null)
             {
-                return null;
+                return false;
             }
-            var entity = _mapper.Map<LikeRequest, LikeEntity>(like);
-            var foundLike = (await _likeRepository.FindAsync(filter: new Expression<Func<LikeEntity, bool>>[] { (x) => x.UserId == like.UserId && x.PostId == like.PostId }, ct: ct)).FirstOrDefault();
+
+            var foundLike = (await _likeRepository.FindAsync(
+                filter: new Expression<Func<LikeEntity, bool>>[] { (x) => x.UserId == like.UserId && x.PostId == like.PostId }, ct: ct))
+                .FirstOrDefault();
             if (foundLike != null)
             {
-               var res = await _likeRepository.DeleteAsync(foundLike, ct);
-               return null;
+               return !(await _likeRepository.DeleteAsync(foundLike, ct));
             }
+            var entity = _mapper.Map<LikeEntity>(like);
             entity = await _likeRepository.CreateAsync(entity, ct);
-            return like;
+            return entity != null;
         }
     }
 }
