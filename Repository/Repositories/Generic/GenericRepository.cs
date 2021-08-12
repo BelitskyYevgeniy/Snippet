@@ -55,7 +55,7 @@ namespace Snippet.Data
 
         public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken ct = default)
         {
-            var existingEntity = await _dbContext.Set<TEntity>().FindAsync(entity.Id, ct);
+            var existingEntity = await _dbContext.Set<TEntity>().FindAsync(new object[] { entity.Id }, ct);
             var isValid = await ValidateEntity(entity, ct);
             if (existingEntity == null || !isValid)
             {
@@ -96,8 +96,6 @@ namespace Snippet.Data
                     query = query.Where(filter);
                 }
             }
-
-
             
             query = query == null || orderBy == null ? query : orderBy(query);
             int entityCount = await GetCount();

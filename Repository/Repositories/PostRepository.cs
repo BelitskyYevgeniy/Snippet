@@ -78,10 +78,10 @@ namespace Snippet.Data.Repositories
             }
 
             var user = await _dbContext.Users.Where(e => e.Id == entity.UserId).FirstOrDefaultAsync();
-            if (user == null)
+            /*if (user == null)
             {
                 return false;
-            }
+            }*/
             return true;
         }
     }

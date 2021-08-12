@@ -18,6 +18,6 @@ namespace Snippet.Data.Filters.FilterModels
 
         public IEnumerable<int> Languages { get; set; } = default;
 
-
+        public string SearchingText { get; set; } = string.Empty;
     }
 }

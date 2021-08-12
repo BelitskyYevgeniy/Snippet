@@ -52,6 +52,13 @@ namespace Snippet.Data.Filters.FilterFactories
                 result.Add(entity);
             }
 
+            if(!string.IsNullOrWhiteSpace(model.SearchingText))
+            {
+                var entity = new PostEntityFilterByTextSearch(model.SearchingText);
+                entity.Degree = 0;
+                result.Add(entity);
+            }
+
             return new ReadOnlyCollection<IFilter<PostEntity>>(result.OrderByDescending(post => post.Degree).ToList());
         }
     }
