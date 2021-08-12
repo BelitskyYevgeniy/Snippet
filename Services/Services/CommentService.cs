@@ -48,9 +48,8 @@ namespace Services.Services
             {
                 return null;
             }
-            var entity = _mapper.Map<CommentEntity>(comment);
-            entity.UserId = (await _authenticationService.GetUserAsync(ct).ConfigureAwait(false)).Id;
-            return await _commentProvider.CreateAsync(entity, ct).ConfigureAwait(false);
+            comment.UserId = (await _authenticationService.GetUserAsync(ct).ConfigureAwait(false)).Id;
+            return await _commentProvider.CreateAsync(comment, ct).ConfigureAwait(false);
         }
 
         [Authorize]
@@ -61,10 +60,9 @@ namespace Services.Services
                 return null;
             }
             var entity = _mapper.Map<CommentEntity>(model);
-
             entity.Id = id;
             var userId = (await _authenticationService.GetUserAsync(ct).ConfigureAwait(false)).Id;
-            if(entity.Id != userId)
+            if(entity.UserId != userId)
             {
                 return null;
             }

@@ -11,6 +11,7 @@ using System;
 using Services.Models.ResponseModels;
 using Services.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
+using Services.Models.RequestModels;
 
 namespace Services.Providers
 {
@@ -54,17 +55,18 @@ namespace Services.Providers
         }
 
         [Authorize]
-        public async Task<CommentResponse> CreateAsync(CommentEntity comment, CancellationToken ct = default)
+        public async Task<CommentResponse> CreateAsync(CommentRequest comment, CancellationToken ct = default)
         {
             if (comment == null)
             {
                 return null;
             }
-            comment.CreationDateTime = DateTime.Now;
+            var entity = _mapper.Map<CommentEntity>(comment);
+            entity.CreationDateTime = DateTime.Now;
 
-            comment = await _commentRepository.CreateAsync(comment, ct);
+            entity = await _commentRepository.CreateAsync(entity, ct);
             
-            return _mapper.Map<CommentResponse>(comment);
+            return _mapper.Map<CommentResponse>(entity);
         }
         [Authorize]
         public async Task<CommentResponse> UpdateAsync(CommentEntity entity, CancellationToken ct = default)
