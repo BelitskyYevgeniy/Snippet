@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces.Providers;
 using Services.Interfaces.Services;
@@ -54,7 +55,7 @@ namespace Snippet.WebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(PostResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        // [Authorize]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody]PostRequest post, CancellationToken ct = default)
         {
             if(!(ModelState.IsValid))
@@ -71,7 +72,7 @@ namespace Snippet.WebAPI.Controllers
 
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
-        //  [Authorize]
+        [Authorize]
         public Task<bool> Delete(int id, CancellationToken ct = default)
         {
             return _postService.DeleteAsync(id, ct);
@@ -80,7 +81,7 @@ namespace Snippet.WebAPI.Controllers
         [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PostResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-       // [Authorize]
+        [Authorize]
         public async Task<IActionResult> Update(int id, [FromBody]PostRequest post, CancellationToken ct = default)
         {
             if (!(ModelState.IsValid))

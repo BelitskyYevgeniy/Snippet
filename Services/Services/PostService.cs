@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Services.Interfaces.Providers;
 using Services.Interfaces.Services;
 using Services.Models.RequestModels;
@@ -20,6 +21,7 @@ namespace Services.Services
         private readonly ICommentProvider _commentProvider;
         private readonly ILikeProvider _likeProvider;
         private readonly ILanguageProvider _languageProvider;
+        private readonly IAuthenticationService _authenticationService;
 
         private async Task<PostResponse> UpdateAsync(PostEntity entity, IReadOnlyCollection<TagRequest> tags, CancellationToken ct = default)
         {
@@ -47,7 +49,9 @@ namespace Services.Services
         }
 
 
-        public PostService(IMapper mapper, IPostProvider postProvider, ITagProvider tagProvider, ICommentProvider commentProvider, ILikeProvider likeProvider, ILanguageProvider languageProvider)
+        public PostService(IMapper mapper, IPostProvider postProvider, ITagProvider tagProvider, 
+            ICommentProvider commentProvider, ILikeProvider likeProvider, 
+            ILanguageProvider languageProvider, IAuthenticationService authenticationService)
         {
             _mapper = mapper;
             _postProvider = postProvider;
@@ -55,16 +59,19 @@ namespace Services.Services
             _commentProvider = commentProvider;
             _likeProvider = likeProvider;
             _languageProvider = languageProvider;
+            _authenticationService = authenticationService;
         }
 
         
 
         
-
+        [Authorize]
         public async Task<bool> DeleteAsync(int id, CancellationToken ct = default)
         {
             var post = await _postProvider.GetByIdAsync(id, false, ct);
-            if (post == null)
+            var user = await _authenticationService.GetUserAsync(ct);
+            var isAllowedToDelete = user.Id == post.UserId;
+            if (post == null || !isAllowedToDelete)
             {
                 return false;
             }
@@ -82,10 +89,15 @@ namespace Services.Services
         }
 
 
-
+        [Authorize]
         public async Task<PostResponse> CreateAsync(PostRequest model, CancellationToken ct = default)
         {
+            if(model == null)
+            {
+                return null;
+            }
             var entity = _mapper.Map<PostEntity>(model);
+            entity.UserId = (await _authenticationService.GetUserAsync(ct)).Id;
             entity = await _postProvider.CreateAsync(entity, ct);
             if(entity == null)
             {
@@ -100,10 +112,18 @@ namespace Services.Services
             response.Language = await _languageProvider.GetByIdAsync(entity.LanguageId, ct);
             return response;
         }
+
+        [Authorize]
         public async Task<PostResponse> UpdateAsync(int postId, PostRequest model, CancellationToken ct = default)
         {
             var existingPost = await _postProvider.GetByIdAsync(postId, ct: ct);
             if(existingPost == null || model == null)
+            {
+                return null;
+            }
+            var user = await _authenticationService.GetUserAsync(ct);
+            var isAllowedToUpdate = user.Id == existingPost.UserId;
+            if (!isAllowedToUpdate)
             {
                 return null;
             }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Services.Interfaces.Providers;
 using Services.Interfaces.Services;
 using Services.Models.ResponseModels;
@@ -46,7 +47,7 @@ namespace Services.Providers
             return response;
         }
 
-
+        [Authorize]
         public async Task<bool> DeleteAsync(PostEntity entity, CancellationToken ct = default)//unsafe
         {
             return await _postRepository.DeleteAsync(entity, ct);
@@ -73,7 +74,7 @@ namespace Services.Providers
             }
             return responses;
         }
-
+        [Authorize]
         public Task<PostEntity> CreateAsync(PostEntity post, CancellationToken ct = default)
         {
             if(post == null)
@@ -84,7 +85,7 @@ namespace Services.Providers
             post.LastUpdateDateTime = post.CreationDateTime;
             return _postRepository.CreateAsync(post, ct);
         }
-
+        [Authorize]
         public async Task<PostResponse> UpdateAsync(PostEntity entity, CancellationToken ct = default)
         {
             if (entity == null)
