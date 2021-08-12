@@ -95,7 +95,11 @@ namespace Snippet.WebAPI.Controllers
             return Ok(response);
         }
 
-
+        [HttpGet("Count")]
+        public Task<int> GetCount(CancellationToken ct)
+        {
+            return _postProvider.GetCount(ct);
+        }
 
     }
 }
