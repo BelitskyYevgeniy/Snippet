@@ -23,6 +23,6 @@ namespace Snippet.Data.Filters.EntityFilters.PostEntityFilters
         }
         public Expression<Func<PostEntity, bool>> Predicate => (PostEntity post) => Include.Any(id => id == post.UserId) && Exclude.All(id => id != post.UserId);
 
-        public int Degree { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int Degree { get; set; }
     }
 }
