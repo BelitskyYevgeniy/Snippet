@@ -19,7 +19,7 @@ namespace Snippet.Data.Entities
         [Required]
         public DateTime LastUpdateDateTime { get; set; }
 
-        public int? FatherCommentId{ get;set;}
-        public CommentEntity FatherComment { get;set; }
+        public int? ParentCommentId{ get;set;}
+        public CommentEntity ParentComment { get;set; }
     }
 }

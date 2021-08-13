@@ -64,8 +64,7 @@ namespace Services.Providers
             }
             model.Count = _paginationService.ValidateCount(model.Count);
             model.Skip = _paginationService.ValidateSkip(model.Skip);
-            var entityFilterModel = _mapper.Map<PostEntityFilterModel>(model);
-            var posts = await _postRepository.FindAsync(entityFilterModel, ct);
+            var posts = await _postRepository.FindAsync(model, ct);
             var responses = new List<PostResponse>();
             foreach(var post in posts)
             {

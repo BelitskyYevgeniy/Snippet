@@ -31,10 +31,10 @@ namespace Snippet.Data
             return _dbContext.Set<TEntity>().CountAsync(ct);
         }
 
-        public virtual Task<TEntity> GetByIdAsync(int id, bool toTracke = false, CancellationToken ct = default)
+        public virtual Task<TEntity> GetByIdAsync(int id, bool toTrack = false, CancellationToken ct = default)
         {
             var query = _dbContext.Set<TEntity>().AsQueryable();
-            if(!toTracke)
+            if(!toTrack)
             {
                 query = query.AsNoTracking();
             }
@@ -66,7 +66,7 @@ namespace Snippet.Data
             return entityEntry.Entity;
         }
         public virtual async Task<IReadOnlyCollection<TEntity>> FindAsync(int skip = 0, int count = 1,
-            bool toTracke = false,
+            bool toTrack = false,
             IEnumerable<Expression<Func<TEntity, bool>>> filters = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
@@ -74,7 +74,7 @@ namespace Snippet.Data
         {
 
             IQueryable<TEntity> query = _dbContext.Set<TEntity>();
-            if(!toTracke)
+            if(!toTrack)
             {
                 query = query.AsNoTracking();
             }
@@ -98,9 +98,8 @@ namespace Snippet.Data
             }
             
             query = query == null || orderBy == null ? query : orderBy(query);
-            int entityCount = await GetCount();
-            skip = skip < 0 || skip > entityCount ? 0: skip;
-            count = count <= 0 || count > entityCount ? entityCount : count;
+            skip = skip < 0 || skip > int.MaxValue ? 0: skip;
+            count = count <= 0 || count > int.MaxValue ? int.MaxValue : count;
             query = query.Skip(skip).Take(count);
             return await query.ToListAsync(ct);
         }

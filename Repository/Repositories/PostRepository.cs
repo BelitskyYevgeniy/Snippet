@@ -29,7 +29,7 @@ namespace Snippet.Data.Repositories
             }
             var factory = new PostEntityFilterFactory();
             var sortFactory = new PostEntitySortFilterFactory();
-            var filters = factory.CreateFilters(model).OrderBy(filter => filter.Degree);
+            var filters = factory.CreateFilters(model);
             var expressions = new List<Expression<Func<PostEntity, bool>>>();
             foreach(var filter in filters)
             {
@@ -48,9 +48,9 @@ namespace Snippet.Data.Repositories
                 .Include(e => e.PostTags)
                 .ThenInclude(e => e.Tag), ct);
         }
-        public override async Task<PostEntity> GetByIdAsync(int id, bool toTracke = false, CancellationToken ct = default)
+        public override async Task<PostEntity> GetByIdAsync(int id, bool toTrack = false, CancellationToken ct = default)
         {
-            var result = await FindAsync(0, 1, toTracke, new List<Expression<Func<PostEntity, bool>>>() { post => post.Id == id }, null,
+            var result = await FindAsync(0, 1, toTrack, new List<Expression<Func<PostEntity, bool>>>() { post => post.Id == id }, null,
                 e => e.Include(e => e.Language)
                .Include(e => e.PostTags)
                .ThenInclude(e => e.Tag)
